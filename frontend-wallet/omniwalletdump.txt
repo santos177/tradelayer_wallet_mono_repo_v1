@@ -1,0 +1,1777 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.3
+-- Dumped by pg_dump version 10.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: DATABASE omniwallet; Type: COMMENT; Schema: -; Owner: andy
+--
+
+COMMENT ON DATABASE omniwallet IS 'Omniwallet wallet and transaction database';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: addressrole; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.addressrole AS ENUM (
+    'buyer',
+    'issuer',
+    'participant',
+    'payee',
+    'recipient',
+    'seller',
+    'sender',
+    'payer',
+    'feepayer'
+);
+
+
+ALTER TYPE public.addressrole OWNER TO andy;
+
+--
+-- Name: dexstate; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.dexstate AS ENUM (
+    'invalid',
+    'unpaid',
+    'paid-partial',
+    'paid-complete'
+);
+
+
+ALTER TYPE public.dexstate OWNER TO andy;
+
+--
+-- Name: ecosystem; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.ecosystem AS ENUM (
+    'Production',
+    'Test'
+);
+
+
+ALTER TYPE public.ecosystem OWNER TO andy;
+
+--
+-- Name: objecttype; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.objecttype AS ENUM (
+    'address',
+    'property',
+    'tx_version_type'
+);
+
+
+ALTER TYPE public.objecttype OWNER TO andy;
+
+--
+-- Name: offerstate; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.offerstate AS ENUM (
+    'active',
+    'cancelled',
+    'replaced',
+    'sold'
+);
+
+
+ALTER TYPE public.offerstate OWNER TO andy;
+
+--
+-- Name: protocol; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.protocol AS ENUM (
+    'Fiat',
+    'Bitcoin',
+    'Omni'
+);
+
+
+ALTER TYPE public.protocol OWNER TO andy;
+
+--
+-- Name: txstate; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.txstate AS ENUM (
+    'pending',
+    'valid',
+    'not valid'
+);
+
+
+ALTER TYPE public.txstate OWNER TO andy;
+
+--
+-- Name: walletstate; Type: TYPE; Schema: public; Owner: andy
+--
+
+CREATE TYPE public.walletstate AS ENUM (
+    'Active',
+    'Inactive',
+    'Suspended'
+);
+
+
+ALTER TYPE public.walletstate OWNER TO andy;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: activeoffers; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.activeoffers (
+    amountaccepted numeric(19,0) NOT NULL,
+    amountavailable numeric(19,0) NOT NULL,
+    amountdesired numeric(19,0) NOT NULL,
+    minimumfee numeric(19,0) NOT NULL,
+    propertyidselling bigint NOT NULL,
+    propertyiddesired bigint DEFAULT 0 NOT NULL,
+    seller character varying(64) NOT NULL,
+    timelimit smallint NOT NULL,
+    createtxdbserialnum bigint DEFAULT '-1'::integer NOT NULL,
+    unitprice numeric(27,8) NOT NULL,
+    offerstate public.offerstate NOT NULL,
+    lasttxdbserialnum bigint DEFAULT '-1'::integer NOT NULL,
+    totalselling numeric(19,0) NOT NULL
+);
+
+
+ALTER TABLE public.activeoffers OWNER TO andy;
+
+--
+-- Name: addressbalances; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.addressbalances (
+    address character varying(64) NOT NULL,
+    protocol public.protocol DEFAULT 'Bitcoin'::public.protocol NOT NULL,
+    propertyid bigint DEFAULT 0 NOT NULL,
+    ecosystem public.ecosystem,
+    balanceavailable numeric(19,0) DEFAULT 0 NOT NULL,
+    balancereserved numeric(19,0) DEFAULT 0 NOT NULL,
+    balanceaccepted numeric(19,0) DEFAULT 0 NOT NULL,
+    balancefrozen numeric(19,0) DEFAULT 0 NOT NULL,
+    lasttxdbserialnum bigint
+);
+
+
+ALTER TABLE public.addressbalances OWNER TO andy;
+
+--
+-- Name: addressesintxs; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.addressesintxs (
+    address character varying(64) NOT NULL,
+    propertyid bigint NOT NULL,
+    protocol public.protocol NOT NULL,
+    txdbserialnum bigint DEFAULT '-1'::integer NOT NULL,
+    addresstxindex smallint NOT NULL,
+    addressrole public.addressrole NOT NULL,
+    balanceavailablecreditdebit numeric(19,0),
+    balancereservedcreditdebit numeric(19,0),
+    balanceacceptedcreditdebit numeric(19,0),
+    balancefrozencreditdebit numeric(19,0),
+    linkedtxdbserialnum bigint DEFAULT '-1'::integer NOT NULL
+);
+
+
+ALTER TABLE public.addressesintxs OWNER TO andy;
+
+--
+-- Name: addressesinwallets; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.addressesinwallets (
+    address character varying(64) NOT NULL,
+    walletid uuid NOT NULL,
+    protocol public.protocol DEFAULT 'Bitcoin'::public.protocol NOT NULL,
+    propertyid bigint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.addressesinwallets OWNER TO andy;
+
+--
+-- Name: blocks; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.blocks (
+    blocknumber integer NOT NULL,
+    protocol public.protocol NOT NULL,
+    blocktime timestamp(0) without time zone NOT NULL,
+    version integer,
+    blockhash character varying(64),
+    prevblock character varying(64),
+    merkleroot character varying(64),
+    bits bytea,
+    nonce bigint,
+    size integer,
+    txcount integer
+);
+
+
+ALTER TABLE public.blocks OWNER TO andy;
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.categories (
+    section character varying(2) NOT NULL,
+    division character varying(4) NOT NULL,
+    name character varying(256) NOT NULL
+);
+
+
+ALTER TABLE public.categories OWNER TO andy;
+
+--
+-- Name: exchangerates; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.exchangerates (
+    protocol1 public.protocol NOT NULL,
+    propertyid1 bigint NOT NULL,
+    protocol2 public.protocol NOT NULL,
+    propertyid2 bigint NOT NULL,
+    rate1for2 double precision,
+    asof timestamp(0) without time zone DEFAULT now(),
+    source character varying(256),
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.exchangerates OWNER TO andy;
+
+--
+-- Name: exchangerates_id_seq; Type: SEQUENCE; Schema: public; Owner: andy
+--
+
+CREATE SEQUENCE public.exchangerates_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.exchangerates_id_seq OWNER TO andy;
+
+--
+-- Name: exchangerates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: andy
+--
+
+ALTER SEQUENCE public.exchangerates_id_seq OWNED BY public.exchangerates.id;
+
+
+--
+-- Name: following; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.following (
+    walletid uuid NOT NULL,
+    objecttype public.objecttype,
+    objectid character varying(64)
+);
+
+
+ALTER TABLE public.following OWNER TO andy;
+
+--
+-- Name: markets; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.markets (
+    propertyiddesired bigint NOT NULL,
+    desiredname character varying(256),
+    propertyidselling bigint NOT NULL,
+    sellingname character varying(256),
+    unitprice numeric(27,8) DEFAULT 0 NOT NULL,
+    supply numeric(27,8) DEFAULT 0 NOT NULL,
+    lastprice numeric(27,8) DEFAULT 0 NOT NULL,
+    marketpropertytype smallint,
+    lasttxdbserialnum bigint NOT NULL,
+    lastupdated timestamp(0) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.markets OWNER TO andy;
+
+--
+-- Name: matchedtrades; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.matchedtrades (
+    txdbserialnum bigint DEFAULT '-1'::integer NOT NULL,
+    txhash character varying(64) NOT NULL,
+    propertyidsold bigint NOT NULL,
+    propertyidreceived bigint NOT NULL,
+    amountsold character varying(20) NOT NULL,
+    amountreceived character varying(20) NOT NULL,
+    block integer NOT NULL,
+    tradingfee character varying(20) DEFAULT 0 NOT NULL,
+    matchedtxhash character varying(64) NOT NULL
+);
+
+
+ALTER TABLE public.matchedtrades OWNER TO andy;
+
+--
+-- Name: offeraccepts; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.offeraccepts (
+    buyer character varying(64) NOT NULL,
+    amountaccepted numeric(19,0) NOT NULL,
+    linkedtxdbserialnum bigint NOT NULL,
+    saletxdbserialnum bigint NOT NULL,
+    block integer NOT NULL,
+    dexstate public.dexstate NOT NULL,
+    expireblock integer NOT NULL,
+    expiredstate boolean DEFAULT false,
+    amountpurchased numeric(19,0) DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.offeraccepts OWNER TO andy;
+
+--
+-- Name: propertyhistory; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.propertyhistory (
+    protocol public.protocol NOT NULL,
+    propertyid bigint NOT NULL,
+    txdbserialnum bigint NOT NULL
+);
+
+
+ALTER TABLE public.propertyhistory OWNER TO andy;
+
+--
+-- Name: protocols; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.protocols (
+    protocol public.protocol NOT NULL,
+    baseprotocol public.protocol NOT NULL,
+    url character varying(256)
+);
+
+
+ALTER TABLE public.protocols OWNER TO andy;
+
+--
+-- Name: sessions; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.sessions (
+    sessionid text NOT NULL,
+    challenge text,
+    pchallenge text,
+    pubkey text,
+    "timestamp" timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.sessions OWNER TO andy;
+
+--
+-- Name: settings; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.settings (
+    key character varying(32) NOT NULL,
+    value character varying(64) NOT NULL,
+    note character varying(256),
+    updated_at timestamp(0) without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.settings OWNER TO andy;
+
+--
+-- Name: smartproperties; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.smartproperties (
+    protocol public.protocol NOT NULL,
+    propertyid bigint NOT NULL,
+    issuer character varying(64) NOT NULL,
+    ecosystem public.ecosystem,
+    createtxdbserialnum bigint NOT NULL,
+    lasttxdbserialnum bigint NOT NULL,
+    propertyname character varying(256),
+    propertytype smallint,
+    prevpropertyid bigint DEFAULT 0,
+    propertyserviceurl character varying(256),
+    propertycategory character varying(256),
+    propertysubcategory character varying(256),
+    propertydata jsonb,
+    registrationdata character varying(5000),
+    flags jsonb
+);
+
+
+ALTER TABLE public.smartproperties OWNER TO andy;
+
+--
+-- Name: tolinkaddressesintxs; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.tolinkaddressesintxs (
+    address character varying(64) NOT NULL,
+    propertyid bigint NOT NULL,
+    protocol public.protocol NOT NULL,
+    txdbserialnum bigint DEFAULT '-1'::integer NOT NULL,
+    addresstxindex smallint NOT NULL,
+    linkedtxdbserialnum bigint DEFAULT '-1'::integer NOT NULL,
+    addressrole public.addressrole NOT NULL,
+    thistxhash character varying(64),
+    linkedtxhash character varying(64)
+);
+
+
+ALTER TABLE public.tolinkaddressesintxs OWNER TO andy;
+
+--
+-- Name: transactions; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.transactions (
+    id integer NOT NULL,
+    txhash character varying(64) NOT NULL,
+    protocol public.protocol NOT NULL,
+    txdbserialnum bigint NOT NULL,
+    txtype integer NOT NULL,
+    txversion smallint NOT NULL,
+    ecosystem public.ecosystem,
+    txrecvtime timestamp(0) without time zone DEFAULT now(),
+    txstate public.txstate DEFAULT 'pending'::public.txstate NOT NULL,
+    txerrorcode smallint,
+    txblocknumber integer,
+    txseqinblock integer
+);
+
+
+ALTER TABLE public.transactions OWNER TO andy;
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: andy
+--
+
+CREATE SEQUENCE public.transactions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.transactions_id_seq OWNER TO andy;
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: andy
+--
+
+ALTER SEQUENCE public.transactions_id_seq OWNED BY public.transactions.id;
+
+
+--
+-- Name: transactions_txdbserialnum_seq; Type: SEQUENCE; Schema: public; Owner: andy
+--
+
+CREATE SEQUENCE public.transactions_txdbserialnum_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.transactions_txdbserialnum_seq OWNER TO andy;
+
+--
+-- Name: transactions_txdbserialnum_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: andy
+--
+
+ALTER SEQUENCE public.transactions_txdbserialnum_seq OWNED BY public.transactions.txdbserialnum;
+
+
+--
+-- Name: txjson; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.txjson (
+    id integer NOT NULL,
+    txdbserialnum bigint NOT NULL,
+    protocol public.protocol NOT NULL,
+    txdata jsonb NOT NULL
+);
+
+
+ALTER TABLE public.txjson OWNER TO andy;
+
+--
+-- Name: txjson_id_seq; Type: SEQUENCE; Schema: public; Owner: andy
+--
+
+CREATE SEQUENCE public.txjson_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.txjson_id_seq OWNER TO andy;
+
+--
+-- Name: txjson_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: andy
+--
+
+ALTER SEQUENCE public.txjson_id_seq OWNED BY public.txjson.id;
+
+
+--
+-- Name: txstats; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.txstats (
+    id integer NOT NULL,
+    protocol public.protocol DEFAULT 'Omni'::public.protocol NOT NULL,
+    blocknumber integer NOT NULL,
+    blocktime timestamp(0) without time zone NOT NULL,
+    txcount integer
+);
+
+
+ALTER TABLE public.txstats OWNER TO andy;
+
+--
+-- Name: txstats_id_seq; Type: SEQUENCE; Schema: public; Owner: andy
+--
+
+CREATE SEQUENCE public.txstats_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.txstats_id_seq OWNER TO andy;
+
+--
+-- Name: txstats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: andy
+--
+
+ALTER SEQUENCE public.txstats_id_seq OWNED BY public.txstats.id;
+
+
+--
+-- Name: walletbackups; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.walletbackups (
+    walletid uuid NOT NULL,
+    created timestamp(0) without time zone DEFAULT now(),
+    walletblob text NOT NULL,
+    username character varying(32),
+    email character varying(64),
+    settings json,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.walletbackups OWNER TO andy;
+
+--
+-- Name: walletbackups_id_seq; Type: SEQUENCE; Schema: public; Owner: andy
+--
+
+CREATE SEQUENCE public.walletbackups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.walletbackups_id_seq OWNER TO andy;
+
+--
+-- Name: walletbackups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: andy
+--
+
+ALTER SEQUENCE public.walletbackups_id_seq OWNED BY public.walletbackups.id;
+
+
+--
+-- Name: wallets; Type: TABLE; Schema: public; Owner: andy
+--
+
+CREATE TABLE public.wallets (
+    walletid uuid NOT NULL,
+    created timestamp(0) without time zone,
+    lastlogin timestamp(0) without time zone,
+    lastbackup timestamp(0) without time zone,
+    issignedin boolean DEFAULT false NOT NULL,
+    walletstate public.walletstate DEFAULT 'Active'::public.walletstate NOT NULL,
+    walletstatedate timestamp(0) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    walletblob text,
+    username character varying(32),
+    email character varying(64),
+    settings json,
+    passhash character varying(1024)
+);
+
+
+ALTER TABLE public.wallets OWNER TO andy;
+
+--
+-- Name: exchangerates id; Type: DEFAULT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.exchangerates ALTER COLUMN id SET DEFAULT nextval('public.exchangerates_id_seq'::regclass);
+
+
+--
+-- Name: transactions id; Type: DEFAULT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.transactions ALTER COLUMN id SET DEFAULT nextval('public.transactions_id_seq'::regclass);
+
+
+--
+-- Name: transactions txdbserialnum; Type: DEFAULT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.transactions ALTER COLUMN txdbserialnum SET DEFAULT nextval('public.transactions_txdbserialnum_seq'::regclass);
+
+
+--
+-- Name: txjson id; Type: DEFAULT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.txjson ALTER COLUMN id SET DEFAULT nextval('public.txjson_id_seq'::regclass);
+
+
+--
+-- Name: txstats id; Type: DEFAULT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.txstats ALTER COLUMN id SET DEFAULT nextval('public.txstats_id_seq'::regclass);
+
+
+--
+-- Name: walletbackups id; Type: DEFAULT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.walletbackups ALTER COLUMN id SET DEFAULT nextval('public.walletbackups_id_seq'::regclass);
+
+
+--
+-- Data for Name: activeoffers; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.activeoffers (amountaccepted, amountavailable, amountdesired, minimumfee, propertyidselling, propertyiddesired, seller, timelimit, createtxdbserialnum, unitprice, offerstate, lasttxdbserialnum, totalselling) FROM stdin;
+\.
+
+
+--
+-- Data for Name: addressbalances; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.addressbalances (address, protocol, propertyid, ecosystem, balanceavailable, balancereserved, balanceaccepted, balancefrozen, lasttxdbserialnum) FROM stdin;
+\.
+
+
+--
+-- Data for Name: addressesintxs; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.addressesintxs (address, propertyid, protocol, txdbserialnum, addresstxindex, addressrole, balanceavailablecreditdebit, balancereservedcreditdebit, balanceacceptedcreditdebit, balancefrozencreditdebit, linkedtxdbserialnum) FROM stdin;
+\.
+
+
+--
+-- Data for Name: addressesinwallets; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.addressesinwallets (address, walletid, protocol, propertyid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: blocks; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.blocks (blocknumber, protocol, blocktime, version, blockhash, prevblock, merkleroot, bits, nonce, size, txcount) FROM stdin;
+\.
+
+
+--
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.categories (section, division, name) FROM stdin;
+A	00	Agriculture, forestry and fishing
+A	01	Crop and animal production, hunting and related service activities
+A	02	Forestry and logging
+A	03	Fishing and aquaculture
+A	zz	Other
+B	00	Mining and quarrying
+B	05	Forestry and logging
+B	06	Extraction of crude petroleum and natural gas
+B	07	Mining of metal ores
+B	08	Other mining and quarrying
+B	09	Mining support service activities
+B	zz	Other
+C	00	Manufacturing
+C	10	Manufacture of food products
+C	11	Manufacture of beverages
+C	12	Manufacture of tobacco products
+C	13	Manufacture of textiles
+C	14	Manufacture of wearing apparel
+C	15	Manufacture of leather and related products
+C	16	Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials
+C	17	Manufacture of paper and paper products
+C	18	Printing and reproduction of recorded media
+C	19	Manufacture of coke and refined petroleum products
+C	20	Manufacture of chemicals and chemical products
+C	21	Manufacture of basic pharmaceutical products and pharmaceutical preparations
+C	22	Manufacture of rubber and plastics products
+C	23	Manufacture of other non-metallic mineral products
+C	24	Manufacture of basic metals
+C	25	Manufacture of fabricated metal products, except machinery and equipment
+C	26	Manufacture of computer, electronic and optical products
+C	27	Manufacture of electrical equipment
+C	28	Manufacture of machinery and equipment n.e.c.
+C	29	Manufacture of motor vehicles, trailers and semi-trailers
+C	30	Manufacture of other transport equipment
+C	31	Manufacture of furniture
+C	32	Other manufacturing
+C	33	Repair and installation of machinery and equipment
+C	zz	Other
+D	00	Electricity, gas, steam and air conditioning supply
+D	35	Electricity, gas, steam and air conditioning supply
+D	zz	Other
+E	00	Water supply; sewerage, waste management and remediation activities
+E	36	Water collection, treatment and supply
+E	37	Sewerage
+E	38	Waste collection, treatment and disposal activities; materials recovery
+E	39	Remediation activities and other waste management services
+E	ZZ	Other
+F	00	Construction
+F	41	Construction of buildings
+F	42	Civil engineering
+F	43	Specialized construction activities
+F	zz	Other
+G	00	Wholesale and retail trade; repair of motor vehicles and motorcycles
+G	45	Wholesale and retail trade and repair of motor vehicles and motorcycles
+G	46	Wholesale trade, except of motor vehicles and motorcycles
+G	47	Retail trade, except of motor vehicles and motorcycles
+G	zz	Other
+H	00	Transportation and storage
+H	49	Land transport and transport via pipelines
+H	50	Water transport
+H	51	Air transport
+H	52	Warehousing and support activities for transportation
+H	53	Postal and courier activities
+H	ZZ	Other
+I	00	Accommodation and food service activities
+I	55	Accommodation
+I	56	Food and beverage service activities
+I	zz	Other
+J	00	Information and communication
+J	58	Publishing activities
+J	59	Motion picture, video and television programme production, sound recording and music publishing activities
+J	60	Programming and broadcasting activities
+J	61	Telecommunications
+J	62	Computer programming, consultancy and related activities
+J	63	Information service activities
+J	zz	Other
+K	00	Financial and insurance activities
+K	64	Financial service activities, except insurance and pension funding
+K	65	Insurance, reinsurance and pension funding, except compulsory social security
+K	66	Activities auxiliary to financial service and insurance activities
+K	zz	Other
+L	00	Real estate activities
+L	68	Real estate activities
+L	zz	Other
+M	00	Professional, scientific and technical activities
+M	69	Legal and accounting activities
+M	70	Activities of head offices; management consultancy activities
+M	71	Architectural and engineering activities; technical testing and analysis
+M	72	Scientific research and development
+M	73	Advertising and market research
+M	74	Other professional, scientific and technical activities
+M	75	Veterinary activities
+M	zz	Other
+N	00	Administrative and support service activities
+N	77	Rental and leasing activities
+N	78	Employment activities
+N	79	Travel agency, tour operator, reservation service and related activities
+N	80	Security and investigation activities
+N	81	Services to buildings and landscape activities
+N	82	Office administrative, office support and other business support activities
+N	zz	Other
+O	00	Public administration and defence; compulsory social security
+O	84	Public administration and defence; compulsory social security
+O	zz	Other
+P	00	Education
+P	85	Education
+P	zz	Other
+Q	00	Human health and social work activities
+Q	86	Human health activities
+Q	87	Residential care activities
+Q	88	Social work activities without accommodation
+Q	zz	Other
+R	00	Arts, entertainment and recreation
+R	90	Creative, arts and entertainment activities
+R	91	Libraries, archives, museums and other cultural activities
+R	92	Gambling and betting activities
+R	93	Sports activities and amusement and recreation activities
+R	zz	Other
+S	00	Other service activities
+S	94	Activities of membership organizations
+S	95	Repair of computers and personal and household goods
+S	96	Other personal service activities
+S	zz	Other
+T	00	Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use
+T	97	Activities of households as employers of domestic personnel
+T	98	Undifferentiated goods- and services-producing activities of private households for own use
+T	zz	Other
+U	00	Activities of extraterritorial organizations and bodies
+U	99	Activities of extraterritorial organizations and bodies
+U	zz	Other
+zz	99	Other
+zz	zz	Other
+\.
+
+
+--
+-- Data for Name: exchangerates; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.exchangerates (protocol1, propertyid1, protocol2, propertyid2, rate1for2, asof, source, id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: following; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.following (walletid, objecttype, objectid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: markets; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.markets (propertyiddesired, desiredname, propertyidselling, sellingname, unitprice, supply, lastprice, marketpropertytype, lasttxdbserialnum, lastupdated) FROM stdin;
+\.
+
+
+--
+-- Data for Name: matchedtrades; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.matchedtrades (txdbserialnum, txhash, propertyidsold, propertyidreceived, amountsold, amountreceived, block, tradingfee, matchedtxhash) FROM stdin;
+\.
+
+
+--
+-- Data for Name: offeraccepts; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.offeraccepts (buyer, amountaccepted, linkedtxdbserialnum, saletxdbserialnum, block, dexstate, expireblock, expiredstate, amountpurchased) FROM stdin;
+\.
+
+
+--
+-- Data for Name: propertyhistory; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.propertyhistory (protocol, propertyid, txdbserialnum) FROM stdin;
+\.
+
+
+--
+-- Data for Name: protocols; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.protocols (protocol, baseprotocol, url) FROM stdin;
+Bitcoin	Bitcoin	http://bitcoin.org
+Omni	Bitcoin	http://omnilayer.org
+Fiat	Fiat	http://en.wikipedia.org/wiki/Fiat_money
+\.
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.sessions (sessionid, challenge, pchallenge, pubkey, "timestamp") FROM stdin;
+852343307a155610fd35274a3b1c1e396e5db2dd16d68718d07815de1296de64	$2a$10$A1EVa.rUhg9zlbR9zqnFjO	$2a$10$fL5dlgtu8Infl1LYSKDuUe	\N	2018-08-28 13:29:03.549267
+95a457a75dfc24144740e356b072de9a6dc00543fafa6c7e210a6b053b35595a	$2a$10$Yxk38x2T16RWOk7Y2mPhxe	$2a$10$qPterGDiRnlUukH3TDgjY.	\N	2018-08-28 13:29:21.900807
+49a0b76c47f0b8774a0430bf7c9e4b565a44d717b83d5b2b276a52316332d842	$2a$10$nYYRW/imJJayQWeAlBQB2O	$2a$10$uckn6paE/dEHz2HmNZfD8e	\N	2018-09-04 10:32:05.771904
+a70487ee1f4ff10615ecad98f62a53bff598f42a1cf47ad31c35c24dc74fd698	$2a$10$nvqS2NZ8I8B3hysFXQhrDe	$2a$10$44eF9.6zt0wl7H6QAhjAOu	\N	2018-09-04 10:37:21.81122
+3f44056412c2054a786b7e77827350435c3cf9b97790b9b3792d9cdace90e3a0	$2a$10$CVl4M20JxdRg9T4kl0xaP.	$2a$10$TeBnpeQ9LlKzTXcXivVKfO	\N	2018-09-04 10:49:56.604651
+0b64861e86757b594a0e345845fb2862a36efd5ea284bf1f2746b37c217bd072	$2a$10$1vUDW2Tm.oQOi3jpj/PW4O	$2a$10$2MHNxag5yI5VgDnBCtD49O	\N	2018-09-04 10:59:23.739067
+1405e377aa6c1cd05840d13b8b073ed1a642cf1dff46d700173f04798d12b848	$2a$10$sjdSCrEnPZj5VV7Jfxq7qO	$2a$10$xpwc2Jc7xOfOCQCGQApqm.	\N	2018-09-06 14:09:59.51683
+8fd1953ea30bd67b8a84481f227b53c44dff3c5b0492c579ecdd9e3b9365c16b	$2a$10$/GcH4EdByvs83/nlxhrA7u	$2a$10$Hgk23Brh9/8cQwF7wyPR2e	\N	2018-09-03 19:12:04.960777
+2e061962ea8ad8b7e8361eaf68264ab43aa39a8334c3371ee3d07be4846a5c60	$2a$10$gh80/NZ0Vw2JPxVCh/.SdO	$2a$10$igPKcg1JJPnbZ8a7dTt0WO	\N	2018-08-28 10:30:24.419504
+e8de13734ca58e21bee7c0eff4d1c07a791e1edfe16dd4cabcbc61b9441b1769	$2a$10$PjUPJxxfFha/xUo.updO2O	$2a$10$.1wEiPMfg1h8qhWt/Zmfu.	\N	2018-08-28 10:34:22.335819
+e24dc7b60752ac6c8c02cd0c249bb463acffa35d5d183a190177fa6f2faac689	$2a$10$1QMAKIQtCsEgdgAaEZvvSO	$2a$10$JEEWDerVW6b1pQyzCDbAWe	\N	2018-08-28 10:36:14.816871
+ce29daeb2eafb90eca01cf0fd1e3ef48064835059f6d7d18cf30cfc7ee558143	$2a$10$eJR.KoDOiPHLa0MT.TWweu	$2a$10$fdeZQJtr2jvhy8Sl.AXa2u	\N	2018-08-28 10:38:04.033607
+f48549756646cfe3542e7847f67206f4b9d38ec74d3a091eed8a948badf944bc	$2a$10$s9yTfuJ2LtBdPz.qhelez.	$2a$10$OuZ33Sb1R8n6mRLL8AOXs.	\N	2018-08-28 10:39:21.266892
+d973ad00f9530417fdda4dd38fb0b7fcea8a5825b66469a56122de7061c62ba2	$2a$10$nl8prXy.4nGtwT40RVpK7u	$2a$10$xdTqT2kd4gMsSsde2Ojk6u	\N	2018-08-28 10:48:47.229805
+870c4e4e7076f86877b54bed989a4b90f8661e47b274966e6ca1efc25409c325	$2a$10$qYBwf7t8lKb6KlRcNowRW.	$2a$10$vFpLWyUZB/GCgQ3.qFB03.	\N	2018-08-28 11:17:27.048008
+98e965a6f9af617b1b84fcc1929be03f60b95de98055288c606441f18e1e25ba	$2a$10$sugV3b0UB/cV.oNkhhJScu	$2a$10$oBnkb9laXuaz7rEk2DPHne	\N	2018-08-28 11:18:26.925093
+\.
+
+
+--
+-- Data for Name: settings; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.settings (key, value, note, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: smartproperties; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.smartproperties (protocol, propertyid, issuer, ecosystem, createtxdbserialnum, lasttxdbserialnum, propertyname, propertytype, prevpropertyid, propertyserviceurl, propertycategory, propertysubcategory, propertydata, registrationdata, flags) FROM stdin;
+Bitcoin	0	Satoshi Nakamoto	\N	-1	-1	BTC	2	0	\N	\N	\N	{"url": "http://www.bitcoin.org", "data": "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks", "name": "BTC", "issuer": "Satoshi Nakamoto", "blocktime": 1231006505, "divisible": true, "propertyid": 0}	\N	\N
+Fiat	0	United States Dollar	\N	-1	-1	USD	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	1	Canadian Dollar	\N	-1	-1	CAD	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	2	Euro	\N	-1	-1	EUR	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	3	Australian Dollar	\N	-1	-1	AUD	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	4	Indonesian Rupiah	\N	-1	-1	IDR	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	5	Israeli New Sheqel	\N	-1	-1	ILS	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	6	British Pound Sterling	\N	-1	-1	GBP	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	7	Romanian Leu	\N	-1	-1	RON	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	8	Swedish Krona	\N	-1	-1	SEK	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	9	Singapore Dollar	\N	-1	-1	SGD	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	10	Hong Kong Dollar	\N	-1	-1	HKD	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	11	Swiss Franc	\N	-1	-1	CHF	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	12	Chinese Yuan	\N	-1	-1	CNY	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	13	Turkish Lira	\N	-1	-1	TRY	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	14	New Zealand Dollar	\N	-1	-1	NZD	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	15	Norwegian Krone	\N	-1	-1	NOK	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	16	Russian Ruble	\N	-1	-1	RUB	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	17	Mexican Peso	\N	-1	-1	MXN	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	18	Brazilian Real	\N	-1	-1	BRL	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	19	Polish Zloty	\N	-1	-1	PLN	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	20	South African Rand	\N	-1	-1	ZAR	\N	0	\N	\N	\N	\N	\N	\N
+Fiat	21	Japanese Yen	\N	-1	-1	JPY	\N	0	\N	\N	\N	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: tolinkaddressesintxs; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.tolinkaddressesintxs (address, propertyid, protocol, txdbserialnum, addresstxindex, linkedtxdbserialnum, addressrole, thistxhash, linkedtxhash) FROM stdin;
+\.
+
+
+--
+-- Data for Name: transactions; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.transactions (id, txhash, protocol, txdbserialnum, txtype, txversion, ecosystem, txrecvtime, txstate, txerrorcode, txblocknumber, txseqinblock) FROM stdin;
+\.
+
+
+--
+-- Data for Name: txjson; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.txjson (id, txdbserialnum, protocol, txdata) FROM stdin;
+\.
+
+
+--
+-- Data for Name: txstats; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.txstats (id, protocol, blocknumber, blocktime, txcount) FROM stdin;
+\.
+
+
+--
+-- Data for Name: walletbackups; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.walletbackups (walletid, created, walletblob, username, email, settings, id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: wallets; Type: TABLE DATA; Schema: public; Owner: andy
+--
+
+COPY public.wallets (walletid, created, lastlogin, lastbackup, issignedin, walletstate, walletstatedate, walletblob, username, email, settings, passhash) FROM stdin;
+a50a889d-e93a-438e-b5df-ec6938d45c29	\N	\N	\N	f	Active	2018-08-27 15:34:47	adc4756d2e2a11152a03b3bbcaa9fcfb914ee81d7f7e5fc3333a9be037488d1f3d3df8cf004806079074f7b992bfbc6bc51fa0a9ef354ce8204a956b83a2788b1b7ae089ba7f0b3a57761232c9e5f14604650e37307f38b64107f65fc906c6b0	\N	andy@salesget.io	\N	\N
+52ffa4dc-d95c-4a5d-8a24-49d98c81e55b	\N	\N	\N	f	Active	2018-08-27 15:37:19	825c9c44ab68706ba743290665f6753ce27b6303d3575fda3fdbbe3b105e319c92d2bfbdfe728ebe9a3a70feac44a3f8108285dd3cee37d03dcf1be7ff345fca6398975d610d0c14d810f90669bd8a0fe2b21696997a3d05e62c5154e38bcb72	\N	andy@salesget.io	\N	\N
+9452d721-a07f-44ad-9e8c-2edbb153ebd1	\N	\N	\N	f	Active	2018-08-28 10:30:25	210fe9c5cc02dab6030902bdffed39c7a5fc4f94f2e96d6bf6d2ba365bf29e35230593f9b7da219c826370ff37625171ba41801e8015059df388948b0a8807bef3bc24ee669850e2f9ba24c9a42ae0ef09260a667468850ce84a2357c936cd62	\N	andy@salesget.io	\N	\N
+9ffeed85-74b4-4e6a-91af-c060a66e4d74	\N	\N	\N	f	Active	2018-08-28 10:34:24	27a8b7df4642f230361bee8cfed717873939fa8129622e180ad8a6f250dc98066cd30f66d2437fb8b64ab3ad472a39503ec9541d9699d6f241bde515d8e2be0de126ba52f2f2cd82ef5b675aad4b18e65c22c55fbeed8678802958c7db2b2f49	\N	andy@salesget.io	\N	\N
+8d96a831-ab72-4e13-9bae-d2d2f4b8b6c0	\N	\N	\N	f	Active	2018-08-28 10:36:19	6508d42f66996b5d659874b7aebcb94890254673918f623859782bb4f05b8dc898eb5df5ef28def64ea535b93253820249c8a414caa8ba07cb3f5caeda869db287462688a8a9b775e03845fa06f747c8c397d2f6bc13d61ff61f800456063e12	\N	andy@salesget.io	\N	\N
+95b1b30e-10ed-49c7-b7bf-e61600cf97d4	\N	\N	\N	f	Active	2018-08-28 10:38:07	741e621a3c09ed5f286998909ceb0cdd38f401ec90e99493565f91e3af3aa49c03d502104daa4c41a71895a7fdb667a01db5f17f851a3d54702f27306c65cf9f503fcdc7ae134e82f7e83838cc6ecb69510b060bdf3a5df114bd5d9b211eccf0	\N	andy@salesget.io	\N	\N
+03a87546-31ce-4c7b-b027-96801e528d32	\N	\N	\N	f	Active	2018-08-28 10:39:28	1513c2686705aa8aa5a9225ec09bb599f741ed830b05e0fcee36ce1a87795b0700ed18c7de9b5e967b8e8f107a57d0778b8888ef89c6654229111a0eed82352e1253df25c845b99acbdb218fe8f8012f9906381eb4de269333a8e22c8f9241a0	\N	andy@salesget.io	\N	\N
+12a6352a-5e39-413a-9332-4b79b11b45df	\N	\N	\N	f	Active	2018-08-28 10:48:48	70c3cfdcc0acba436ff7b1e2c75b9bcba14ccc1df2b383b7ad49362bb7d6bb344df52710a6d3c5ae6096b80164d1d27d189fffe22373cbfd41671fb00ed744dcbc09a965b607a1085e5ecc306fd3d6b616e5595d75ea542bf2a5da3c1109dad5	\N	andy@salesget.io	\N	\N
+a7e1212f-f06d-4ec1-be39-670054529fac	\N	\N	\N	f	Active	2018-08-28 11:17:29	95a72d235f2a4d89f7afcdd856aba51cd0ba712e565251611f4787f235df1cb8e69131b4bd2962811b55186b465a7f5bdb7423d3e1c9dec286b1481a5b121933f82b12d73aceabcefac27d275675222d3bc4310747783bac365845b955676e12	\N	andy@salesget.io	\N	\N
+f09923c5-f847-4c76-9461-2a64be68d788	\N	\N	\N	f	Active	2018-08-28 11:18:28	59a0d9f108e31f81dda1e7246fa6236a9ff8808ab833112dd0fc7a8c32d303f53c88a9dde4b69fffbeade910c73a90392c7325f745290ad4796c14a0fdc6c3e60569860543c22f5504ba0c8242b30afec0526016a3ebdfacfd79bf2326a56f10	\N	andy@salesget.io	\N	\N
+72005b6e-6f9f-451f-8f37-d140550653c4	\N	\N	\N	f	Active	2018-08-28 13:29:08	4be42a9f992737b9f5bb4dcb84c12e93ab084078d1c7a458fe34a0576b0869100da28b88b2d3a28af6059877681d854fbaeb08ebc494c96848e5bd66d57ea4795fa0158a9c201958585cf96dd3340c398424cdddc230c23cd35b50d3d63998a2	\N	andy@salesget.io	\N	\N
+14e3976a-97fb-4316-83cd-372f342ba28c	\N	\N	\N	f	Active	2018-08-28 13:29:23	3ed1b283dd3b895b34571c2a27e261c93993a8927acae94864f3c1945fe52f7662ef42bd2c98f83115772215c02a3fe87a6eed221a3305ac1d1394bb01369c63d1e537ab8df0cf9ab3bf3925f35e9e552ffeed06fd575ca3edbaeebcce05fb28	\N	andy@salesget.io	\N	\N
+aa65398f-08e2-4bbb-83e7-e8bee0671761	\N	\N	\N	f	Active	2018-08-28 13:40:07	71c651027a6fa506fa9ec4a3fa3bff5fb9d71a93775021120f19714cb20c5a70e3181bd310f167133f4f5aa2b7f9134be33314c5477b66587d6d289c90bc45ca2c65d32f46ec7b2b0e2cb032688eef244c8fc70abbc852a902665b56cdb92ede	\N	andy@salesget.io	\N	\N
+14fa8ed7-cb4e-4048-9c3c-21b1c6c6a7b5	\N	\N	\N	f	Active	2018-09-04 10:35:07	\N	\N	andy@salesget.io	\N	\N
+65536c56-98bb-4d42-9c0e-c675d56ae09d	\N	\N	\N	f	Active	2018-09-04 10:50:03	\N	\N	andy@salesget.io	\N	\N
+5501e5cb-3e46-43aa-a0a0-0dda98a41c25	\N	\N	\N	f	Active	2018-09-04 10:51:45	9d5a4330a3b3817636ac2868603282f66bfc793071760fded8c41acdfdf255ef538f6ed1405ab4206296b7c1aa6adc2c88323bc3a7a5c30c0c0f8023094b9316ed5b3be382d069ee39e81988766c077efcfa3272dd8c33d9d7ae166320975752	\N	andy@salesget.io	\N	\N
+\.
+
+
+--
+-- Name: exchangerates_id_seq; Type: SEQUENCE SET; Schema: public; Owner: andy
+--
+
+SELECT pg_catalog.setval('public.exchangerates_id_seq', 1, false);
+
+
+--
+-- Name: transactions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: andy
+--
+
+SELECT pg_catalog.setval('public.transactions_id_seq', 1, false);
+
+
+--
+-- Name: transactions_txdbserialnum_seq; Type: SEQUENCE SET; Schema: public; Owner: andy
+--
+
+SELECT pg_catalog.setval('public.transactions_txdbserialnum_seq', 1, false);
+
+
+--
+-- Name: txjson_id_seq; Type: SEQUENCE SET; Schema: public; Owner: andy
+--
+
+SELECT pg_catalog.setval('public.txjson_id_seq', 1, false);
+
+
+--
+-- Name: txstats_id_seq; Type: SEQUENCE SET; Schema: public; Owner: andy
+--
+
+SELECT pg_catalog.setval('public.txstats_id_seq', 1, false);
+
+
+--
+-- Name: walletbackups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: andy
+--
+
+SELECT pg_catalog.setval('public.walletbackups_id_seq', 1, false);
+
+
+--
+-- Name: addressbalances addressbalances_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.addressbalances
+    ADD CONSTRAINT addressbalances_pkey PRIMARY KEY (address, protocol, propertyid);
+
+
+--
+-- Name: addressesintxs addressesintxs_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.addressesintxs
+    ADD CONSTRAINT addressesintxs_pkey PRIMARY KEY (address, txdbserialnum, propertyid, addressrole, addresstxindex);
+
+
+--
+-- Name: addressesinwallets addressesinwallets_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.addressesinwallets
+    ADD CONSTRAINT addressesinwallets_pkey PRIMARY KEY (walletid, address, protocol, propertyid);
+
+
+--
+-- Name: blocks blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocks_pkey PRIMARY KEY (protocol, blocknumber);
+
+
+--
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (section, division);
+
+
+--
+-- Name: exchangerates exchangerates_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.exchangerates
+    ADD CONSTRAINT exchangerates_pkey PRIMARY KEY (id, propertyid1, propertyid2, protocol1, protocol2);
+
+
+--
+-- Name: following following_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.following
+    ADD CONSTRAINT following_pkey PRIMARY KEY (walletid);
+
+
+--
+-- Name: markets markets_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.markets
+    ADD CONSTRAINT markets_pkey PRIMARY KEY (propertyiddesired, propertyidselling);
+
+
+--
+-- Name: matchedtrades matchedtrades_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.matchedtrades
+    ADD CONSTRAINT matchedtrades_pkey PRIMARY KEY (txdbserialnum, propertyidsold, propertyidreceived, matchedtxhash);
+
+
+--
+-- Name: offeraccepts offeraccepts_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.offeraccepts
+    ADD CONSTRAINT offeraccepts_pkey PRIMARY KEY (saletxdbserialnum, linkedtxdbserialnum);
+
+
+--
+-- Name: propertyhistory propertyhistory_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.propertyhistory
+    ADD CONSTRAINT propertyhistory_pkey PRIMARY KEY (propertyid, protocol, txdbserialnum);
+
+
+--
+-- Name: protocols protocols_protocol_key; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.protocols
+    ADD CONSTRAINT protocols_protocol_key UNIQUE (protocol);
+
+
+--
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (sessionid);
+
+
+--
+-- Name: settings settings_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.settings
+    ADD CONSTRAINT settings_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: smartproperties smartproperties_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.smartproperties
+    ADD CONSTRAINT smartproperties_pkey PRIMARY KEY (propertyid, protocol);
+
+
+--
+-- Name: tolinkaddressesintxs tolinkaddressesintxs_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.tolinkaddressesintxs
+    ADD CONSTRAINT tolinkaddressesintxs_pkey PRIMARY KEY (address, txdbserialnum, propertyid, addressrole);
+
+
+--
+-- Name: transactions transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transactions transactions_txdbserialnum_key; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT transactions_txdbserialnum_key UNIQUE (txdbserialnum);
+
+
+--
+-- Name: txjson txjson_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.txjson
+    ADD CONSTRAINT txjson_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: txstats txstats_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.txstats
+    ADD CONSTRAINT txstats_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: walletbackups walletbackups_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.walletbackups
+    ADD CONSTRAINT walletbackups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wallets wallets_pkey; Type: CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.wallets
+    ADD CONSTRAINT wallets_pkey PRIMARY KEY (walletid);
+
+
+--
+-- Name: ab_nonzero; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX ab_nonzero ON public.addressbalances USING btree (balanceavailable, balancereserved, balancefrozen, address) WHERE ((balanceavailable > (0)::numeric) OR (balancereserved > (0)::numeric) OR (balancefrozen > (0)::numeric));
+
+
+--
+-- Name: addr_idx; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX addr_idx ON public.addressesintxs USING btree (address, txdbserialnum, propertyid);
+
+
+--
+-- Name: addressindex; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX addressindex ON public.addressesinwallets USING btree (address, protocol, propertyid);
+
+
+--
+-- Name: aitdbser_idx; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX aitdbser_idx ON public.addressesintxs USING btree (txdbserialnum);
+
+
+--
+-- Name: blocknumtime; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX blocknumtime ON public.blocks USING btree (blocknumber, protocol, blocktime);
+
+
+--
+-- Name: buyers; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX buyers ON public.offeraccepts USING btree (buyer);
+
+
+--
+-- Name: idsellingdesired; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX idsellingdesired ON public.activeoffers USING btree (propertyidselling, propertyiddesired);
+
+
+--
+-- Name: sellers; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX sellers ON public.activeoffers USING btree (seller);
+
+
+--
+-- Name: sp_issuer; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE UNIQUE INDEX sp_issuer ON public.smartproperties USING btree (issuer, propertyid, protocol);
+
+
+--
+-- Name: sp_json_crowdsale_state; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX sp_json_crowdsale_state ON public.smartproperties USING btree (((propertydata ->> 'active'::text)));
+
+
+--
+-- Name: sp_name_id_prot; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE UNIQUE INDEX sp_name_id_prot ON public.smartproperties USING btree (propertyname, propertyid, protocol);
+
+
+--
+-- Name: thistxhash; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX thistxhash ON public.tolinkaddressesintxs USING btree (thistxhash, protocol);
+
+
+--
+-- Name: tx_hash_prot_block; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX tx_hash_prot_block ON public.transactions USING btree (txhash, protocol, txblocknumber);
+
+
+--
+-- Name: txdbseriallink; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txdbseriallink ON public.tolinkaddressesintxs USING btree (txdbserialnum, propertyid);
+
+
+--
+-- Name: txdbserialnum; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txdbserialnum ON public.transactions USING btree (txdbserialnum);
+
+
+--
+-- Name: txdbserialnumhist; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txdbserialnumhist ON public.propertyhistory USING btree (txdbserialnum);
+
+
+--
+-- Name: txdbserials; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE UNIQUE INDEX txdbserials ON public.transactions USING btree (txdbserialnum, protocol);
+
+
+--
+-- Name: txj_json_raddress; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txj_json_raddress ON public.txjson USING btree (((txdata ->> 'referenceaddress'::text)));
+
+
+--
+-- Name: txj_json_saddress; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txj_json_saddress ON public.txjson USING btree (((txdata ->> 'sendingaddress'::text)));
+
+
+--
+-- Name: txj_json_txid; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txj_json_txid ON public.txjson USING btree (((txdata ->> 'txid'::text)));
+
+
+--
+-- Name: txj_json_type; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txj_json_type ON public.txjson USING btree ((((txdata ->> 'type_int'::text))::numeric));
+
+
+--
+-- Name: txj_txdbser_prot; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txj_txdbser_prot ON public.txjson USING btree (txdbserialnum, protocol);
+
+
+--
+-- Name: txseq; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txseq ON public.transactions USING btree (txblocknumber, txseqinblock);
+
+
+--
+-- Name: txstats_block; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txstats_block ON public.txstats USING btree (blocknumber, protocol, blocktime);
+
+
+--
+-- Name: txtypes; Type: INDEX; Schema: public; Owner: andy
+--
+
+CREATE INDEX txtypes ON public.transactions USING btree (txtype, txversion, protocol);
+
+
+--
+-- Name: addressesinwallets addressesinwallets_address_fkey; Type: FK CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.addressesinwallets
+    ADD CONSTRAINT addressesinwallets_address_fkey FOREIGN KEY (address, protocol, propertyid) REFERENCES public.addressbalances(address, protocol, propertyid);
+
+
+--
+-- Name: addressesinwallets addressesinwallets_walletid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.addressesinwallets
+    ADD CONSTRAINT addressesinwallets_walletid_fkey FOREIGN KEY (walletid) REFERENCES public.wallets(walletid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: following following_walletid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.following
+    ADD CONSTRAINT following_walletid_fkey FOREIGN KEY (walletid) REFERENCES public.wallets(walletid);
+
+
+--
+-- Name: matchedtrades matchedtrades_txdbserialnum_fkey; Type: FK CONSTRAINT; Schema: public; Owner: andy
+--
+
+ALTER TABLE ONLY public.matchedtrades
+    ADD CONSTRAINT matchedtrades_txdbserialnum_fkey FOREIGN KEY (txdbserialnum) REFERENCES public.transactions(txdbserialnum);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA public TO omniengine;
+GRANT USAGE ON SCHEMA public TO omniwww;
+
+
+--
+-- Name: TABLE activeoffers; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.activeoffers TO omniengine;
+GRANT SELECT ON TABLE public.activeoffers TO omniwww;
+
+
+--
+-- Name: TABLE addressbalances; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.addressbalances TO omniengine;
+GRANT SELECT ON TABLE public.addressbalances TO omniwww;
+
+
+--
+-- Name: TABLE addressesintxs; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.addressesintxs TO omniengine;
+GRANT SELECT,INSERT ON TABLE public.addressesintxs TO omniwww;
+
+
+--
+-- Name: TABLE addressesinwallets; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.addressesinwallets TO omniengine;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.addressesinwallets TO omniwww;
+
+
+--
+-- Name: TABLE blocks; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.blocks TO omniengine;
+GRANT SELECT ON TABLE public.blocks TO omniwww;
+
+
+--
+-- Name: TABLE categories; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.categories TO omniengine;
+GRANT SELECT ON TABLE public.categories TO omniwww;
+
+
+--
+-- Name: TABLE exchangerates; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.exchangerates TO omniengine;
+GRANT SELECT ON TABLE public.exchangerates TO omniwww;
+
+
+--
+-- Name: SEQUENCE exchangerates_id_seq; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,UPDATE ON SEQUENCE public.exchangerates_id_seq TO omniengine;
+GRANT SELECT ON SEQUENCE public.exchangerates_id_seq TO omniwww;
+
+
+--
+-- Name: TABLE following; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.following TO omniengine;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.following TO omniwww;
+
+
+--
+-- Name: TABLE markets; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.markets TO omniengine;
+GRANT SELECT ON TABLE public.markets TO omniwww;
+
+
+--
+-- Name: TABLE matchedtrades; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.matchedtrades TO omniengine;
+GRANT SELECT ON TABLE public.matchedtrades TO omniwww;
+
+
+--
+-- Name: TABLE offeraccepts; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.offeraccepts TO omniengine;
+GRANT SELECT ON TABLE public.offeraccepts TO omniwww;
+
+
+--
+-- Name: TABLE propertyhistory; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.propertyhistory TO omniengine;
+GRANT SELECT ON TABLE public.propertyhistory TO omniwww;
+
+
+--
+-- Name: TABLE protocols; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.protocols TO omniengine;
+GRANT SELECT ON TABLE public.protocols TO omniwww;
+
+
+--
+-- Name: TABLE sessions; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.sessions TO omniengine;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.sessions TO omniwww;
+
+
+--
+-- Name: TABLE settings; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.settings TO omniengine;
+GRANT SELECT ON TABLE public.settings TO omniwww;
+
+
+--
+-- Name: TABLE smartproperties; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.smartproperties TO omniengine;
+GRANT SELECT ON TABLE public.smartproperties TO omniwww;
+
+
+--
+-- Name: TABLE tolinkaddressesintxs; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.tolinkaddressesintxs TO omniengine;
+GRANT SELECT ON TABLE public.tolinkaddressesintxs TO omniwww;
+
+
+--
+-- Name: TABLE transactions; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.transactions TO omniengine;
+GRANT SELECT ON TABLE public.transactions TO omniwww;
+
+
+--
+-- Name: COLUMN transactions.txhash; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT INSERT(txhash) ON TABLE public.transactions TO omniwww;
+
+
+--
+-- Name: COLUMN transactions.protocol; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT INSERT(protocol) ON TABLE public.transactions TO omniwww;
+
+
+--
+-- Name: COLUMN transactions.txdbserialnum; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT INSERT(txdbserialnum) ON TABLE public.transactions TO omniwww;
+
+
+--
+-- Name: COLUMN transactions.txtype; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT INSERT(txtype) ON TABLE public.transactions TO omniwww;
+
+
+--
+-- Name: COLUMN transactions.txversion; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT INSERT(txversion) ON TABLE public.transactions TO omniwww;
+
+
+--
+-- Name: SEQUENCE transactions_id_seq; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,UPDATE ON SEQUENCE public.transactions_id_seq TO omniengine;
+GRANT SELECT ON SEQUENCE public.transactions_id_seq TO omniwww;
+
+
+--
+-- Name: SEQUENCE transactions_txdbserialnum_seq; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,UPDATE ON SEQUENCE public.transactions_txdbserialnum_seq TO omniengine;
+GRANT SELECT ON SEQUENCE public.transactions_txdbserialnum_seq TO omniwww;
+
+
+--
+-- Name: TABLE txjson; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.txjson TO omniengine;
+GRANT SELECT,INSERT ON TABLE public.txjson TO omniwww;
+
+
+--
+-- Name: SEQUENCE txjson_id_seq; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,UPDATE ON SEQUENCE public.txjson_id_seq TO omniengine;
+GRANT SELECT ON SEQUENCE public.txjson_id_seq TO omniwww;
+
+
+--
+-- Name: TABLE txstats; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.txstats TO omniengine;
+GRANT SELECT ON TABLE public.txstats TO omniwww;
+
+
+--
+-- Name: SEQUENCE txstats_id_seq; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,UPDATE ON SEQUENCE public.txstats_id_seq TO omniengine;
+GRANT SELECT ON SEQUENCE public.txstats_id_seq TO omniwww;
+
+
+--
+-- Name: TABLE walletbackups; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.walletbackups TO omniengine;
+GRANT SELECT,INSERT ON TABLE public.walletbackups TO omniwww;
+
+
+--
+-- Name: SEQUENCE walletbackups_id_seq; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,UPDATE ON SEQUENCE public.walletbackups_id_seq TO omniengine;
+GRANT SELECT ON SEQUENCE public.walletbackups_id_seq TO omniwww;
+
+
+--
+-- Name: TABLE wallets; Type: ACL; Schema: public; Owner: andy
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.wallets TO omniengine;
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.wallets TO omniwww;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

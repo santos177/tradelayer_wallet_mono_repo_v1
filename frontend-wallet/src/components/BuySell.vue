@@ -1,0 +1,203 @@
+<template>
+  <div id="BuySellCard">
+    <div class="md-layout animated jello">
+     <div class="">
+           <md-card>
+             <md-card-header>ALL/dUSD Inverse</md-card-header>
+               <md-card-content>
+                 <div class="">
+                   <div class="md-layout-item">
+                   <md-radio name="contractCurrency" id="contracts" value= "Contracts" v-model="form.contractCurrency" :disabled="sending" >
+                     Contracts </md-radio>
+                   </div>
+                   <div class="md-layout-item">
+                 </div>
+                   <md-field>
+                        <label for="quantity">Quantity</label>
+                        <md-input name="quantity" id="quantity" v-model="form.quantity" />
+                    </md-field>
+                   <md-field>
+                      <label for="price">Price</label>
+                      <md-input name="price" id="price" v-model="form.price" />
+                    </md-field>
+                  </div>
+                  <div class="md-layout-item">
+                    <button @click="handleBuy" class='md-raised mycolors-buy animated rubberBand delay-3s'>Buy</button>
+                    <button @click="handleSell" class='md-raised mycolors-sell animated rubberBand delay-3s'>Sell</button>
+                  </div>
+                  <div class="md-layout-item">
+                    txid {{lastTXID}}
+                  </div>
+                  <div>
+                  </div>
+            </md-card-content>
+          </md-card>
+     </div>
+   </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapState, mapGetters } from 'vuex'
+import { required, between } from 'vuelidate/lib/validators'
+
+export default {
+  name: 'BuySell',
+  data: () => ({
+    txid: null,
+    sending: false,
+    form: {
+      orderType: null,
+      quantity: 0,
+      price: 0,
+      contractCurrency: 'Contracts',
+      leverage: 1
+    },
+    tooltipActive: false
+  }),
+  computed: {
+    ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
+    ...mapState('user', ['walletBlob']),
+    ...mapGetters('user', ['addressGetter'])
+  },
+  validations: {
+    form: {
+      contractCurrency: {
+        required
+      },
+      orderType: {
+        required
+      },
+      price: {
+        required,
+        between: between(0, 10000000)
+      },
+      quantity: {
+        required,
+        between: between(0, 1000000)
+      }
+    }
+  },
+  created () {
+  },
+  methods: {
+    ...mapActions('contracts', ['buyContracts', 'sellContracts', 'postCancelTrades', 'addPendingTXID']),
+    ...mapActions('user', ['walletAddress']),
+    getValidationClass (fieldName) {
+      const field = this.$v.form[fieldName]
+
+      if (field) {
+        return {
+          'md-invalid': field.$invalid && field.$dirty
+        }
+      }
+    },
+    handleBuy (e) {
+      const { form } = this
+      this.buyContracts(form).then((data) => {
+        this.lastTXID = data.lastTXID
+        console.log('this is pending TXIDs in buysell ', this.pendingTXIDsGetter)
+        var TXIDinPending
+        if (this.pendingTXIDsGetter) {
+          TXIDinPending = this.pendingTXIDsGetter.filter((txid) => {
+            return this.lastTXID === TXIDinPending
+          })
+        }
+
+        if (!TXIDinPending || TXIDinPending === null) {
+          console.log('called add pending from buysell')
+          this.addPendingTXID(this.lastTXID)
+        }
+
+        alert('Your order is Pending.  You can check the Pending tab.')
+
+        console.log('last TX id is', this.lastTXID)
+      })
+    },
+    handleSell (e) {
+      const { form } = this
+      console.log('this is the context ', form)
+      this.sellContracts(form).then((data) => {
+        this.lastTXID = data.lastTXID
+        this.addPendingTXID(data.lastTXID)
+        console.log('last TX id is', this.lastTXID)
+        alert('Your order is Pending.  You can check the Pending tab.')
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+button {
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  padding: 10px 10px;
+  margin: 0px 10px;
+  border: 1px solid #ddd;
+  color: #fff;
+  background-color:#fff;
+  font-size: 16px;
+
+  cursor: pointer;
+  &[disabled]{
+    cursor: not-allowed;
+  }
+}
+
+.md-card {
+  padding:10px;
+  border-radius: 50%;
+  width: 350px;
+  height: 350px;
+}
+
+.md-field {
+  width: 100px;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .md-card {
+    padding:10px;
+    border-radius: 50%;
+    width: 390px;
+  }
+
+  .md-field {
+    width: 130px;
+    display: inline-block;
+  }
+
+}
+
+.md-table-row {
+
+}
+
+.md-table-cell {
+
+}
+
+.md-layout-item {
+}
+
+.md-card-header {
+  color: #d61d67;
+}
+
+.mycolors-button {
+  color: #F0A28E;
+}
+
+.mycolors-buy {
+  color: #fff;
+  background-color: #17a536;
+}
+.mycolors-sell {
+  color: #fff;
+  background-color: #d61d67;
+}
+</style>
