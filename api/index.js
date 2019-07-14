@@ -14,7 +14,7 @@ console.log('this is the litecoin client ', omniClient)
 omniClient.getNetworkHashPs(function(err, hashps) {
 	if (err) console.error(err);
 	console.log('Network Hash Rate: ' + hashps);
-  });sdafasdf
+  });
 //connect to express
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
@@ -25,7 +25,7 @@ var exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 var WebSocketServer = require('ws').Server;
 var dgram = require('dgram');
-var udpserver = dgram.createSocket('udp4');
+var udpserver= dgram.createSocket('udp4');
 var fs = require('fs')
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
