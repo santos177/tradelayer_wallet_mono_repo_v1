@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const createAddress = require("./address.js");
+const createWallet = require("./wallet.js");
 const createBalance = require("./balance.js");
 const createProperty = require("./property.js");
 const createOrder = require("./order.js");
@@ -13,24 +13,24 @@ const db = new Sequelize({
   }
 });
 
-const Address = createAddress(db);
+const Wallet = createWallet(db);
 const Balance = createBalance(db);
 const Property = createProperty(db);
 const Order = createOrder(db);
 
-Balance.belongsTo(Address);
+Balance.belongsTo(Wallet);
 Balance.belongsTo(Property);
 
-Address.hasMany(Balance);
-Address.hasMany(Property);
+Wallet.hasMany(Balance);
+Wallet.hasMany(Order);
 
-Order.belongsTo(Address);
+Order.belongsTo(Wallet);
 Order.belongsTo(Property, { as: "requestedProp" });
 Order.belongsTo(Property, { as: "offeredProp" });
 
 module.exports = {
   db,
-  Address,
+  Wallet,
   Balance,
   Property
 };
