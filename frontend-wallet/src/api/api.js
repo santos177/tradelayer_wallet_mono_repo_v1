@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // console.log('config.API_URL')
 export const axiosInstance = axios.create({
-  baseURL: 'http://23.239.17.224:5001/api',
+  baseURL: 'http://localhost:76/api',
   headers: {
     'Content-type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest'

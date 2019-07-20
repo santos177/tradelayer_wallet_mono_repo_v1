@@ -18,6 +18,7 @@ omniClient.getNetworkHashPs(function(err, hashps) {
 //connect to express
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
+var cors = require("cors")
 var bodyParser = require('body-parser');
 var asynco = require('async');
 var dns = require("dns");
@@ -37,7 +38,7 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 // var store_dir = datadir + '/sessions/'
 var wsCol = [];
-
+app.use(cors())
 //SOCKET IO
 io.on('connection', function(socket) {
 			wsCol.push(socket);
