@@ -1,5 +1,5 @@
 
-#slkfjaklsdfj:### Setup:
+### Setup:
 
 1. Install litecoin
 
