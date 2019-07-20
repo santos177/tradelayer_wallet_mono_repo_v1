@@ -15,6 +15,7 @@ const { Client } = require('pg')
 const { dbconnect } = require('./dbconnect')
 const client = dbconnect
 
+const {Wallet} = require('./models/index.js') 
 var litecoin = require('litecoin')
 
 var omniClient = new litecoin.Client({
@@ -189,13 +190,13 @@ writeWallet: (uuid, passhash, wallet, email="nothing") => {
    // for write wallet with upsert...dont do this!!! because they can change password by just creating with same uuid
 	 // this should check for dups
 	return new Promise((resolve, reject) => {
-		console.log('in promise of write wallet')
-  		var query =  client.query({
-    		text:"insert into wallets (walletid, walletblob, passhash, email) values ($1, $2, $3, $4) ",
-				//"with upsert as (update wallets set walletblob=$1, passhash=$2, email=$3 where walletid=$4 returning *) insert into wallets (walletblob,walletid,passhash,email) select $4,$5,$6,$7 where not exists (select * from upsert)",
-				values: [ uuid, wallet, passhash, email],
-    		rowMode: 'array'
-  			})
+    console.log('in promise of write wallet')
+        Wallet.create({
+          walletid: uuid,
+          walletblob: wallet,
+          passhash,
+          email
+        })
   			.then((result) => {
     			// return success for writing wallet
 					console.log('success in write wallet', result)
