@@ -5,7 +5,7 @@ module.exports = db => {
     address: { type: Sequelize.STRING, allowNull: true },
     walletid: Sequelize.STRING,
     passhash: Sequelize.STRING,
-    email: Sequelize.STRING,
-    walletblob: Sequelize.BLOB,
-    });
+    email: { type: Sequelize.STRING, allowNull: false, unique: true },
+    walletblob: Sequelize.BLOB
+  });
 };
