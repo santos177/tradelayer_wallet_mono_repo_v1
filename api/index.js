@@ -90,14 +90,14 @@ config.LOGGER && app.use(morgan())
 //****LAST PROP CODE
 var lastBlock = 0
 var firstTime = true;
-getInfo().then(function(value) {
-    lastBlock = Number((JSON.parse(value)).block)
-	//createContractFirstTime()
-	//createContract(4)
-	console.log("lastBlock "+ lastBlock)
-  }, function(reason) {
-    console.log("ERROR :"+ reason)
-});
+// getInfo().then(function(value) {
+//     lastBlock = Number((JSON.parse(value)).block)
+// 	//createContractFirstTime()
+// 	//createContract(4)
+// 	console.log("lastBlock "+ lastBlock)
+//   }, function(reason) {
+//     console.log("ERROR :"+ reason)
+// });
 
 function getInfo(){
 
