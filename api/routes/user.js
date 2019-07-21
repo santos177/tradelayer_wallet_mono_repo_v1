@@ -20,6 +20,9 @@ var fs = require('fs')
 
 var path= config.TLPATH
 var datadir = config.TLDATADIR
+const {Wallet} = require('../models/index.js') 
+
+const Sequelize = require("sequelize");
 
 const userApi = ({omniClient, ...app}) => {
   // post challengeWallet
@@ -28,48 +31,72 @@ const userApi = ({omniClient, ...app}) => {
   app.post('/api/postChallenge', function(req, res) {
   	//validate uuid
   	var session = crypto.createHash('sha256')
-  	var salt = crypto.createHash('sha256')
-  	var uuid = req.body.uuid.toString()
-  	const uuid_valid = uuid_validate(uuid)
-  	//create session
-    const hash_seed = config.SESSION_SECRET + uuid
-  	session = session.update(hash_seed)
-  	session = session.digest('hex')
-  	console.log('session is, ', session)
-  	//create salt
-  	salt = salt.update(hash_seed)
-  	salt = salt.digest('hex')
-  	//create pow_challenge
-  	var pow_challenge = bcrypt.genSaltSync()
-  	//create challenge
-  	var challenge = bcrypt.genSaltSync()
+		var salt = crypto.createHash('sha256')
+		
+		var uuid = req.body.uuid.toString()
+		Wallet.findAll({
+			where: {
+				[Sequelize.Op.or]: [{email: uuid}, {walletid:uuid}]
+			},
+			limit: 1
+		}).then((result)=>{
+			var uuid = result[0].dataValues.walletid
+			const uuid_valid = uuid_validate(uuid)
+				//create session
+				const hash_seed = config.SESSION_SECRET + uuid
+				session = session.update(hash_seed)
+				session = session.digest('hex')
+				console.log('session is, ', session)
+				//create salt
+				salt = salt.update(hash_seed)
+				salt = salt.digest('hex')
+				//create pow_challenge
+				var pow_challenge = bcrypt.genSaltSync()
+				//create challenge
+				var challenge = bcrypt.genSaltSync()
+		
+				//create query
+				var myquery = "with upsert as (update sessions set challenge=$1, pchallenge=$2, timestamp=DEFAULT where sessionid=$3 returning *) insert into sessions (sessionid, challenge, pchallenge) select $4,$5,$6 where not exists (select * from upsert)"
+				//(challenge, pow_challenge, session, session, challenge, pow_challenge)
+				
+				response = {
+					'salt': salt,
+					'pow_challenge': pow_challenge,
+					'challenge': challenge
+				}
+					res.send(response)
+		})
 
-  	//create query
-  	var myquery = "with upsert as (update sessions set challenge=$1, pchallenge=$2, timestamp=DEFAULT where sessionid=$3 returning *) insert into sessions (sessionid, challenge, pchallenge) select $4,$5,$6 where not exists (select * from upsert)"
-  	//(challenge, pow_challenge, session, session, challenge, pow_challenge)
-  	client.query({
-  		text: myquery,
-  		values:[
-  			challenge,
-  			pow_challenge,
-  			session,
-  			session,
-  			challenge,
-  			pow_challenge
-  		]
-  	}, (err, result) => {
-  		if(err){
-  			console.log('upsert messed up', err)
-  			res.send(err)
-  		}
-  		//if there's no error in upsert, then let's return our objects
-  		response = {
-        'salt': salt,
-        'pow_challenge': pow_challenge,
-        'challenge': challenge
-    	}
-  	  	res.send(response)
-  	})
+
+		
+
+
+
+  
+		
+		// client.query({
+  	// 	text: myquery,
+  	// 	values:[
+  	// 		challenge,
+  	// 		pow_challenge,
+  	// 		session,
+  	// 		session,
+  	// 		challenge,
+  	// 		pow_challenge
+  	// 	]
+  	// }, (err, result) => {
+  	// 	if(err){
+  	// 		console.log('upsert messed up', err)
+  	// 		res.send(err)
+  	// 	}
+  	// 	//if there's no error in upsert, then let's return our objects
+  	// 	response = {
+    //     'salt': salt,
+    //     'pow_challenge': pow_challenge,
+    //     'challenge': challenge
+    // 	}
+  	//   	res.send(response)
+  	// })
   })
 
   // post get new address
@@ -252,7 +279,8 @@ const userApi = ({omniClient, ...app}) => {
   app.post('/api/postWalletLogin', (req, res) => {
   	// TODO: make conditional IF statements for uuid
     var validate_uuid = uuid_validate(req.body.uuid)
-    var uuid = req.body.uuid
+		var uuid = req.body.uuid
+
   	var password = req.body.password
   	console.log('in wallet login')
 
@@ -276,14 +304,36 @@ const userApi = ({omniClient, ...app}) => {
 
   			console.log('begin readWallet')
   			var promiseWalletEncrypted = new Promise((resolve, reject) => {
-  				var query1 = client.query({
-  					text: 'select email, passhash, walletblob from wallets where walletid=$1',
-  					values: [uuid],
-  					rowMode: 'array' })
+
+					// Wallet.findAll({
+					// 	where: { $or: [
+					// 		{
+					// 				email: uuid
+					// 		}, 
+					// 		{
+					// 				email: uuid
+
+					// 			}
+					// 		]
+					// 	}
+					// })
+
+					Wallet.findAll({
+						where: {
+							[Sequelize.Op.or]: [{email: uuid}, {walletid:uuid}]
+						},
+						limit: 1
+					})
+  				// var query1 = client.query({
+  				// 	text: 'select email, passhash, walletblob from wallets where walletid=$1',
+  				// 	values: [uuid],
+					// 	rowMode: 'array' })
+						
+
   					.then((result) => {
   						// return walletblob
-  						console.log('result of read wallet result.rows[0] ', result.rows[0])
-  						resolve(result.rows[0])
+  						console.log('result of read wallet result.rows[0] ', result)
+  						resolve(result[0])
   					})
   					.catch((err) => {
   							console.log('error in read wallet')
@@ -295,8 +345,9 @@ const userApi = ({omniClient, ...app}) => {
   					// TODO: fix this
   					// helpers.updateLogin(uuid)
   					// get question
-  					console.log('passhash that db query returns in wallet login', data[1])
-  					if(data[1] ==! passhash_generated){
+						console.log('passhash that db query returns in wallet login', data.dataValues)
+						const dataValues = data.dataValues;
+  					if(dataValues.passhash ==! passhash_generated){
   						console.log('invalid login')
   						res.send('invalid login')
   					} else {
@@ -305,16 +356,18 @@ const userApi = ({omniClient, ...app}) => {
 
   					// create payload
   					var payload = {
-  						'walletEncrypted': data[2].toString(),
-  						'email': data[0].toString(),
+  						'walletEncrypted': dataValues.walletblob.toString(),
+  						'email': dataValues.email.toString(),
   		      	'asq': question
-  					}
+						}
+						console.log('PAYLOD', payload);
+						
 
   					var privateKEY  = fs.readFileSync('./private.key', 'utf8');
   					var publicKEY  = fs.readFileSync('./public.key', 'utf8');
 
   					var i = 'TradeLayer'  //issuer
-  					var s = uuid.toString() //subject
+  					var s = dataValues.walletid.toString() //subject
   					var a = 'http://www.tradelayer.org'  //audience
 
   					// signing options

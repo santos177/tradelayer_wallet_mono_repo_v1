@@ -3,10 +3,10 @@
       <md-card class="md-layout md-alignment-top-center">
         <form @submit.prevent="handleSubmit">
             <div class="form-group md-layout-item">
-                <label for="email" style="margin: 20px 20px 0px;">Wallet ID</label>
+                <label for="email" style="margin: 20px 20px 0px;">Wallet ID Or Email</label>
                 <input type="text" style="margin: 20px 40px 0px; width: 250px;" v-model="uuid" name="username" class="form-control"/>
                 <div v-show="submitted && !uuid" class="invalid-feedback">UUID is required</div>
-            </div>
+            </div>         
             <div class="form-group">
                 <label htmlFor="password">Password</label>
                 <input type="password" style="margin: 0px 40px 0px; width: 250px;" v-model="password" name="password" class="form-control"/>
