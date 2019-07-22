@@ -2,7 +2,11 @@ const Sequelize = require("sequelize");
 
 module.exports = db => {
   return db.define("property", {
-    name: Sequelize.STRING,
-    prop_id: Sequelize.INTEGER
+    name:{
+      type: Sequelize.STRING, unique: true, alloNull: false
+    },
+    prop_id: {
+      type: Sequelize.STRING, unique: true, alloNull: false
+    }
   });
 };

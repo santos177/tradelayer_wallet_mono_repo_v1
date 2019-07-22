@@ -8,7 +8,7 @@ module.exports = db => {
     email: { type: Sequelize.STRING, allowNull: false, unique: true },
     walletblob: Sequelize.BLOB
   }, {instanceMethods: {
-    betBalance: function(propId) {
+    getBalance: function(propId) {
         console.log(this.addresses)
     }
   }});

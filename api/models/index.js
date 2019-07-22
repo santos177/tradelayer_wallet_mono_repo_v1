@@ -48,5 +48,7 @@ module.exports = {
   db,
   Wallet,
   Balance,
-  Property
+  Property,
+  Address,
+  Channel
 };
