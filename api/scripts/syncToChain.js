@@ -19,12 +19,12 @@ omniClient.cmd("listreceivedbyaddress", 0, true, async function(
 
 
   addresses.forEach( async (obj)=>{
-    const {address, ammount} = obj;
+    const {address, amount} = obj;
     const newAddress = await Address.create({
       address,
       balances:[ {
-       ammount,
-       propery_id:  litecoinProp.id
+       amount,
+       propertyId:  litecoinProp.id
        
       }],
     }, {
@@ -34,3 +34,4 @@ omniClient.cmd("listreceivedbyaddress", 0, true, async function(
     
   })
 });
+
