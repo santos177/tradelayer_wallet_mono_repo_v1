@@ -1,14 +1,8 @@
 const config = require('./config')
 const helpers = require('./helpers')
 const { base64encode, base64decode } = require('nodejs-base64')
-var litecoin = require('litecoin');
-var omniClient = new litecoin.Client({
-  host: 'localhost',
-  port: 9332,
-  user: "pepejandro",
-  pass: "pepecash",
-  ssl: false/* true, */
-});
+
+var omniClient = require('./ltc_client.js')
 
 console.log('this is the litecoin client ', omniClient)
 omniClient.getNetworkHashPs(function(err, hashps) {
@@ -166,11 +160,13 @@ router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
-// more routes for our API will happen here
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
 
+app.use((req, res, next)  => {
+	// give routes access to omniClient
+	req.omniClient = omniClient;
+	next()
+} ) 
+app.use('/api', router);
 configureRoutes(app)
 
 // START THE SERVER

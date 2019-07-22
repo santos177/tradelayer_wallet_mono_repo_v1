@@ -3,8 +3,61 @@ const config = require('../config')
 var path= config.TLPATH
 var datadir = config.TLDATADIR
 var exec = require('child_process').exec;
+const express = require('express')
+const balanceRouter = express.Router()
+const {Address, Balance} = require('../models/index.js') 
+
+balanceRouter.get('/tl_getTX/',  (req, res)=> {
+  const txnId = req.query.txnId;
+  req.omniClient.getTransaction(txnId, (data, err)=>{
+    if(err){
+      res.json(err.Error)
+    }
+    res.json(data)
+  })
+})
+
+balanceRouter.get('/tl_getBalances/',  (req, res)=> {
+  const {address} = req.query;
+  if (address){
+    const result = Address.findAll({
+      where: {
+        address
+      }
+    })
+    res.json(result)
+  } else {
+
+  }
+
+
+
+  // TODO: on sync
+
+  // const next = (data, err)=>{
+  //   console.log('??', data, err);
+    
+  //   res.json(data)
+  // }
+
+  // const {address} = req.query;
+  // if (address){
+  //   req.omniClient.getBalance(address, next)
+
+  // } else {
+  //   req.omniClient.getBalance( next) 
+  // }
+
+
+
+
+})
+
 
 const balanceApi = ({omniClient, ...app}) => {
+
+
+
 
   app.get('/api/getBalancePegged', function(req, res){
       var address = req.query.address
@@ -154,4 +207,4 @@ const balanceApi = ({omniClient, ...app}) => {
   return app
 }
 
-module.exports = balanceApi
+module.exports = balanceRouter;
