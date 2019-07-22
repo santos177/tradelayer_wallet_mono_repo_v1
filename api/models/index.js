@@ -42,11 +42,6 @@ Property.hasMany(Balance)
 // TODO: has many order requests
 // TODO has many offeredProps
 
-
-Order.belongsTo(Address);
-Order.belongsTo(Property, { as: "requestedProp" });
-Order.belongsTo(Property, { as: "offeredProp" });
-
 Channel.hasMany(Balance)
 
 module.exports = {
