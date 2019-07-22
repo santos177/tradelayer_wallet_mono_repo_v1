@@ -7,5 +7,9 @@ module.exports = db => {
     passhash: Sequelize.STRING,
     email: { type: Sequelize.STRING, allowNull: false, unique: true },
     walletblob: Sequelize.BLOB
-  });
+  }, {instanceMethods: {
+    betBalance: function(propId) {
+        console.log(this.addresses)
+    }
+  }});
 };
