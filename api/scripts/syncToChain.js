@@ -3,13 +3,7 @@ var litecoin = require('litecoin');
 const {Address, Balance, Property} = require('../models/index.js')
 
 
-var omniClient = new litecoin.Client({
-  host: "localhost",
-  port: 9332,
-  user: "pepejandro",
-  pass: "pepecash",
-  ssl: false /* true, */
-});
+var omniClient = require('../ltc_client')
 
 omniClient.cmd("listreceivedbyaddress", 0, true, async function(
   err,

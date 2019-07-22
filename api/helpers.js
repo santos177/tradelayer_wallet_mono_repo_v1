@@ -16,15 +16,8 @@ const { dbconnect } = require('./dbconnect')
 const client = dbconnect
 
 const {Wallet} = require('./models/index.js') 
-var litecoin = require('litecoin')
 
-var omniClient = new litecoin.Client({
-  host: 'localhost',
-  port: 9332,
-  user: "pepejandro",
-  pass: "pepecash",
-})
-
+var omniClient = require('./ltc_client')
 
 module.exports = {
 // encrypts to AES
