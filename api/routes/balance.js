@@ -17,41 +17,43 @@ balanceRouter.get('/tl_getTX/',  (req, res)=> {
   })
 })
 
-balanceRouter.get('/tl_getBalances/',  (req, res)=> {
-  const {address} = req.query;
+balanceRouter.get('/tl_getBalances/',  async  (req, res)=> {
+  // todo: optional prop arg
+  const {address, propId} = req.query;
   if (address){
-    const result = Address.findAll({
-      where: {
-        address
-      }
-    })
-    res.json(result)
+    const result = await Balance.findAll({
+      include: [
+        {
+          model: Address,
+          where: {
+            address
+          }
+        }
+      ]
+    });
+
+    res.json(result);
   } else {
-
-  }
-
-
-
-  // TODO: on sync
-
-  // const next = (data, err)=>{
-  //   console.log('??', data, err);
-    
-  //   res.json(data)
-  // }
-
-  // const {address} = req.query;
-  // if (address){
-  //   req.omniClient.getBalance(address, next)
-
-  // } else {
-  //   req.omniClient.getBalance( next) 
-  // }
+      req.omniClient.cmd("listreceivedbyaddress", 0, true, async function( err, addresses,resHeaders) {
+        const result = await Balance.findAll({
+          include: [
+            {
+              model: Address,
+              where: {
+                address: addresses.map( (obj)=> obj.address)
+              }
+            }
+          ]
+        });
+        res.json(result)
+      })
+    }
 
 
 
+  })
 
-})
+
 
 
 const balanceApi = ({omniClient, ...app}) => {
