@@ -78,6 +78,8 @@ const actions = {
     })
   },
   logout ({ commit }) {
+    console.warn('LOG OUT????');
+    
     commit('setLoggedIn', false)
     // commit('setUser', false)
     commit('clearAccessToken', false)

@@ -54,6 +54,7 @@ export default {
   },
   created () {
     // reset login status
+    console.warn('LOGGING OUT IN CREATEWALLET')
     this.logout()
   },
   methods: {

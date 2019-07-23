@@ -45,9 +45,9 @@ export default {
   },
   created () {
   // reset login status
-    this.logout()
-  },
-  methods: {
+    console.warn('LOGGING OUT IN LOGIN') // this.logout()
+   },
+    methods: {
     ...mapActions('account', ['verify']),
     ...mapActions('auth', ['logout']),
     handleSubmit (e) {
