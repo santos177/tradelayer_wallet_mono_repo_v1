@@ -3,13 +3,7 @@ var litecoin = require('litecoin');
 const {Address, Balance, Property} = require('../models/index.js')
 
 
-var omniClient = new litecoin.Client({
-  host: "localhost",
-  port: 9332,
-  user: "pepejandro",
-  pass: "pepecash",
-  ssl: false /* true, */
-});
+var omniClient = require('../ltc_client')
 
 omniClient.cmd("listreceivedbyaddress", 0, true, async function(
   err,
@@ -25,12 +19,12 @@ omniClient.cmd("listreceivedbyaddress", 0, true, async function(
 
 
   addresses.forEach( async (obj)=>{
-    const {address, ammount} = obj;
+    const {address, amount} = obj;
     const newAddress = await Address.create({
       address,
       balances:[ {
-       ammount,
-       propery_id:  litecoinProp.id
+       amount,
+       propertyId:  litecoinProp.id
        
       }],
     }, {
@@ -40,3 +34,4 @@ omniClient.cmd("listreceivedbyaddress", 0, true, async function(
     
   })
 });
+

@@ -1,4 +1,4 @@
-const balanceApi = require('./balance')
+const balanceRouter = require('./balance')
 const dcurrencyApi = require('./dcurrency')
 const orderbookApi =require('./orderbook')
 const positionApi = require('./position')
@@ -7,7 +7,7 @@ const tradeApi = require('./trade')
 const userApi = require('./user')
 
 const configureRoutes = app => {
-  balanceApi(app)
+  app.use('/api/balance', balanceRouter)
   dcurrencyApi(app)
   orderbookApi(app)
   positionApi(app)
