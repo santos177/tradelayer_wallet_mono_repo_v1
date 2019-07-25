@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -44,18 +44,20 @@ export default {
     ...mapGetters('auth', ['loginError'])
   },
   created () {
-  // reset login status
+    // reset login status
     console.warn('LOGGING OUT IN LOGIN') // this.logout()
    },
     methods: {
-    ...mapActions('account', ['verify']),
+      ...mapActions('account', ['verify']),
     ...mapActions('auth', ['logout']),
+    ...mapMutations('user', ['decryptWallet']),
     handleSubmit (e) {
       this.submitted = true
-      const { uuid, password } = this
-      console.log('uuid passing in login', uuid)
-      if (uuid && password) {
-        this.verify({uuid: uuid, password: password})
+      const { password } = this
+      
+      if (password) {
+        
+        this.decryptWallet(password)
       }
     }
   }

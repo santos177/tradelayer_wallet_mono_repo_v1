@@ -1,10 +1,6 @@
 <template>
   <form @submit.prevent='handleSubmit' novalidate='true'>
-           <div class='form-group' >
-               <label for='email'>Email</label>
-               <input type='email' v-model='email' name='email' class='form-control animated bounce' />
-               <div v-show='submitted && !email' class='invalid-feedback'>Password is required</div>
-           </div>
+     
            <div class='form-group'>
                <label htmlFor='password'>Password</label>
                <input type="password" v-model="password" class='form-control animated bounce delay-2s'>
@@ -35,7 +31,7 @@
 
 <script>
 import Password from 'vue-password-strength-meter'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
   components: { Password },
@@ -60,6 +56,7 @@ export default {
   methods: {
     ...mapActions('user', ['walletEmail', 'walletPassword', 'walletAddress', 'walletUUIDCreate', 'walletCreateCrypto', 'walletChallenge', 'walletCreate']),
     ...mapActions('auth', ['logout']),
+    ...mapMutations('user', ['addKeyPair']),
     showFeedback ({suggestions, warning}) {
       console.log('🙏', suggestions)
       console.log('⚠', warning)
@@ -69,22 +66,15 @@ export default {
     },
     handleSubmit (e) {
       console.log('fired handleSubmit')
-      const { password, password2, email } = this
+      const { password, password2}= this
       this.loginError = false
       this.submitted = true
       this.errors = []
 
-      if (!(email && password && password2)) {
-        console.log('error')
+      if (!(password && password2)) {
         this.loginError = true
-        this.errors.push('Please enter an email and password')
+        this.errors.push('Please enter a password')
       }
-
-      if (!this.validEmail(email)) {
-        this.loginError = true
-        this.errors.push('Please enter a valid email')
-      }
-
       if (password !== password2) {
         this.loginError = true
         this.errors.push('Oops, passwords do not match')
@@ -92,9 +82,7 @@ export default {
 
       if (!this.loginError) {
         console.log('should be doing stuff in create wallet')
-        this.walletEmail(email)
-        this.walletPassword(password)
-        this.walletUUIDCreate()
+        this.addKeyPair(password)
       }
     },
     validEmail: function (email) {
