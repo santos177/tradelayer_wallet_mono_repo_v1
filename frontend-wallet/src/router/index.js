@@ -54,11 +54,11 @@ export const router = new Router({
       component: SummaryContainer
     },
     {
-      path: '/CreateWallet',
+      path: '/',
       name: 'CreateWallet',
       component: CreateWalletContainer
     },
-    { path: '/',
+    { path: '/Login',
       name: 'LoginContainer',
       component: LoginContainer
     },
@@ -111,16 +111,19 @@ export const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/CreateWallet', '/']
-  // console.log('to path', to.path)
-  const authRequired = !publicPages.includes(to.path, 0)
-  const loggedIn = store.getters['auth/loggedin']
-
-  // console.log('we are in before each')
-  // console.log('auth required', authRequired)
-
-  if (authRequired && !loggedIn) {
+  // const publicPages = ['/']
+  // // console.log('to path', to.path)
+  // if (publicPages.includes(to.path)){
+  //   return next()
+  // } 
+  const {walletEnc, walletDec} = store.state.user
+  const walletEncPresent = walletEnc.length > 0;
+  const walletDecPresent = walletDec.length > 0;
+  console.log(from)
+  if (!walletEncPresent && to.name !=='CreateWallet'){
     return next('/')
+  } else if (walletEncPresent && !walletDecPresent && to.name !=="LoginContainer" && from.name !== "LoginContainer"){
+    return next('/Login')
   }
 
   next()

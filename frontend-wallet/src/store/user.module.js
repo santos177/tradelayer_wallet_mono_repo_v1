@@ -6,7 +6,10 @@ const { CryptUtil } = require('../../lib/cryptUtil')
 // console.log('crypt util', CryptUtil)
 // console.log('crypt util', CryptUtil.generateNonceForDifficulty('blah'))
 
-const state = {
+const state  {
+
+  walletEnc: "",
+  walletDec: [],
   walletBlob: {
     uuid: '',
     addresses: [],
@@ -31,7 +34,8 @@ const getters = {
   addressGetter (state) {
     // console.log('addressGetter walletBlob ', state.walletBlob)
     var address = ''
-    address = state.walletBlob.addresses[0].replace(/"/g, '')
+    var addresses =state.walletBlob.addresses
+    address = addresses[0] && addresses[0].replace(/"/g, '')
     return address
   }
 }
