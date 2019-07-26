@@ -5,7 +5,7 @@ const { CryptUtil } = require('../../lib/cryptUtil')
 
 const state = {
   loggedin: false,
-  // user: false,
+  user: false,
   tokens: {
     access: null,
     refresh: null
