@@ -22,7 +22,7 @@
              <md-tooltip md-direction="bottom">Portfolio</md-tooltip>
            </router-link>
          </div>
-         <div class="md-layout-item">
+         <div v-show="isLoggedIn" class="md-layout-item">
            <div @click="clearDecryptedWallet">
              <md-icon class="md-left">exit_to_app</md-icon>
              <md-tooltip md-direction="bottom">Logout</md-tooltip>
@@ -49,7 +49,7 @@
             </div>
           </div>
           |
-          <div class="md-layout-item">
+          <div v-show="!isLoggedIn" class="md-layout-item">
             <router-link to="/Login">
               <md-tooltip md-direction="bottom">Login</md-tooltip>
               <md-icon class="md-left">fingerprint</md-icon>
@@ -124,7 +124,7 @@ export default {
   }),
   computed: {
     ...mapGetters('user', ['walletBlobGetter']),
-    ...mapGetters('wallet', ['walletCountDisplay']),
+    ...mapGetters('wallet', ['walletCountDisplay', "isLoggedIn"]),
     ...mapGetters('contracts', ['equityGetter'])
   },
   methods: {
