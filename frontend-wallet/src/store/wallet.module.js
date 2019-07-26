@@ -4,10 +4,11 @@ const localWalletDec = window.localStorage.getItem('walletDec')
 
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
-    walletDec:  localWalletDec ? JSON.parse(localWalletDec) : []
+    walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],
+    currentWalletIndex: 0
   }
 
-
+// reusable helpers
   const decryptWalletExtracted = (state, password) =>{
     const walletDec = state.walletEnc.map((encryptedKey)=>{
       return decryptKey(encryptedKey, password)
@@ -78,6 +79,9 @@ const state = {
       },
       hasEncryptedKeys(state){
         return state.walletEnc.length > 0;
+      },
+      isLoggedIn(state){
+        return state.walletDec.length > 0;
       }
     
   }

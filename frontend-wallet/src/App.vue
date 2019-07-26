@@ -5,6 +5,10 @@
           <md-button class="md-icon-button" @click="showNavigation = true">
             <md-icon>menu</md-icon>
           </md-button>
+           <md-button class="md-icon-button" @click="showWallet = true">
+            <md-icon>money</md-icon>
+            <md-tooltip md-direction="bottom">Wallet</md-tooltip>
+          </md-button>
          <div class="md-layout-item">
            <router-link to="/" class="md-avatar">
              <img src="@/assets/tradelayer.jpg" alt="">
@@ -89,6 +93,12 @@
         </div>
       </div>
       </md-toolbar>
+
+        <md-drawer class="md-left" :md-active.sync="showWallet">
+
+        <Wallet/>
+      </md-drawer>
+
       <md-drawer class="md-left" :md-active.sync="showNavigation">
 
         <md-toolbar class="md-transparent" md-elevation="1">
@@ -115,12 +125,15 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapState} from 'vuex'
+import Wallet from '@/components/wallet'
 
 export default {
   name: 'App',
+  components: { Wallet },
   data: () => ({
-    showNavigation: false
+    showNavigation: false,
+    showWallet: false
   }),
   computed: {
     ...mapGetters('user', ['walletBlobGetter']),
