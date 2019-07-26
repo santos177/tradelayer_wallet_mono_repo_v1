@@ -116,7 +116,7 @@ router.beforeEach((to, from, next) => {
   if (publicPages.includes(to.path)){
     return next()
   } 
-  const {walletEnc, walletDec} = store.state.user
+  const {walletEnc, walletDec} = store.state.wallet
   const walletEncPresent = walletEnc.length > 0;
   const walletDecPresent = walletDec.length > 0;
   console.log(from)

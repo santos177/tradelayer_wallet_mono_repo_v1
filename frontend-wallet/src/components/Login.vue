@@ -50,14 +50,13 @@ export default {
     methods: {
       ...mapActions('account', ['verify']),
     ...mapActions('auth', ['logout']),
-    ...mapMutations('user', ['decryptWallet']),
+    ...mapMutations('wallet', ['decryptWallet']),
     handleSubmit (e) {
       this.submitted = true
-      const { password } = this
+      const { password, decryptWallet } = this
       
       if (password) {
-        
-        this.decryptWallet(password)
+        decryptWallet(password)
       }
     }
   }

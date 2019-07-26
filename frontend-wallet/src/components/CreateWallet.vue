@@ -56,7 +56,7 @@ export default {
   methods: {
     ...mapActions('user', ['walletEmail', 'walletPassword', 'walletAddress', 'walletUUIDCreate', 'walletCreateCrypto', 'walletChallenge', 'walletCreate']),
     ...mapActions('auth', ['logout']),
-    ...mapMutations('user', ['addKeyPair']),
+    ...mapMutations('wallet', ['addKeyPair']),
     showFeedback ({suggestions, warning}) {
       console.log('🙏', suggestions)
       console.log('⚠', warning)
