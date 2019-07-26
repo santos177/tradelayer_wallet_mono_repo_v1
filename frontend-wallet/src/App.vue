@@ -123,7 +123,8 @@ export default {
     showNavigation: false
   }),
   computed: {
-    ...mapGetters('user', ['walletBlobGetter', 'walletCountDisplay']),
+    ...mapGetters('user', ['walletBlobGetter']),
+    ...mapGetters('wallet', ['walletCountDisplay']),
     ...mapGetters('contracts', ['equityGetter'])
   }
 }

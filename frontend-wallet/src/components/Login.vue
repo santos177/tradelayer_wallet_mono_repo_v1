@@ -1,22 +1,21 @@
 <template>
     <div>
       <md-card class="md-layout md-alignment-top-center">
-        <form @submit.prevent="handleSubmit">
-            <div class="form-group md-layout-item">
-                <label for="email" style="margin: 20px 20px 0px;">Wallet ID Or Email</label>
-                <input type="text" style="margin: 20px 40px 0px; width: 250px;" v-model="uuid" name="username" class="form-control"/>
-                <div v-show="submitted && !uuid" class="invalid-feedback">UUID is required</div>
-            </div>         
-            <div class="form-group">
-                <label htmlFor="password">Password</label>
-                <input type="password" style="margin: 0px 40px 0px; width: 250px;" v-model="password" name="password" class="form-control"/>
+        <form @submit.prevent="handleSubmit">      
+          <div v-if="hasEncryptedKeys">
+            <div  class="form-group">
+
+                <label htmlFor="password">You have {{walletCountDisplay}}; enter password to unlock</label>
+                <input type="password" style="margin: 0px 40px 0px; width: 250px;" v-model="password" name="password" class="form-control" placeholder='password'/>
                 <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
             </div>
             <div class="form-group">
-                <md-button @click="handleSubmit" class="md-raised md-accent animated rubberBand" :disabled="loggedIn">Login</md-button>
+                <md-button @click="handleSubmit" class="md-raised md-accent animated rubberBand" :disabled="loggedIn">Unlock Wallet</md-button>
                 <img v-show="loggedIn = false" src="data:image/gifbase64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-                <router-link to="/CreateWallet" class="btn btn-link">Register/Create Wallet</router-link>
             </div>
+           </div>
+            <div class="md-raised md-accent animated rubberBand"  v-else> no addresses found! </div>
+                <router-link to="/CreateWallet" class="btn btn-link">Register/Create Wallet</router-link>
             <p v-if="loginError">
               <b>Please correct the following error(s):</b>
               <ul>
@@ -41,7 +40,9 @@ export default {
   },
   computed: {
     ...mapState('auth', ['loggedIn']),
-    ...mapGetters('auth', ['loginError'])
+    ...mapGetters('auth', ['loginError']),
+    ...mapGetters('wallet', ["hasEncryptedKeys", "walletCountDisplay"])
+   
   },
   created () {
     // reset login status
@@ -74,9 +75,9 @@ export default {
 
 .md-card {
   margin: 30px;
-  padding:10px;
+  padding:50px;
   border-radius: 50%;
-  width: 350px;
+  width: 400px;
 }
 
 .input {

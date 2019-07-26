@@ -49,6 +49,9 @@ const state = {
           default:
             return `${count} adresses`
         }
+      },
+      hasEncryptedKeys(state){
+        return state.walletEnc.length > 0;
       }
     
   }
