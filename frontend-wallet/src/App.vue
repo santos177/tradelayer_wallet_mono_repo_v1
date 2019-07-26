@@ -5,7 +5,7 @@
           <md-button class="md-icon-button" @click="showNavigation = true">
             <md-icon>menu</md-icon>
           </md-button>
-           <md-button class="md-icon-button" @click="showWallet = true">
+           <md-button v-show="isLoggedIn" class="md-icon-button" @click="showWallet = true">
             <md-icon>money</md-icon>
             <md-tooltip md-direction="bottom">Wallet</md-tooltip>
           </md-button>
