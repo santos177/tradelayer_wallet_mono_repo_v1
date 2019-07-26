@@ -16,6 +16,7 @@
            </div>
             <div class="md-raised md-accent animated rubberBand"  v-else> no addresses found! </div>
                 <router-link to="/CreateWallet" class="btn btn-link">Register/Create Wallet</router-link>
+                 <router-link to="/Recover" class="btn btn-link recover">Recover from private key</router-link>
             <p v-if="loginError">
               <b>Please correct the following error(s):</b>
               <ul>
@@ -90,5 +91,9 @@ export default {
   height: 80px;
   border: 1px;
   border-radius: 50%;
+} 
+
+.recover {
+  padding-top: 0px;
 }
 </style>

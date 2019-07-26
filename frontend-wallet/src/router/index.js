@@ -16,6 +16,7 @@ import OrderbookSell from '@/components/OrderbookSell'
 import TaxesContainer from '@/containers/TaxesContainer'
 import ValidatorsContainer from '@/containers/ValidatorsContainer'
 import HistoricalTradesbyAddressContainer from '@/containers/HistoricalTradesbyAddressContainer'
+import Recover from '@/components/Recover'
 
 import {store} from '../store'
 
@@ -96,6 +97,10 @@ export const router = new Router({
       path: '/HistoricalTrades',
       name: 'Historical Trades',
       component: HistoricalTradesContainer
+    },  {
+      path: '/Recover',
+      name: 'Recover',
+      component: Recover
     },
     {
       path: '/HistoricalTradesbyAddress',
