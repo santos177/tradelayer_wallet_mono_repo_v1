@@ -23,10 +23,10 @@
            </router-link>
          </div>
          <div class="md-layout-item">
-           <router-link to="/Login">
+           <div @click="clearDecryptedWallet">
              <md-icon class="md-left">exit_to_app</md-icon>
              <md-tooltip md-direction="bottom">Logout</md-tooltip>
-           </router-link>
+           </div>
          </div>
          <label>{{this.walletCountDisplay}}</label>
        </div>
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
@@ -126,7 +126,11 @@ export default {
     ...mapGetters('user', ['walletBlobGetter']),
     ...mapGetters('wallet', ['walletCountDisplay']),
     ...mapGetters('contracts', ['equityGetter'])
+  },
+  methods: {
+    ...mapMutations('wallet', ['clearDecryptedWallet'])
   }
+
 }
 </script>
 

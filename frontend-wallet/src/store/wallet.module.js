@@ -57,6 +57,10 @@ const state = {
      },
       decryptWallet(state, password){
         decryptWalletExtracted(state, password)
+      },
+      clearDecryptedWallet(state){
+        state.walletDec = []
+        window.localStorage.setItem('walletDec', JSON.stringify([]))
       }
   }
 
