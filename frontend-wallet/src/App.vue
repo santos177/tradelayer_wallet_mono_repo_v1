@@ -28,7 +28,7 @@
              <md-tooltip md-direction="bottom">Logout</md-tooltip>
            </router-link>
          </div>
-         <label> Please WRITE DOWN your Wallet ID. {{this.walletBlobGetter['uuid']}}</label>
+         <label>{{this.walletCountDisplay}}</label>
        </div>
 
        <div class="md-toolbar-section-end">
@@ -123,7 +123,7 @@ export default {
     showNavigation: false
   }),
   computed: {
-    ...mapGetters('user', ['walletBlobGetter']),
+    ...mapGetters('user', ['walletBlobGetter', 'walletCountDisplay']),
     ...mapGetters('contracts', ['equityGetter'])
   }
 }

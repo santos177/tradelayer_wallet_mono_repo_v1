@@ -31,6 +31,19 @@ const state = {
 }
 
 const getters = {
+
+  walletCountDisplay (state){
+    const count = state.walletEnc.length
+    switch (count) {
+      case 0:
+        return "no addresses"
+      case 1:
+        return "1 adddress"
+      default:
+        return `${count} adresses`
+    }
+  },
+
   walletBlobGetter (state) {
     return state.walletBlob
   },
