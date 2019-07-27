@@ -5,6 +5,7 @@ var bip38 = require('bip38')
 // var bip32 = require('bip32-utils')
 const bip32 = require('bip32')
 const bitcoin = require('bitcoinjs-lib')
+const Cryptr = require('cryptr');
 
 const litecore= require('litecore-lib')
 
@@ -43,18 +44,24 @@ const wifToPubKey = (wifKey) =>{
   return  privateKey.toAddress().toString();
 }
 
+// bip38's encrypt/decrypt is incredibly slow, swapping for Cryptr for now:
 const encryptKey = (wifKey, password)=>{
-  const decoded = wif.decode(wifKey)
-  
-  return bip38.encrypt(decoded.privateKey, decoded.compressed, password)
+  // const decoded = wif.decode(wifKey)
+  // return bip38.encrypt(decoded.privateKey, decoded.compressed, password)
+  const cryptr = new Cryptr(password);
+
+  return cryptr.encrypt(wifKey);
 }
 const decryptKey = (encryptedKey, password)=>{
   
-  var decryptedKey = bip38.decrypt(encryptedKey, password,  (status)=> {
-    console.log(status.percent) // will print the percent every time current increases by 1000
-  })
-  return wif.encode(0xb0, decryptedKey.privateKey, decryptedKey.compressed)
-  
+  // var decryptedKey = bip38.decrypt(encryptedKey, password,  (status)=> {
+  //   console.log(status.percent) // will print the percent every time current increases by 1000
+  // })
+  // return wif.encode(0xb0, decryptedKey.privateKey, decryptedKey.compressed)
+  const cryptr = new Cryptr(password);
+ 
+  return cryptr.decrypt(encryptedKey);
+
 } 
 
 
@@ -76,6 +83,9 @@ const signTxn = (txn, wifKey)=>{
   return txn.sign(wifKey)
 
 }
+
+
+
 
 module.exports  =  {
   wifToPubKey, encryptKey, decryptKey, generateKeyPair
