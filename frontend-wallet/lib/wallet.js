@@ -57,6 +57,26 @@ const decryptKey = (encryptedKey, password)=>{
   
 } 
 
+
+const createTxn = (utxo, to, sats)=>{
+  return new litecore.Transaction() 
+  .from(utxo)   
+  .to(to, sats)
+}
+
+const createOpReturnTxn = (utxo, opReturn, sats) =>{ 
+  return new litecore.Transaction()  
+  .from(utxo)
+  .addData(opReturn)  
+}
+
+
+const signTxn = (txn, wifKey)=>{
+  const privateKey = new litecore.PrivateKey(wifKey);
+  return txn.sign(wifKey)
+
+}
+
 module.exports  =  {
   wifToPubKey, encryptKey, decryptKey, generateKeyPair
 }
