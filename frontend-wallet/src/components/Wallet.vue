@@ -1,13 +1,15 @@
 <template>
   <div>
   
-    <h3>wallet</h3>
+    <h3>addresses</h3>
     <div v-bind:key="item.publicAddress" v-for="(item, index) in walletDec">
       <div v-if="currentAddressIndex == index"> <b> {{ item.publicAddress }} </b> </div>
       <div v-on:click='setCurrentAddressIndex(index)' v-else> {{ item.publicAddress }} </div>
     </div>
     <br/>
+
     <div id='txn-container'>
+      <h3>txn</h3>
       <form @submit.prevent='handleSubmit' >
         <div class='form-group'>
           <div> From: {{walletDec[currentAddressIndex].publicAddress}} </div>
