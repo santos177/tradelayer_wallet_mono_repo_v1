@@ -5,7 +5,9 @@ const localWalletDec = window.localStorage.getItem('walletDec')
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
     walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],
-    currentAddressIndex: 0
+    currentAddressIndex: 0,
+    toAddress: "",
+    sats: 0
   }
 
 // reusable helpers
@@ -69,6 +71,9 @@ const state = {
       },
       setCurrentAddressIndex(state, index){
         state.currentAddressIndex = index
+      },
+      setTxnState(state, {key, value}){
+        state[key] = value
       }
   }
 

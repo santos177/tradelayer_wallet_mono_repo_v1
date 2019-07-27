@@ -13,12 +13,12 @@
           <div> From: {{walletDec[currentAddressIndex].publicAddress}} </div>
         </div>
         <div class='form-group'>
-          <label for='to'>to </label>
-          <input type='text' placeholder='address' name='to' />
+          <label for='toAddress'>to </label>
+          <input :value="toAddress" @input="txnFormUpdate" type='text' placeholder='address' name='toAddress' />
         </div>
         <div class='form-group'>
           <label>sats</label>
-          <input type='number' name='sats' />
+          <input :value="sats" @input="txnFormUpdate"  type='number' name='sats' />
         </div>
          <div class='form-group'>
            <select>
@@ -44,12 +44,19 @@ export default {
     showDialog: true
   }),
   computed: {
-    ...mapState("wallet", ["walletDec", "currentAddressIndex"])
+    ...mapState("wallet", [
+      "walletDec",
+      "currentAddressIndex",
+      "toAddress",
+      "sats"
+    ])
   },
   methods: {
-    ...mapMutations("wallet", ["setCurrentAddressIndex"]),
-    handleSubmit(){
-      
+    ...mapMutations("wallet", ["setCurrentAddressIndex", "setTxnState"]),
+    handleSubmit() {},
+    txnFormUpdate(e) {
+      const { name, value } = e.target;
+      this.setTxnState({ key: name, value });
     }
   }
 };
