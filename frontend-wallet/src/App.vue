@@ -27,7 +27,7 @@
            </router-link>
          </div>
          <div v-show="isLoggedIn" class="md-layout-item">
-           <div @click="clearDecryptedWallet">
+           <div @click="logout">
              <md-icon class="md-left">exit_to_app</md-icon>
              <md-tooltip md-direction="bottom">Logout</md-tooltip>
            </div>
@@ -141,7 +141,12 @@ export default {
     ...mapGetters('contracts', ['equityGetter'])
   },
   methods: {
-    ...mapMutations('wallet', ['clearDecryptedWallet'])
+    ...mapMutations('wallet', ['clearDecryptedWallet']),
+    logout(){
+      this.clearDecryptedWallet();
+      this.$router.push('/')
+
+    }
   }
 
 }

@@ -58,7 +58,8 @@ export default {
       const { password, decryptWallet } = this
       
       if (password) {
-        decryptWallet(password)
+        decryptWallet(password);
+        this.$router.push('/Summary')
       }
     }
   }

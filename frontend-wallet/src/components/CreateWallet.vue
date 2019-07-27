@@ -83,6 +83,7 @@ export default {
       if (!this.loginError) {
         console.log('should be doing stuff in create wallet')
         this.addKeyPair(password)
+        this.$router.push('/Summary')
       }
     },
     validEmail: function (email) {

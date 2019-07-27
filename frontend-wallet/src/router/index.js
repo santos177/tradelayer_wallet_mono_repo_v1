@@ -115,19 +115,24 @@ export const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  
+  const {walletEnc, walletDec} = store.state.wallet
+  const walletEncPresent = walletEnc.length > 0;
+  const walletDecPresent = walletDec.length > 0;
+  // root to summary if logged in
+  if(to.path=='/' && walletDecPresent){
+    return next('/Summary')
+  }
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/']
+  const publicPages = ['/', 'CreateWallet']
   // console.log('to path', to.path)
   if (publicPages.includes(to.path)){
     return next()
   } 
-  const {walletEnc, walletDec} = store.state.wallet
-  const walletEncPresent = walletEnc.length > 0;
-  const walletDecPresent = walletDec.length > 0;
   console.log(from)
-  // if (!walletEncPresent && to.name !=='/'){
-  //   return next('/')
-  // } 
+  if (!walletDecPresent){
+    return next('/')
+  } 
 
 
   next()
