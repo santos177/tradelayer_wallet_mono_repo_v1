@@ -94,7 +94,7 @@
       </div>
       </md-toolbar>
 
-        <md-drawer class="md-left" :md-active.sync="showWallet">
+        <md-drawer id= 'wallet-container' class="md-left" :md-active.sync="showWallet">
 
         <Wallet/>
       </md-drawer>
@@ -210,6 +210,9 @@ export default {
   .page-container {
    position: relative;
    border: 20px solid rgba(#000, .12);
+ }
+ #wallet-container{
+  width: 350px;
  }
 </style>
 
