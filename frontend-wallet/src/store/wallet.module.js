@@ -5,13 +5,17 @@ const localWalletDec = window.localStorage.getItem('walletDec')
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
     walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],
-    currentWalletIndex: 0
+    currentAddressIndex: 0
   }
 
 // reusable helpers
   const decryptWalletExtracted = (state, password) =>{
     const walletDec = state.walletEnc.map((encryptedKey)=>{
-      return decryptKey(encryptedKey, password)
+      const wifKey = decryptKey(encryptedKey, password)
+      return {
+        wifKey,
+        publicAddress: wifToPubKey(wifKey)
+      }
     })
     state.walletDec = walletDec;
     window.localStorage.setItem('walletDec', JSON.stringify(walletDec));
@@ -62,6 +66,9 @@ const state = {
       clearDecryptedWallet(state){
         state.walletDec = []
         window.localStorage.setItem('walletDec', JSON.stringify([]))
+      },
+      setCurrentAddressIndex(state, index){
+        state.currentAddressIndex = index
       }
   }
 
@@ -85,7 +92,7 @@ const state = {
       }
     
   }
-  
+
   export const wallet = {
     namespaced: true,
     state,

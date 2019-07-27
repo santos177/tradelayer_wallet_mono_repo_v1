@@ -40,7 +40,7 @@ const generateKeyPair = ()=> {
 const wifToPubKey = (wifKey) =>{
   const privateKey = new litecore.PrivateKey(wifKey);
 
-  return  privateKey.toAddress();
+  return  privateKey.toAddress().toString();
 }
 
 const encryptKey = (wifKey, password)=>{
