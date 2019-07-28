@@ -1,18 +1,12 @@
 const {randomBytes} = require('crypto')
 const secp256k1 = require('secp256k1')
 const bs58 = require('bs58')
-var bip38 = require('bip38')
-// var bip32 = require('bip32-utils')
-const bip32 = require('bip32')
 const bitcoin = require('bitcoinjs-lib')
 const Cryptr = require('cryptr');
 
 const litecore= require('litecore-lib')
 
 
-var bip38 = require('bip38')
-var bip39 = require('bip39')
-var wif = require('wif')
 
 
 
