@@ -7,13 +7,13 @@
       <Password v-model='password' name='password' :strength-meter-only='true' :secureLength=7 />
       <div v-show='submitted && !password' class='invalid-feedback'>Password is required</div>
     </div>
-    <div class='form-group'>
+    <div v-show="!hasEncryptedKeys" class='form-group'>
       <label htmlFor='password2'>Verify Password</label>
       <input type='password' v-model='password2' name='password2' class='form-control animated jello delay-2s' />
       <div v-show='submitted && !password2' class='invalid-feedback'>Password verification is required</div>
     </div>
     <div class='form-group'>
-      <md-button @click="handleSubmit" class='md-raised md-accent animated rubberBand delay-4s'>Create</md-button>
+      <md-button @click="handleSubmit" class='md-raised md-accent animated rubberBand delay-4s'>{{hasEncryptedKeys ? "Add Wallet" : "Create"}}</md-button>
     </div>
   
     <p v-if="loginError">
@@ -33,7 +33,8 @@
   import {
     mapState,
     mapActions,
-    mapMutations
+    mapMutations,
+    mapGetters
   } from 'vuex'
   
   export default {
@@ -51,7 +52,8 @@
       }
     },
     computed: {
-      ...mapState('user', ['nonce', 'walletBlob', 'publicKey', 'encryptedWallet'])
+      ...mapState('user', ['nonce', 'walletBlob', 'publicKey', 'encryptedWallet']),
+      ...mapGetters('wallet',  ['hasEncryptedKeys'])
     },
     created() {
       // reset login status
@@ -73,7 +75,6 @@
         console.log('💯', score)
       },
       handleSubmit(e) {
-        console.log('fired handleSubmit')
         const {
           password,
           password2
@@ -81,18 +82,37 @@
         this.loginError = false
         this.submitted = true
         this.errors = []
+
+        // adding 
+        if(this.hasEncryptedKeys){
+          if (!password){
+             this.loginError = true
+             this.errors.push('Please enter a password') 
+          } else {
+             this.handleAddKeyPair(password)
   
-        if (!(password && password2)) {
-          this.loginError = true
-          this.errors.push('Please enter a password')
+          }
+
+        } 
+        // creating first
+        else {
+
+          if (!(password && password2)) {
+            this.loginError = true
+            this.errors.push('Please enter a password')
+          }
+          if (password !== password2) {
+            this.loginError = true
+            this.errors.push('Oops, passwords do not match')
+          }
+    
+          if (!this.loginError) {
+            this.handleAddKeyPair(password)
+          }
         }
-        if (password !== password2) {
-          this.loginError = true
-          this.errors.push('Oops, passwords do not match')
-        }
-  
-        if (!this.loginError) {
-          console.log('should be doing stuff in create wallet')
+
+      },
+      handleAddKeyPair(password){
           this.addKeyPair({
             password, 
             next: ()=>{
@@ -103,8 +123,6 @@
             this.errors.push('Incorrect password')
             }
           })
- 
-        }
       },
       validEmail: function(email) {
         // eslint-disable-next-line
