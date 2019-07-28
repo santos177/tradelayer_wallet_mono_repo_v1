@@ -23,8 +23,8 @@
       </ul>
     </p>
     <!-- <div>
-                      <router-link to='/login' class='btn btn-link'>Already have a wallet? Login</router-link>
-                   </div> -->
+                        <router-link to='/login' class='btn btn-link'>Already have a wallet? Login</router-link>
+                     </div> -->
   </form>
 </template>
 
@@ -53,7 +53,7 @@
     },
     computed: {
       ...mapState('user', ['nonce', 'walletBlob', 'publicKey', 'encryptedWallet']),
-      ...mapGetters('wallet',  ['hasEncryptedKeys'])
+      ...mapGetters('wallet', ['hasEncryptedKeys'])
     },
     created() {
       // reset login status
@@ -82,21 +82,22 @@
         this.loginError = false
         this.submitted = true
         this.errors = []
-
+  
         // adding 
-        if(this.hasEncryptedKeys){
-          if (!password){
-             this.loginError = true
-             this.errors.push('Please enter a password') 
+  
+        if (this.hasEncryptedKeys) {
+          if (!password) {
+            this.loginError = true
+            this.errors.push('Please enter a password')
           } else {
-             this.handleAddKeyPair(password)
+            this.handleAddKeyPair(password)
   
           }
-
-        } 
+  
+        }
         // creating first
         else {
-
+  
           if (!(password && password2)) {
             this.loginError = true
             this.errors.push('Please enter a password')
@@ -105,24 +106,24 @@
             this.loginError = true
             this.errors.push('Oops, passwords do not match')
           }
-    
+  
           if (!this.loginError) {
             this.handleAddKeyPair(password)
           }
         }
-
+  
       },
-      handleAddKeyPair(password){
-          this.addKeyPair({
-            password, 
-            next: ()=>{
-              this.$router.push('/Summary')
-            }, 
-            error: ()=>{
-             this.loginError = true
+      handleAddKeyPair(password) {
+        this.addKeyPair({
+          password,
+          next: () => {
+            this.$router.push('/Summary')
+          },
+          error: () => {
+            this.loginError = true
             this.errors.push('Incorrect password')
-            }
-          })
+          }
+        })
       },
       validEmail: function(email) {
         // eslint-disable-next-line
