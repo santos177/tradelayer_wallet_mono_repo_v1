@@ -12,9 +12,6 @@ const state = {
 
 // reusable helpers
   const decryptWalletExtracted = (state, password) =>{
-    
-
-
     const wifKeys  = state.walletEnc.map((encryptedKey)=> decryptKey(encryptedKey, password))
     if (wifKeys.length === 0){
       return true
@@ -33,7 +30,6 @@ const state = {
     }
     
   }
-
   const addKeyPairToState = (state, keyPair, password) => {
     const ecriptedWif = encryptKey(keyPair.wifKey, password)
     const walletEnc = [...state.walletEnc];

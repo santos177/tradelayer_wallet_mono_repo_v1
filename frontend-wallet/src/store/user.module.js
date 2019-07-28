@@ -3,7 +3,6 @@
 // state
 import {userService} from '../services'
 const { CryptUtil } = require('../../lib/cryptUtil')
-
 // console.log('crypt util', CryptUtil)
 // console.log('crypt util', CryptUtil.generateNonceForDifficulty('blah'))
 
@@ -26,7 +25,6 @@ const state = {
 }
 
 const getters = {
-
   walletBlobGetter (state) {
     return state.walletBlob
   },
@@ -155,7 +153,6 @@ const actions = {
 
 // mutations
 const mutations = {
-
   walletBlob (state, walletBlob) {
     state.walletBlob = JSON.parse(walletBlob.toString())
     // console.log('wallelBlob uuid ', state.walletBlob['uuid'])
