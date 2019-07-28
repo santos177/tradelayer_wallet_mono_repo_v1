@@ -53,14 +53,13 @@ const encryptKey = (wifKey, password)=>{
   return cryptr.encrypt(wifKey);
 }
 const decryptKey = (encryptedKey, password)=>{
-  
   // var decryptedKey = bip38.decrypt(encryptedKey, password,  (status)=> {
   //   console.log(status.percent) // will print the percent every time current increases by 1000
   // })
   // return wif.encode(0xb0, decryptedKey.privateKey, decryptedKey.compressed)
   const cryptr = new Cryptr(password);
- 
-  return cryptr.decrypt(encryptedKey);
+  const decrypted = cryptr.decrypt(encryptedKey);
+  return decrypted.length == 52 ? decrypted : false; 
 
 } 
 
@@ -83,7 +82,6 @@ const signTxn = (txn, wifKey)=>{
   return txn.sign(wifKey)
 
 }
-
 
 
 

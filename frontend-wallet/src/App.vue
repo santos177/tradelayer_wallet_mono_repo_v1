@@ -32,6 +32,12 @@
              <md-tooltip md-direction="bottom">Logout</md-tooltip>
            </div>
          </div>
+           <div v-show="isLoggedIn" class="md-layout-item">
+           <div @click="expireCache">
+             <md-icon class="md-left">clear</md-icon>
+             <md-tooltip md-direction="bottom">clear keys</md-tooltip>
+           </div>
+         </div>
          <label>{{this.walletCountDisplay}}</label>
        </div>
 
@@ -141,11 +147,16 @@ export default {
     ...mapGetters('contracts', ['equityGetter'])
   },
   methods: {
-    ...mapMutations('wallet', ['clearDecryptedWallet']),
+    ...mapMutations('wallet', ['clearDecryptedWallet', 'clearKeys']),
     logout(){
       this.clearDecryptedWallet();
       this.$router.push('/')
-
+    },
+    expireCache(){
+      if (confirm("Are you sure you want to clear your keys? If they are not backed up, they will be last.")){
+        this.clearKeys();
+        this.$router.push('/')
+      }
     }
   }
 

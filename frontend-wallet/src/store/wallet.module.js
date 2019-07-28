@@ -12,15 +12,25 @@ const state = {
 
 // reusable helpers
   const decryptWalletExtracted = (state, password) =>{
-    const walletDec = state.walletEnc.map((encryptedKey)=>{
-      const wifKey = decryptKey(encryptedKey, password)
-      return {
-        wifKey,
-        publicAddress: wifToPubKey(wifKey)
-      }
-    })
-    state.walletDec = walletDec;
-    window.localStorage.setItem('walletDec', JSON.stringify(walletDec));
+    
+
+
+    const wifKeys  = state.walletEnc.map((encryptedKey)=> decryptKey(encryptedKey, password))
+    if (wifKeys.length === 0){
+      return true
+    } else if (wifKeys.includes(false)){
+      return false 
+    } else {
+      const walletDec = wifKeys.map((wifKey) => (
+        {
+            wifKey,
+            publicAddress: wifToPubKey(wifKey)
+          } 
+      ))
+      state.walletDec = walletDec;
+      window.localStorage.setItem('walletDec', JSON.stringify(walletDec));
+      return true
+    }
     
   }
 
@@ -35,35 +45,32 @@ const state = {
     state.walletDec = walletDec;
     window.localStorage.setItem('walletEnc', JSON.stringify(walletEnc))
     window.localStorage.setItem('walletDec', JSON.stringify(walletDec))
-    
+    return true
   }
   
   
   const mutations = {
     // creates random wifkey (could be better named)
-    addKeyPair(state, password){
-        // todo: check decription first
-        const keyPair = generateKeyPair()
-        
-        addKeyPairToState(state, keyPair, password)
-      
+    addKeyPair(state, {password, next, error}){
+        if (decryptWalletExtracted(state, password)) {
+         const keyPair = generateKeyPair()
+         addKeyPairToState(state, keyPair, password) 
+         
+         return  next &&  next()
+       }
+      return error && error()
       },
      addKeyPairFromWif(state, {wifKey, password}){
+        if ( (state.walletEnc.length > 0) && !decryptWalletExtracted(state, password)) {
+          return false
+        }
        
-        if(state.walletEnc.length > 0){
-          try {
-            decryptWalletExtracted(state, password)
-          } catch (err){
-            console.warn(err)
-            return  
-          }
-        } 
         // TODO: check if valid wif?
         const publicAddress = wifToPubKey(wifKey)
         addKeyPairToState(state, {wifkey, publicAddress}, password)
      },
       decryptWallet(state, password){
-        decryptWalletExtracted(state, password)
+        return decryptWalletExtracted(state, password)
       },
       clearDecryptedWallet(state){
         state.walletDec = []
@@ -74,6 +81,12 @@ const state = {
       },
       setTxnState(state, {key, value}){
         state[key] = value
+      },
+      clearKeys(state){
+        state.walletEnc = [];
+        state.walletDec = [];
+        window.localStorage.setItem('walletEnc', JSON.stringify([]))
+        window.localStorage.setItem('walletDec', JSON.stringify([]))
       }
   }
 
