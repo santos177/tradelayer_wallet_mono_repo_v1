@@ -124,7 +124,7 @@ router.beforeEach((to, from, next) => {
     return next('/Summary')
   }
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/', '/CreateWallet']
+  const publicPages = ['/', '/CreateWallet', '/Recover']
   // console.log('to path', to.path)
   if (publicPages.includes(to.path)){
     return next()
