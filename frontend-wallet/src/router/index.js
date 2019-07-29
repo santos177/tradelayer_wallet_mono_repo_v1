@@ -16,6 +16,7 @@ import OrderbookSell from '@/components/OrderbookSell'
 import TaxesContainer from '@/containers/TaxesContainer'
 import ValidatorsContainer from '@/containers/ValidatorsContainer'
 import HistoricalTradesbyAddressContainer from '@/containers/HistoricalTradesbyAddressContainer'
+import Recover from '@/components/Recover'
 
 import {store} from '../store'
 
@@ -96,6 +97,10 @@ export const router = new Router({
       path: '/HistoricalTrades',
       name: 'Historical Trades',
       component: HistoricalTradesContainer
+    },  {
+      path: '/Recover',
+      name: 'Recover',
+      component: Recover
     },
     {
       path: '/HistoricalTradesbyAddress',
@@ -110,18 +115,25 @@ export const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/CreateWallet', '/']
-  // console.log('to path', to.path)
-  const authRequired = !publicPages.includes(to.path, 0)
-  const loggedIn = store.getters['auth/loggedin']
-
-  // console.log('we are in before each')
-  // console.log('auth required', authRequired)
-
-  if (authRequired && !loggedIn) {
-    return next('/')
+  
+  const {walletEnc, walletDec} = store.state.wallet
+  const walletEncPresent = walletEnc.length > 0;
+  const walletDecPresent = walletDec.length > 0;
+  // root to summary if logged in
+  if(to.path=='/' && walletDecPresent){
+    return next('/Summary')
   }
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/', '/CreateWallet', '/Recover']
+  // console.log('to path', to.path)
+  if (publicPages.includes(to.path)){
+    return next()
+  } 
+  console.log(from)
+  if (!walletDecPresent){
+    return next('/')
+  } 
+
 
   next()
 })

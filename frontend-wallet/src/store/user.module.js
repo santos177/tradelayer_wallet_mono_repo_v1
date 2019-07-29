@@ -31,7 +31,8 @@ const getters = {
   addressGetter (state) {
     // console.log('addressGetter walletBlob ', state.walletBlob)
     var address = ''
-    address = state.walletBlob.addresses[0].replace(/"/g, '')
+    var addresses =state.walletBlob.addresses
+    address = addresses[0] && addresses[0].replace(/"/g, '')
     return address
   }
 }

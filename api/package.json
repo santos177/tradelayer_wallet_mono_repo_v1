@@ -18,7 +18,6 @@
     "async-each": "^1.0.1",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
-    "certbot": "^1.0.0",
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "dgram": "^1.0.1",
