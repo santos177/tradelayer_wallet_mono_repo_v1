@@ -53,6 +53,7 @@
     },
     computed: {
       ...mapState('user', ['nonce', 'walletBlob', 'publicKey', 'encryptedWallet']),
+      ...mapState('wallet', ['walletDec']),
       ...mapGetters('wallet', ['hasEncryptedKeys'])
     },
     created() {
@@ -91,7 +92,7 @@
             this.errors.push('Please enter a password')
           } else {
             this.handleAddKeyPair(password)
-  
+            
           }
   
         }
@@ -118,6 +119,8 @@
           password,
           next: () => {
             this.$router.push('/Summary')
+            alert('Backup your new private key! Press okay when ready:')
+            alert(this.walletDec[this.walletDec.length -1 ].wifKey)
           },
           error: () => {
             this.loginError = true
