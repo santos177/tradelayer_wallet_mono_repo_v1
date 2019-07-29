@@ -153,7 +153,7 @@ export default {
       this.$router.push('/')
     },
     expireCache(){
-      if (confirm("Are you sure you want to clear your keys? If they are not backed up, they will be last.")){
+      if (confirm("Are you sure you want to clear your keys? If they are not backed up, they will be lost.")){
         this.clearKeys();
         this.$router.push('/')
       }
