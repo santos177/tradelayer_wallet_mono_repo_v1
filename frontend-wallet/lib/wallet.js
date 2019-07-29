@@ -9,16 +9,28 @@ const litecore= require('litecore-lib')
 
 
 
+// mainnet
+// const LITECOIN = {
+//   messagePrefix: '\x19Litecoin Signed Message:\n',
+//   bip32: {
+//     public: 0x019da462,
+//     private: 0x019d9cfe
+//   },
+//   pubKeyHash: 0x30,
+//   scriptHash: 0x32,
+//   wif: 0xb0
+// }
 
+// testnet
 const LITECOIN = {
   messagePrefix: '\x19Litecoin Signed Message:\n',
-  bip32: {
-    public: 0x019da462,
-    private: 0x019d9cfe
+  bip32: { 
+    public: 0x043587cf,
+    private: 0x04358394
   },
-  pubKeyHash: 0x30,
-  scriptHash: 0x32,
-  wif: 0xb0
+  pubKeyHash: 0x6f,
+  scriptHash: 0xc4, //  for segwit (start with 2)
+  wif: 0xef
 }
 
 const generateKeyPair = ()=> {
@@ -76,6 +88,7 @@ const signTxn = (txn, wifKey)=>{
   return txn.sign(wifKey)
 
 }
+console.log(generateKeyPair());
 
 
 
