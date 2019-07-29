@@ -94,8 +94,8 @@
             </circle-menu>
           </div>
           <!-- <md-button @click="showNavigation = true">
-                  <md-icon>menu</md-icon>
-                </md-button> -->
+                      <md-icon>menu</md-icon>
+                    </md-button> -->
         </div>
       </div>
     </md-toolbar>
@@ -136,7 +136,7 @@
     mapMutations,
     mapState
   } from 'vuex'
-  import Wallet from './components/wallet'
+  import Wallet from '@/components/Wallet'
   
   export default {
     name: 'App',
