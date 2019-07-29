@@ -88,7 +88,6 @@ const signTxn = (txn, wifKey)=>{
   return txn.sign(wifKey)
 
 }
-console.log(generateKeyPair());
 
 
 
