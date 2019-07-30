@@ -209,4 +209,7 @@ const balanceApi = ({omniClient, ...app}) => {
   return app
 }
 
-module.exports = balanceRouter;
+module.exports = {
+  balanceApi,
+  balanceRouter
+}
