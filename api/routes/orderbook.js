@@ -1,7 +1,3 @@
-var { dbconnect } = require("../dbconnect");
-const config = require("../config");
-var path = config.TLPATH;
-var datadir = config.TLDATADIR;
 const express = require("express");
 const orderbookRouter = express.Router();
 
