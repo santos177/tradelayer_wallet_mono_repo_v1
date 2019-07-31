@@ -39,6 +39,7 @@ Order.belongsTo(Property, { as: "offeredProp" });
 
 
 Property.hasMany(Balance)
+Property.belongsTo(Address, {as: "issuer"})
 // TODO: has many order requests
 // TODO has many offeredProps
 
