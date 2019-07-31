@@ -7,6 +7,16 @@ const express = require('express')
 const balanceRouter = express.Router()
 const {Address, Balance} = require('../models/index.js') 
 
+balanceRouter.get('/', (req, res)=>{
+  let {address, propertyID} = req.query;
+  // TODO: frontend extencts this to be a contractID, but RPC takes as property ID
+  propertyID = +propertyID
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getbalance', address, +propertyID, (err, balance )=>{
+    res.send(balance)
+  })
+})
+
 balanceRouter.get('/tl_getTX/',  (req, res)=> {
   const txnId = req.query.txnId;
   req.omniClient.getTransaction(txnId, (data, err)=>{
