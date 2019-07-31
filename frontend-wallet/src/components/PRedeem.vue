@@ -45,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', ['addressGetter']),
+    ...mapGetters('wallet', ['addressGetter']),
     ...mapGetters('contracts', ['selectedContract'])
   },
   created () {

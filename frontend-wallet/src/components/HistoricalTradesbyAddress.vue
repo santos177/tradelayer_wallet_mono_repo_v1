@@ -41,7 +41,7 @@ export default {
     ...mapState('orderbook', ['recent']),
     ...mapGetters('contracts', ['transactionsGetter', 'selectedContractGetter']),
     ...mapGetters('orderbook', ['recentByAddressGetter']),
-    ...mapGetters('user', ['addressGetter'])
+    ...mapGetters('wallet', ['addressGetter'])
   },
   mounted () {
     this.handleTrades()

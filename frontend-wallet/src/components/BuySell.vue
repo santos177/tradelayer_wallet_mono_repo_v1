@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
     ...mapState('user', ['walletBlob']),
-    ...mapGetters('user', ['addressGetter'])
+    ...mapGetters('wallet', ['addressGetter'])
   },
   validations: {
     form: {
