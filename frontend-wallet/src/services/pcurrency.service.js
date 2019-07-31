@@ -52,7 +52,7 @@ function maxPeggedCurrency (fromAddress, contractID) {
 function getBalancePegged (address, contractID) {
   //
   // console.log('this is the address we are passing it ', address)
-  return axiosInstance.get('/getBalancePegged', {
+  return axiosInstance.get('/balances', {
     params: {
       'address': address,
       'contractID': contractID }
