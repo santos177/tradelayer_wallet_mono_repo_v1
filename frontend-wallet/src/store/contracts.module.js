@@ -93,7 +93,7 @@ const actions = {
   },
   buyContracts ({dispatch, commit, rootState, rootGetters}, data) {
     return new Promise((resolve, reject) => {
-      contractsService.postBuyContracts(data.quantity, data.price, rootState.contracts.selectedContract, rootGetters['user/addressGetter'], data.leverage)
+      contractsService.postBuyContracts(data.quantity, data.price, rootState.contracts.selectedContract, rootGetters['wallet/addressGetter'], data.leverage)
         .then(result => {
           commit('lastTXID', result.data.trxid)
           // console.log('the trxid is from buy contracts is', result.data.trxid)
@@ -108,7 +108,7 @@ const actions = {
   },
   sellContracts ({dispatch, commit, rootState, rootGetters}, data) {
     return new Promise((resolve, reject) => {
-      contractsService.postSellContracts(data.quantity, data.price, rootState.contracts.selectedContract, rootGetters['user/addressGetter'], data.leverage)
+      contractsService.postSellContracts(data.quantity, data.price, rootState.contracts.selectedContract, rootGetters['wallet/addressGetter'], data.leverage)
         .then(result => {
           commit('lastTXID', result.data.trxid)
           // console.log('result of post Sell Contracts is ', result)
@@ -121,7 +121,7 @@ const actions = {
     })
   },
   postCancelTrades ({ dispatch, commit, rootState, rootGetters }) {
-    contractsService.postCancelTrades(rootState.contracts.selectedContract, rootGetters['user/addressGetter'])
+    contractsService.postCancelTrades(rootState.contracts.selectedContract, rootGetters['wallet/addressGetter'])
       .then((result) => {
         return 'successfully canceled'
       })
