@@ -15,7 +15,8 @@ const config = {
   SALT_ROUNDS: process.env.SALT_ROUNDS,
   TLPATH: process.env.TLPATH,
   TLDATADIR: process.env.TLDATADIR,
-  LOGGER: process.env.LOGGER
+  LOGGER: process.env.LOGGER,
+  TLPORT: process.env.TLPORT
 
 }
 

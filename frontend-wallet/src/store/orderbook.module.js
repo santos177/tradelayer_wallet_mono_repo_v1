@@ -27,7 +27,7 @@ const getters = {
 
 const actions = {
   getOrderBook ({dispatch, commit, rootState, rootGetters}, data) {
-    dispatch('contracts/getEquity', {address: rootGetters['user/addressGetter'], contractID: rootState.contracts.selectedContract, contractIDALL: '4'}, { root: true })
+    dispatch('contracts/getEquity', {address: rootGetters['wallet/addressGetter'], contractID: rootState.contracts.selectedContract, contractIDALL: '4'}, { root: true })
     orderbookService.getOrderBook(rootState.contracts.selectedContract)
       .then((result) => {
         // console.log('this is the buy book , ', result.data[1])

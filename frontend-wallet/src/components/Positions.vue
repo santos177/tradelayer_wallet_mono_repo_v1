@@ -28,10 +28,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', ['walletBlobGetter', 'addressGetter']),
+    ...mapGetters('user', ['walletBlobGetter']),
     ...mapGetters('contracts', ['fullPositionsGetter', 'selectedContractGetter']),
     ...mapState('contracts', ['fullPositions', 'selectedContract']),
-    ...mapState('user', ['walletBlob'])
+    ...mapState('user', ['walletBlob']),
+    ...mapGetters('wallet', ['addressGetter'])
   },
   created () {
     this.handleGetPositions()
@@ -53,7 +54,7 @@ export default {
         data = {
           account: this.addressGetter,
           contractID: this.selectedContract}
-        // console.log('data in full positions', data)
+        console.warn('data in full positions', data)
         this.getFullPositions(data)
       }, 2000)
       // }

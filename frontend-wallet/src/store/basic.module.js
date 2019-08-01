@@ -33,7 +33,7 @@ const mutations = {
   getBalances (state) {
     axios
       // get all Pegged Balances
-      .get(`${config.API_URL}/getBalancePegged`,
+      .get(`${config.API_URL}/balances`,
         { heders: {
           'Content-type': 'application/json'
         },

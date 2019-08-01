@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', ['addressGetter'])
+    ...mapGetters('wallet', ['addressGetter'])
   },
   created () {
     this.getBalancePegged({'address': this.addressGetter, 'contractID': 6})

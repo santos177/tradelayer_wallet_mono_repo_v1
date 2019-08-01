@@ -56,7 +56,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', ['addressGetter'])
+    ...mapGetters('wallet', ['addressGetter'])
   },
   methods: {
     ...mapActions('pcurrency', ['getBalancePegged'])

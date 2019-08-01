@@ -14,7 +14,7 @@ export const orderbookService = {
 function getOrderBook (contractID) {
   // in account post Login
   // console.log('this is the contractID we are passing to orderbook rest call ', contractID)
-  return axiosInstance.post('/getOrderBook', {'contractID': contractID})
+  return axiosInstance.get('/orderbooks', {'contractID': contractID})
 }
 
 function getRecentTrades (contractID) {

@@ -18,7 +18,7 @@ const actions = {
     return pcurrencyService.getBalanceALL(data.address, data.contractID)
   },
   createPegCurrencies ({ dispatch, commit, rootState, rootGetters }, data) {
-    pcurrencyService.createPegCurrency(data.name, data.quantity, rootGetters['user/addressGetter'], data.contractID)
+    pcurrencyService.createPegCurrency(data.name, data.quantity, rootGetters['wallet/addressGetter'], data.contractID)
       .then((result) => {
         // If exits ...
         // console.log('created pegged currency result ', result)

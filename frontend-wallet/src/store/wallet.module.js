@@ -103,6 +103,9 @@ const state = {
       },
       isLoggedIn(state){
         return state.walletDec.length > 0;
+      },
+      addressGetter(state){
+        return state.walletDec[state.currentAddressIndex].publicAddress
       }
     
   }
