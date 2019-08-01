@@ -41,6 +41,7 @@
 <script>
 import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
 import { createTxn, signTxn } from "../../lib/wallet.js";
+import { walletService } from "../services";
 export default {
   name: "Wallet",
   data: () => ({
@@ -63,13 +64,15 @@ export default {
     ...mapMutations("wallet", ["setTxnState"]),
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
     handleSubmit() {
+      if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
       let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
 
       let { publicAddress, wifKey } = walletDec[currentAddressIndex];
 
       const txn = createTxn(utxoArray, toAddress, +sats, publicAddress);
-
-      const signedTxn = signTxn(txn, wifKey);
+      const signedTxn = signTxn(txn, wifKey).serialize()
+        
+      })
     },
     txnFormUpdate(e) {
       const { name, value } = e.target;

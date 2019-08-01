@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {axiosInstance} from '../api/api'
 const network = process.env.NODE_ENV === "development" ? "ltctest" : "ltc";
 
 const getUTXOs = (address, next) => {
@@ -22,6 +22,11 @@ const mapToTxnFormat = (txn)=>{
     time: txn.time
   }
 }
+
+const sendRawTxn = (rawTxn)=> {
+  return axiosInstance.post('/txn', {rawTxn})
+}
+
 export const walletService = {
-  getUTXOs
+  getUTXOs, sendRawTxn
 };
