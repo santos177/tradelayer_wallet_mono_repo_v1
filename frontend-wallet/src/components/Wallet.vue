@@ -39,7 +39,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
-
+import {createTxn, signTxn} from '../../lib/wallet.js'
 export default {
   name: "Wallet",
   data: () => ({
@@ -50,13 +50,25 @@ export default {
       "walletDec",
       "currentAddressIndex",
       "toAddress",
-      "sats"
-    ])
+      "sats",
+      "utxoArray"
+    ]),
+    ...mapGetters("wallet",["addressGetter"])
   },
   methods: {
     ...mapMutations("wallet", ["setTxnState"]),
     ...mapActions("wallet", ['setCurrentAddress']),
-    handleSubmit() {},
+    handleSubmit() {
+      let {utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
+      
+      let {publicAddress, wifKey}= walletDec[currentAddressIndex] 
+    
+      const txn = createTxn(utxoArray, toAddress, +sats, publicAddress)
+      
+      const signedTxn = signTxn(txn, wifKey)
+   
+
+    },
     txnFormUpdate(e) {
       const { name, value } = e.target;
       this.setTxnState({ key: name, value });
