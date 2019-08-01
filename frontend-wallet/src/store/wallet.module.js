@@ -128,6 +128,9 @@ const state = {
       addressGetter(state){
         const addressObj =  state.walletDec[state.currentAddressIndex]
         return addressObj ? addressObj.publicAddress : ""
+      },
+      currentAddressLTCBalance(state){
+        return state.utxoArray.reduce((acc, curr)=> {return acc+ +curr.satoshis}, 0 )
       }
     
   }

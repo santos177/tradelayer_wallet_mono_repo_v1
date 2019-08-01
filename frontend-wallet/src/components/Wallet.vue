@@ -7,7 +7,7 @@
       <div v-on:click='setCurrentAddress(index)' v-else> {{ item.publicAddress }} </div>
     </div>
     <br/>
-
+    <div>balance {{currentAddressLTCBalance}} </div>
     <div id='txn-container'>
       <h3>txn</h3>
       <form @submit.prevent='handleSubmit' >
@@ -53,7 +53,7 @@ export default {
       "sats",
       "utxoArray"
     ]),
-    ...mapGetters("wallet",["addressGetter"])
+    ...mapGetters("wallet",["addressGetter", "currentAddressLTCBalance"])
   },
   methods: {
     ...mapMutations("wallet", ["setTxnState"]),
