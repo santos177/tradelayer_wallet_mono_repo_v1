@@ -54,6 +54,13 @@ const state = {
         commit('setUTXOArray', utxoArray)
         commit('setCurrentAddressIndex', index)
       })
+    },
+    updateCurrentUTXOs({dispatch, state}){
+      // run this in a setInterval
+      const {walletDec, currentAddressIndex} = state
+      if (walletDec[currentAddressIndex]){
+        dispatch('setCurrentAddress', currentAddressIndex)
+      }
     }
   }
   const mutations = {
