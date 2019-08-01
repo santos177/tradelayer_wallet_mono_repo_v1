@@ -71,7 +71,9 @@ export default {
 
       const txn = createTxn(utxoArray, toAddress, +sats, publicAddress);
       const signedTxn = signTxn(txn, wifKey).serialize()
-        
+      
+      walletService.sendRawTxn(signedTxn).then((data)=>{
+        console.log(data);
       })
     },
     txnFormUpdate(e) {
