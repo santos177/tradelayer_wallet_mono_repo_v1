@@ -4,9 +4,13 @@ const orderbookRouter = express.Router();
 orderbookRouter.get("/", (req, res) => {
   const { omniClient } = req;
   let { contractID, propertyID } = req.query;
-	contractID = +contractID;
+	contractID = contractID ?   +contractID : contractID
 	// of note: the TL api needs the prop_id to be a Number, but doesn't care about the contractID
-	propertyID = +propertyID;
+  propertyID = propertyID ? + propertyID : propertyID
+  if (!propertyID && !contractID){
+    console.warn('NO PARAM DATA');
+    return res.send("error")
+  }
   if (propertyID !== undefined) {
     omniClient.cmd("tl_getorderbook", +propertyID, (err, result) => {
       if (err) console.warn(err);
