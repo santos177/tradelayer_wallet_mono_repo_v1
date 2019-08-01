@@ -1,13 +1,14 @@
 const {   wifToPubKey, encryptKey, decryptKey, generateKeyPair} = require('../../lib/wallet')
 const localWalletEnc =  window.localStorage.getItem('walletEnc') 
 const localWalletDec = window.localStorage.getItem('walletDec')
-
+import {walletService} from '../services'
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
     walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],
     currentAddressIndex: 0,
     toAddress: "",
-    sats: 0
+    sats: 0,
+    utxoArray: []
   }
 
 // reusable helpers
@@ -44,7 +45,17 @@ const state = {
     return true
   }
   
-  
+  const actions = {
+    // todo: call after new address is added
+    setCurrentAddress({commit, state}, index){
+      const newAddress = state.walletDec[index].publicAddress;
+     
+      walletService.getUTXOs(newAddress, (utxoArray)=>{
+        commit('setUTXOArray', utxoArray)
+        commit('setCurrentAddressIndex', index)
+      })
+    }
+  }
   const mutations = {
     // creates random wifkey (could be better named)
     addKeyPair(state, {password, next, error}){
@@ -63,7 +74,7 @@ const state = {
        
         // TODO: check if valid wif?
         const publicAddress = wifToPubKey(wifKey)
-        addKeyPairToState(state, {wifkey, publicAddress}, password)
+        addKeyPairToState(state, {wifKey, publicAddress}, password)
      },
       decryptWallet(state, password){
         return decryptWalletExtracted(state, password)
@@ -74,6 +85,9 @@ const state = {
       },
       setCurrentAddressIndex(state, index){
         state.currentAddressIndex = index
+      },
+      setUTXOArray(state, utxoArray){
+        state.utxoArray = utxoArray
       },
       setTxnState(state, {key, value}){
         state[key] = value
@@ -105,7 +119,8 @@ const state = {
         return state.walletDec.length > 0;
       },
       addressGetter(state){
-        return state.walletDec[state.currentAddressIndex].publicAddress
+        const addressObj =  state.walletDec[state.currentAddressIndex]
+        return addressObj ? addressObj.publicAddress : ""
       }
     
   }
@@ -114,6 +129,7 @@ const state = {
     namespaced: true,
     state,
     mutations,
-    getters
+    getters,
+    actions
   }
   

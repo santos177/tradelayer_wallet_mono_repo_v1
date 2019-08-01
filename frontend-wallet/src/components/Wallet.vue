@@ -4,7 +4,7 @@
     <h3>addresses</h3>
     <div v-bind:key="item.publicAddress" v-for="(item, index) in walletDec">
       <div v-if="currentAddressIndex == index"> <b> {{ item.publicAddress }} </b> </div>
-      <div v-on:click='setCurrentAddressIndex(index)' v-else> {{ item.publicAddress }} </div>
+      <div v-on:click='setCurrentAddress(index)' v-else> {{ item.publicAddress }} </div>
     </div>
     <br/>
 
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
 
 export default {
   name: "Wallet",
@@ -54,7 +54,8 @@ export default {
     ])
   },
   methods: {
-    ...mapMutations("wallet", ["setCurrentAddressIndex", "setTxnState"]),
+    ...mapMutations("wallet", ["setTxnState"]),
+    ...mapActions("wallet", ['setCurrentAddress']),
     handleSubmit() {},
     txnFormUpdate(e) {
       const { name, value } = e.target;
