@@ -77,10 +77,12 @@ const createTxn = (utxo, to, sats, change)=>{
   .change(change)
 }
 
-const createOpReturnTxn = (utxo, opReturn, sats) =>{ 
-  return new litecore.Transaction()  
-  .from(utxo)
-  .addData(opReturn)
+const createOpReturnTxn =(utxo, to, sats, change, data) =>{ 
+  return new litecore.Transaction() 
+  .from(utxo)   
+  .to(to, sats)
+  .addData(data)
+  .change(change)
 }
 
 
@@ -93,5 +95,5 @@ const signTxn = (txn, wifKey)=>{
 
 
 module.exports  =  {
-  wifToPubKey, encryptKey, decryptKey, generateKeyPair,createTxn, signTxn
+  wifToPubKey, encryptKey, decryptKey, generateKeyPair,createTxn, signTxn, createOpReturnTxn
 }
