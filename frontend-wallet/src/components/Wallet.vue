@@ -47,9 +47,6 @@ export default {
   data: () => ({
     showDialog: true
   }),
-  mounted() {
-    console.warn("XXXXXXXXXXwalletdec", walletDec);
-  },
   computed: {
     ...mapState("wallet", [
       "walletDec",
