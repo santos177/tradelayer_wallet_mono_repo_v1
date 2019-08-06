@@ -139,17 +139,12 @@ const actions = {
     var orderbook = rootState.orderbook.recentbyaddress
     // var orderbookSell = rootState.orderbook.sellFull
 
-    console.log('this is the orderbook ', orderbook)
     // if maker_txid or taker_txid is = pendingTXID, then it is no longer pending,
     // then remove pendingtrade and pendingtxid
 
-    console.log('we are in pending by address with pendingTXIDs ', state.pendingTXIDs)
     // for each transaction, filter to see if transactions match any activebuysbyaddress
     for (var i = 0; i < state.pendingTXIDs.length; i++) {
-      console.log('this is pendingtxids length', state.pendingTXIDs.length)
-      console.log('this is where we are in pending txids i ', i)
       var matchedTransactionsBuy1 = state.activebuysbyaddress.filter((trade) => {
-        console.log('this is what the trade looks like in pending ', trade)
         return (
           trade.txid === state.pendingTXIDs[i] ||
           trade.txid === state.pendingTXIDs[i])
@@ -160,8 +155,6 @@ const actions = {
           trade.maker_txid === state.pendingTXIDs[i] ||
           trade.taker_txid === state.pendingTXIDs[i])
       })
-      console.log('matchedTransactionsBuy ', matchedTransactionsBuy1)
-      console.log('mtchedBuy2', matchedTransactionsBuy2)
       // for each transaction, filter to see if transactions match any activesellsbyaddress
       var matchedTransactionsSell1 = state.activesellsbyaddress.filter((trade) => {
         return (trade.txid === state.pendingTXIDs[i] ||
@@ -173,8 +166,6 @@ const actions = {
           trade.maker_txid === state.pendingTXIDs[i] ||
           trade.taker_txid === state.pendingTXIDs[i])
       })
-      console.log('matchedTransactionsSell ', matchedTransactionsSell1)
-      console.log('matchedTransactionsSell2 ', matchedTransactionsSell2)
       // if no match, it is pending, create JSON object array containing trade info
       if (!matchedTransactionsBuy1.length && !matchedTransactionsBuy2.length && !matchedTransactionsSell1.length && !matchedTransactionsSell2.length) {
         // it just stays in pending tx array
@@ -182,7 +173,8 @@ const actions = {
         var tradeToAdd = {
           txid: state.pendingTXIDs[i]
         }
-
+        console.log('adding trade:', tradeToAdd);
+        
         commit('addPendingTransaction', tradeToAdd)
       } else {
         // if match, it is not pending, so remove from pendingtxids
