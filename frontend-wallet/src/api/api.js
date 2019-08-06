@@ -9,7 +9,13 @@ export const axiosInstance = axios.create({
     'X-Requested-With': 'XMLHttpRequest'
   },
   validateStatus: (status)=>{
-    return status === 200
+    if( status === 200){
+      return true
+    } else {
+      console.warn('ERROR DETECTED', status);
+      return false
+      
+    }
     
   },
   responseType: 'json'

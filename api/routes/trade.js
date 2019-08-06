@@ -197,21 +197,13 @@ const tradeApi = ({omniClient, ...app}) => {
   });
 
   app.post('/api/recentTrades', function(req, res){
-
   			var contractID = req.body.contractID.toString()
-        // console.log('this is the  contrct id ')
-        // console.log('contractid in recent trades', contractID)
-  			// var command = path+"/litecoin-cli -datadir="+ datadir +" tl_gettradehistory  "+ contractID;  //req.params.command;
-        // console.log('command of recent trades', command)
         omniClient.cmd('tl_gettradehistory', contractID, function whenOK(err, tradeResp, resHeaders) {
-  			// exec(command, function (error, stdout, stderr) {
   				if (err === null) {
-            // console.log('output of tl_gettradehistory on testnet', tradeResp)
   					res.send(tradeResp);
-
   				} else {
-            console.log('error in recent trades wtf', err)
-            res.send(err)
+            console.log('error in recent trades:', err.toString())
+            res.send({error: err.toString()})
           }
   			})
   })

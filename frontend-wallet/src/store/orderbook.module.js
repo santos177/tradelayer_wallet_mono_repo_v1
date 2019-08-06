@@ -119,7 +119,7 @@ const actions = {
   getRecentTrades ({ dispatch, commit, rootState }, theSelectedContract) {
     orderbookService.getRecentTrades(theSelectedContract)
       .then((result) => {
-        // console.log('result from recent trades ', result.data)
+        if (result.data.error) return
         var recent = result.data.sort(function (a, b) {
           if (a.taker_block === b.taker_block) {
             return Number(b.taker_index_block) - Number(a.taker_index_block)
@@ -129,6 +129,9 @@ const actions = {
         })
         commit('recent', recent)
         return 'done'
+      }).catch((err)=>{
+        console.warn('catching recent trade error ',err);
+        
       })
   },
   postRecentTradesbyAddress ({ dispatch, commit, rootState }, data) {
