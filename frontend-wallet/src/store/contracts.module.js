@@ -213,9 +213,9 @@ const actions = {
   },
   postActiveTradesbyAddress ({ dispatch, commit, rootState, rootGetters }) {
     return new Promise((resolve, reject) => {
-      contractsService.postActiveTradesbyAddress(rootState.contracts.selectedContract, rootGetters['user/addressGetter'])
+      contractsService.postActiveTradesbyAddress(rootState.contracts.selectedContract, rootGetters['wallet/addressGetter'])
         .then((result) => {
-          // console.log('returned active sell trades by address', result.data[1])
+          // console.log('returned active sell trades by address', result.data)
           commit('activebuysbyaddress', result.data[0])
           commit('activesellsbyaddress', result.data[1])
           var currentActives = result.data[0]

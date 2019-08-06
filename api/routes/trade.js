@@ -33,31 +33,26 @@ const tradeApi = ({omniClient, ...app}) => {
 });
 
   app.post('/api/postActiveTradesbyAddress', (req, res) => {
+    
     var address = req.body.address.toString()
-    // console.log('this is address we pass ', address)
-    var contractID = req.body.contractID.toString()
+    var contractID = req.body.contractID.toString()+'xxxx'
 
     omniClient.cmd('tl_getcontract_orderbook', contractID, 1, function whenOK(err, buytrades, resHeaders) {
       if(err==null) {
-        // console.log('unflitered buy trades ', buytrades)
         var filteredbuyTrades = buytrades.filter((trade)=>{
           return trade.address == address
         })
-        // console.log('filtered buy trades are ', filteredbuyTrades)
         var buyText = JSON.stringify(filteredbuyTrades, null, "\t")
-        // console.log('trades buy txt ', buyText)
         omniClient.cmd('tl_getcontract_orderbook', contractID, 2, function whenOK(err, selltrades, resHeaders) {
           if(err==null){
             // filter sells by address
-            // console.log('unfiltered sell trades ', selltrades)
             filteredsellTrades = selltrades.filter((trade)=>{
               return trade.address == address
             })
             var sellText = JSON.stringify(filteredsellTrades, null, "\t")
-            // console.log('trades sell txt ', sellText)
             var jsonTxt = "["+ buyText +","+ sellText +"]";
             var jsonObj = JSON.parse(jsonTxt);
-            // console.log('trades json txt ', jsonTxt)
+            
             res.send(jsonObj)
           } else{
             console.log('something went wrong in sells tade by address ', err)
