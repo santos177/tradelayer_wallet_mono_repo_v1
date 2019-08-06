@@ -46,7 +46,6 @@ export default {
         data = {
           address: this.addressGetter,
           contractID: this.selectedContract}
-        console.log('data in transaction by address', data)
         this.getPendingByAddress(data)
       }, 2000)
     }

@@ -54,10 +54,9 @@ export default {
         data = {
           account: this.addressGetter,
           contractID: this.selectedContract}
-        console.warn('data in full positions', data)
+        // console.warn('data in full positions', data)
         this.getFullPositions(data)
       }, 2000)
-      // }
     }
   }
 }

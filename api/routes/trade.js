@@ -33,31 +33,26 @@ const tradeApi = ({omniClient, ...app}) => {
 });
 
   app.post('/api/postActiveTradesbyAddress', (req, res) => {
+    
     var address = req.body.address.toString()
-    // console.log('this is address we pass ', address)
-    var contractID = req.body.contractID.toString()
+    var contractID = req.body.contractID.toString()+'xxxx'
 
     omniClient.cmd('tl_getcontract_orderbook', contractID, 1, function whenOK(err, buytrades, resHeaders) {
       if(err==null) {
-        // console.log('unflitered buy trades ', buytrades)
         var filteredbuyTrades = buytrades.filter((trade)=>{
           return trade.address == address
         })
-        // console.log('filtered buy trades are ', filteredbuyTrades)
         var buyText = JSON.stringify(filteredbuyTrades, null, "\t")
-        // console.log('trades buy txt ', buyText)
         omniClient.cmd('tl_getcontract_orderbook', contractID, 2, function whenOK(err, selltrades, resHeaders) {
           if(err==null){
             // filter sells by address
-            // console.log('unfiltered sell trades ', selltrades)
             filteredsellTrades = selltrades.filter((trade)=>{
               return trade.address == address
             })
             var sellText = JSON.stringify(filteredsellTrades, null, "\t")
-            // console.log('trades sell txt ', sellText)
             var jsonTxt = "["+ buyText +","+ sellText +"]";
             var jsonObj = JSON.parse(jsonTxt);
-            // console.log('trades json txt ', jsonTxt)
+            
             res.send(jsonObj)
           } else{
             console.log('something went wrong in sells tade by address ', err)
@@ -202,21 +197,13 @@ const tradeApi = ({omniClient, ...app}) => {
   });
 
   app.post('/api/recentTrades', function(req, res){
-
   			var contractID = req.body.contractID.toString()
-        // console.log('this is the  contrct id ')
-        // console.log('contractid in recent trades', contractID)
-  			// var command = path+"/litecoin-cli -datadir="+ datadir +" tl_gettradehistory  "+ contractID;  //req.params.command;
-        // console.log('command of recent trades', command)
         omniClient.cmd('tl_gettradehistory', contractID, function whenOK(err, tradeResp, resHeaders) {
-  			// exec(command, function (error, stdout, stderr) {
   				if (err === null) {
-            // console.log('output of tl_gettradehistory on testnet', tradeResp)
   					res.send(tradeResp);
-
   				} else {
-            console.log('error in recent trades wtf', err)
-            res.send(err)
+            console.log('error in recent trades:', err.toString())
+            res.send({error: err.toString()})
           }
   			})
   })
@@ -224,26 +211,19 @@ const tradeApi = ({omniClient, ...app}) => {
 app.post('/api/recentTradesbyAddress', function(req, res){
 
       var contractID = req.body.contractID.toString()
-      // console.log('this is the recent trades by address contractID ', contractID)
       var address = req.body.address.toString()
-      // console.log('contractid in recent trades', contractID)
-      // var command = path+"/litecoin-cli -datadir="+ datadir +" tl_gettradehistory  "+ contractID;  //req.params.command;
-      // console.log('command of recent trades', command)
       omniClient.cmd('tl_gettradehistory', contractID, function whenOK(err, tradeResp, resHeaders) {
-      // exec(command, function (error, stdout, stderr) {
         if (err === null) {
-          // console.log('output of tl_gettradehistory on testnet', tradeResp)
           var objTrades =  tradeResp
           var arrayTrades = Object.values(objTrades)
           var filteredTrades = arrayTrades.filter(function(trade) {
             return (trade.maker_address == address || trade.taker_address == address)
           })
-          // console.log('this is filtered arraytrades ', filteredTrades)
 
           res.send(filteredTrades);
         } else {
-          console.log('error in recent trades by address', err)
-          res.send(err)
+          console.log('error in recent trades by address', err.toString())
+          res.send({error: err})
         }
       })
 })

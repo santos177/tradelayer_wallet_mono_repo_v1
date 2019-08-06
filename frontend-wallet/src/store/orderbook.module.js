@@ -30,6 +30,7 @@ const actions = {
     dispatch('contracts/getEquity', {address: rootGetters['wallet/addressGetter'], contractID: rootState.contracts.selectedContract, contractIDALL: '4'}, { root: true })
     orderbookService.getOrderBook(rootState.contracts.selectedContract)
       .then((result) => {
+        if(result.data.error) return
         // console.log('this is the buy book , ', result.data[1])
         // console.log('this is the sell book , ', result.data[0])
         var buyBook = result.data[1]
@@ -119,7 +120,7 @@ const actions = {
   getRecentTrades ({ dispatch, commit, rootState }, theSelectedContract) {
     orderbookService.getRecentTrades(theSelectedContract)
       .then((result) => {
-        // console.log('result from recent trades ', result.data)
+        if (result.data.error) return
         var recent = result.data.sort(function (a, b) {
           if (a.taker_block === b.taker_block) {
             return Number(b.taker_index_block) - Number(a.taker_index_block)
@@ -129,11 +130,15 @@ const actions = {
         })
         commit('recent', recent)
         return 'done'
+      }).catch((err)=>{
+        console.warn('catching recent trade error ',err);
+        
       })
   },
   postRecentTradesbyAddress ({ dispatch, commit, rootState }, data) {
     orderbookService.postRecentTradesbyAddress(data.contractID, data.address)
       .then((result) => {
+        if(result.data.error) return
         var recentbyaddress = result.data.sort(function (a, b) {
           if (a.taker_block === b.taker_block) {
             return Number(b.taker_index_block) - Number(a.taker_index_block)
