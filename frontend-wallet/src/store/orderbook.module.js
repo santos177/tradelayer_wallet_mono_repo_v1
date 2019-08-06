@@ -137,6 +137,7 @@ const actions = {
   postRecentTradesbyAddress ({ dispatch, commit, rootState }, data) {
     orderbookService.postRecentTradesbyAddress(data.contractID, data.address)
       .then((result) => {
+        if(result.data.error) return
         var recentbyaddress = result.data.sort(function (a, b) {
           if (a.taker_block === b.taker_block) {
             return Number(b.taker_index_block) - Number(a.taker_index_block)

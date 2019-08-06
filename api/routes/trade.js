@@ -211,26 +211,19 @@ const tradeApi = ({omniClient, ...app}) => {
 app.post('/api/recentTradesbyAddress', function(req, res){
 
       var contractID = req.body.contractID.toString()
-      // console.log('this is the recent trades by address contractID ', contractID)
       var address = req.body.address.toString()
-      // console.log('contractid in recent trades', contractID)
-      // var command = path+"/litecoin-cli -datadir="+ datadir +" tl_gettradehistory  "+ contractID;  //req.params.command;
-      // console.log('command of recent trades', command)
       omniClient.cmd('tl_gettradehistory', contractID, function whenOK(err, tradeResp, resHeaders) {
-      // exec(command, function (error, stdout, stderr) {
         if (err === null) {
-          // console.log('output of tl_gettradehistory on testnet', tradeResp)
           var objTrades =  tradeResp
           var arrayTrades = Object.values(objTrades)
           var filteredTrades = arrayTrades.filter(function(trade) {
             return (trade.maker_address == address || trade.taker_address == address)
           })
-          // console.log('this is filtered arraytrades ', filteredTrades)
 
           res.send(filteredTrades);
         } else {
-          console.log('error in recent trades by address', err)
-          res.send(err)
+          console.log('error in recent trades by address', err.toString())
+          res.send({error: err})
         }
       })
 })
