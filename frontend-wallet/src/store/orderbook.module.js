@@ -30,6 +30,7 @@ const actions = {
     dispatch('contracts/getEquity', {address: rootGetters['wallet/addressGetter'], contractID: rootState.contracts.selectedContract, contractIDALL: '4'}, { root: true })
     orderbookService.getOrderBook(rootState.contracts.selectedContract)
       .then((result) => {
+        if(result.data.error) return
         // console.log('this is the buy book , ', result.data[1])
         // console.log('this is the sell book , ', result.data[0])
         var buyBook = result.data[1]
