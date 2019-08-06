@@ -8,6 +8,10 @@ export const axiosInstance = axios.create({
     'Content-type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   },
+  validateStatus: (status)=>{
+    return status === 200
+    
+  },
   responseType: 'json'
   /* other custom settings */
 })

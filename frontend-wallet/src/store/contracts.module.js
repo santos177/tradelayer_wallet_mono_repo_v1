@@ -271,7 +271,7 @@ const actions = {
     // console.log(' rootState ContractId in getFullPositions contracts module ', data)
     contractsService.getFullPositions(data.account, data.contractID)
       .then((result) => {
-        // console.log('set full positions in getFullPositions contract module ', result)
+        // console.log('set full positions in getFullPositions contract module ', result.data)
         commit('setFullPositions', result)
         return 'done'
       })
@@ -398,7 +398,9 @@ const mutations = {
     state.activesellsbyaddress = activesells
   },
   setFullPositions (state, fullPosition) {
-    if (fullPosition.data !== null) {
+    if (fullPosition.data && fullPosition.data.length !== undefined) {
+      console.log('Setting FP data:', fullPosition.data);
+      
     //  console.log('fullPositions.data ', fullPosition.data)
       // var symbol = fullPosition.data['symbol']
       var matched = false
