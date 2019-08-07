@@ -1,7 +1,7 @@
 const SocketManager = new (require("./manager.js"))();
 
 const handleIoConnection = client => {
-  
+
   SocketManager.handleNewConnection(client)
 
   client.on("disconnect", function(x) {
@@ -20,8 +20,7 @@ const handleIoConnection = client => {
 
   client.on('pinger', function(data) {
     console.log('pinged', data);
-    
-    SocketManager.sendMessage('ponger', {msg: 'pong'}, {byClient: client})
+    SocketManager.sendPong({byClient: client})
   })
 };
 

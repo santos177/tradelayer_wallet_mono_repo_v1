@@ -94,8 +94,8 @@
             </circle-menu>
           </div>
           <!-- <md-button @click="showNavigation = true">
-                      <md-icon>menu</md-icon>
-                    </md-button> -->
+                        <md-icon>menu</md-icon>
+                      </md-button> -->
         </div>
       </div>
     </md-toolbar>
@@ -137,11 +137,7 @@
     mapState
   } from 'vuex'
   import Wallet from '@/components/Wallet'
-
-const io = require('socket.io-client')
-
-const socket = io.connect(process.env.SOCKET_URL)
-
+  import {socketService} from './services'
   
   
   export default {
@@ -153,21 +149,15 @@ const socket = io.connect(process.env.SOCKET_URL)
       showNavigation: false,
       showWallet: false
     }),
-    mounted(){
-      console.warn('xxxxxx',socket, this.publicAddresses);
+  
+    mounted() {
+      // TODO: run this whenever addresses change
+     socketService.registerAddresses(this.publicAddresses)
+      socketService.ping()
 
-      socket.emit('registerAddresses', { addresses: this.publicAddresses}, ()=>{
-        console.log('done');
-        
-      })
-      socket.emit('pinger', {msg: 'ping'}, ()=>{
-        console.log('done');
-        
-      })
-      socket.on('ponger', (data)=>{
-        console.warn('pong', data, err);
-        
-      })
+      socketService.socket.on("requestAddresses", () => {
+        socketService.registerAddresses(this.publicAddresses)
+});
     },
     computed: {
       ...mapGetters('user', ['walletBlobGetter']),

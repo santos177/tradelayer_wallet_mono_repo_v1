@@ -15,11 +15,14 @@ class SocketManager {
         addressArray.forEach((address)=>{
             addressToSockId[address] = sockId;
         })
-        
+
         sockIdToAddresses[sockId] = addressArray
     }
     handleNewConnection(client){
+        console.log('new io connection', client.id);
+        
         this.sockIdToClient[client.id] = client
+        this.requestAddressses({byClient: client})
     }
     handleUnregister(sockId){
         const {sockIdToClient, addressToSockId, sockIdToAddresses} = this;
@@ -34,8 +37,17 @@ class SocketManager {
         delete sockIdToAddresses[sockId]
 
     }
-    
-    sendMessage(messageStr, payload, options){
+
+    sendPong(options){
+        this._sendMessage('ponger', {msg: 'pong'}, options)
+    }
+    requestAddressses(options){
+        
+        this._sendMessage('requestAddresses', {}, options)
+    }
+    _sendMessage(messageStr, payload, options){
+        console.warn('message:', messageStr);
+        
         const {sockIdToClient, addressToSockId, sockIdToAddresses} = this;
 
         let client;
