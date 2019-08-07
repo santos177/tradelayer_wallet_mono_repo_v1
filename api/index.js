@@ -31,25 +31,27 @@ var morgan = require('morgan')
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 // var store_dir = datadir + '/sessions/'
-var wsCol = [];
+const handleIoConnection = require('./sockets/index.js')
+console.warn(handleIoConnection);
+
 app.use(cors())
 //SOCKET IO
-io.on('connection', function(socket) {
-			wsCol.push(socket);
-});
+io.on('connection', handleIoConnection)
 
-udpserver.on('message', (msg, rinfo) => {
-	//console.log("MSG :"+ msg)
-	 var msgStr = msg.toString().split("<<<")
-	 var msgArr = msgStr[0].split("-")
-	 console.log("MSG :"+ msgArr[5])
+// udpserver.on('message', (msg, rinfo) => {
 
-	  wsCol.forEach(function(socket) {
+// 	//console.log("MSG :"+ msg)
 
-		socket.emit('messages', msg.toString());
+// 	 var msgStr = msg.toString().split("<<<")
+// 	 var msgArr = msgStr[0].split("-")
+// 	 console.log("MSG :"+ msgArr[5])
 
-	  });
-})
+// 	  wsCol.forEach(function(socket) {
+
+// 		socket.emit('messages', msg.toString());
+
+// 	  });
+// })
 
 //UDP server
 udpserver.on('error', (err) => {
