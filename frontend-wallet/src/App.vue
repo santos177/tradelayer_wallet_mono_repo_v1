@@ -137,6 +137,12 @@
     mapState
   } from 'vuex'
   import Wallet from '@/components/Wallet'
+
+const io = require('socket.io-client')
+
+const socket = io.connect(process.env.SOCKET_URL)
+
+  
   
   export default {
     name: 'App',
@@ -147,10 +153,26 @@
       showNavigation: false,
       showWallet: false
     }),
+    mounted(){
+      console.warn('xxxxxx',socket, this.publicAddresses);
+
+      socket.emit('registerAddresses', { addresses: this.publicAddresses}, ()=>{
+        console.log('done');
+        
+      })
+      socket.emit('pinger', {msg: 'ping'}, ()=>{
+        console.log('done');
+        
+      })
+      socket.on('ponger', (data)=>{
+        console.warn('pong', data, err);
+        
+      })
+    },
     computed: {
       ...mapGetters('user', ['walletBlobGetter']),
-      ...mapGetters('wallet', ['walletCountDisplay', "isLoggedIn"]),
-      ...mapGetters('contracts', ['equityGetter'])
+      ...mapGetters('wallet', ['walletCountDisplay', "isLoggedIn", "publicAddresses"]),
+      ...mapGetters('contracts', ['equityGetter']),
     },
     methods: {
       ...mapMutations('wallet', ['clearDecryptedWallet', 'clearKeys']),
