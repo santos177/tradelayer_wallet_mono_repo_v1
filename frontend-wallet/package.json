@@ -41,6 +41,7 @@
     "pbkdf2": "^3.0.16",
     "secp256k1": "^3.5.2",
     "serve-static": "^1.13.2",
+    "socket.io-client": "^2.2.0",
     "style-loader": "^0.22.1",
     "utf8": "^3.0.0",
     "uuid": "^3.3.2",

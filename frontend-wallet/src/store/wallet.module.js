@@ -131,6 +131,9 @@ const state = {
       },
       currentAddressLTCBalance(state){
         return state.utxoArray.reduce((acc, curr)=> {return acc+ +curr.satoshis}, 0 )
+      },
+      publicAddresses(state){
+        return state.walletDec.map((obj)=> obj.publicAddress)
       }
     
   }
