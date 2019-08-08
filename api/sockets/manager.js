@@ -45,6 +45,15 @@ class SocketManager {
         
         this._sendMessage('requestAddresses', {}, options)
     }
+    sendIndication(data, client){
+        const { targetAddress, fromAddress } = {data};
+        const payload = {
+            fromAddress,
+            otherData: 'trade info here'
+        }
+        this._sendMessage("receiveIndicator", payload, {byAddress: targetAddress})
+    }
+
     _sendMessage(messageStr, payload, options){
         console.warn('message:', messageStr);
         
