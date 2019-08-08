@@ -22,6 +22,12 @@ const handleIoConnection = client => {
     console.log('pinged', data);
     SocketManager.sendPong({byClient: client})
   })
+
+  client.on('indicateInterest', function(data) {
+    console.log('indicator received');
+    SocketManager.sendIndication(data, client)
+    
+  })
 };
 
 module.exports = handleIoConnection;
