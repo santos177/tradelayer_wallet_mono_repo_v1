@@ -8,7 +8,8 @@ const state = {
     currentAddressIndex: 0,
     toAddress: "",
     sats: 0,
-    utxoArray: []
+    utxoArray: [],
+    currentTxnType: 'type1'
   }
 
 // reusable helpers
@@ -104,6 +105,9 @@ const state = {
         state.walletDec = [];
         window.localStorage.setItem('walletEnc', JSON.stringify([]))
         window.localStorage.setItem('walletDec', JSON.stringify([]))
+      },
+      setCurrentTxnType(state, value){
+        state.currentTxnType = value
       }
   }
 

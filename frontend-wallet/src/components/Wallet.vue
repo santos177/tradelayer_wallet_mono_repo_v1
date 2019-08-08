@@ -24,7 +24,7 @@
           <input :value="sats" @input="txnFormUpdate" type='number' name='sats' />
         </div>
         <div class='form-group'>
-          <select>
+          <select v-model='txnType'>
               <option value="type1">type1</option>
               <option value="type2">type2</option>
               <option value="type3">type3</option>
@@ -53,12 +53,21 @@ export default {
       "currentAddressIndex",
       "toAddress",
       "sats",
-      "utxoArray"
+      "utxoArray",
+      "currentTxnType"
     ]),
-    ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"])
+    ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"]),
+    txnType: {
+      get(){
+        return this.currentTxnType
+      }, 
+      set(value){
+        this.setCurrentTxnType(value)
+      }
+    }
   },
   methods: {
-    ...mapMutations("wallet", ["setTxnState"]),
+    ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
     handleSubmit() {
       if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
