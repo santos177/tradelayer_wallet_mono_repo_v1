@@ -37,7 +37,7 @@ function tradeBot(cb){
             var address;
             var newPrice = priceFix*(Math.random()*0.25)
             if(loops%2==0){address="mgk68VJAJCP7sHChaPtAag7pbsZ7veQ4Pz"}else{address="midDKtlwDLDgXa4oUGfRrFJ1Pzc834GxVA"}
-            var params = {address:address,tradetype:buyorsell,price:newPrice,quantity:volume,contractcode:contract}
+            var params = {address:address,tradetype:buyorsell,price:newPrice,quantity:volume,contractcode:contract, leverage: 2}
             tl.sendContractTrade(params,function(data, err){
             	console.log(data,err)
             })

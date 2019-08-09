@@ -440,9 +440,10 @@ tl.sendContractTrade = function(params, cb){
     var quantity = params.quantity
     var price = params.price
     var tradetype = params.tradetype
+    var leverage = params.leverage
     
 
-    client.cmd('tl_tradecontract', address, contractcode, quantity, price, tradetype, function(err, data, resHeaders){
+    client.cmd('tl_tradecontract', address, contractcode, quantity, price, tradetype, leverage, function(err, data, resHeaders){
         console.log(data)
         return cb(data, err)
     })
