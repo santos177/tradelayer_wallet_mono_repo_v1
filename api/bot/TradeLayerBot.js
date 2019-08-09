@@ -34,9 +34,8 @@ function tradeBot(cb){
         setTimeout(function(){
             loops +=1
             var buyorsell =  Math.random()>=0.5 ? 1 : 2
-            var address;
-            var newPrice = priceFix*(Math.random()*0.25)
-            if(loops%2==0){address="mgk68VJAJCP7sHChaPtAag7pbsZ7veQ4Pz"}else{address="midDKtlwDLDgXa4oUGfRrFJ1Pzc834GxVA"}
+            var newPrice = priceFix
+            var address = loops%2==0 ? "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy" : "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy"
             var params = {address:address,tradetype:buyorsell,price:newPrice,quantity:volume,contractcode:contract, leverage: 2}
             tl.sendContractTrade(params,function(data, err){
             	console.log(data,err)
