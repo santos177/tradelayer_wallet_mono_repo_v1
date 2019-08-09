@@ -1,5 +1,6 @@
 var user = ''
 var pass = ''
+var client = require('../ltc_client.js')
 
 /*
 binary /home/blockpo/BlockPo-to-Tradelayer/src/
@@ -20,16 +21,19 @@ tl.init = function(user, pass, otherip, test){
     host: host,
     port: port,
     user: user,
-    pass: pass
-    timeout:30000
+    pass: pass,
+    timeout:30000,
     ssl:false
   })
   
   return client
 }
 
-var client = tl.init(user, pass, '200.86.176.38', true)
-
+// var client = tl.init(user, pass, '200.86.176.38', true)
+client.getNetworkHashPs(function(err, hashps) {
+	if (err) console.error(err);
+	console.log('Network Hash Rate: ' + hashps);
+  });
 tl.getnewaddress = function(account, cb){
     if(account == null|| account == undefined){
     client.cmd('getnewaddress',function(err,address,resHeaders){
@@ -436,10 +440,11 @@ tl.sendContractTrade = function(params, cb){
     var quantity = params.quantity
     var price = params.price
     var tradetype = params.tradetype
+    
 
     client.cmd('tl_tradecontract', address, contractcode, quantity, price, tradetype, function(err, data, resHeaders){
         console.log(data)
-        return cb(data)
+        return cb(data, err)
     })
 }
 
@@ -452,83 +457,83 @@ tl.cancelAllContractsByAddress = function(address, ecosystem, contractid, cb){
 
 var rawPubScripts = []
 
-tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
-	var txstring = ""
-	client.cmd('tl_createrawtx_input', txstring, inputs, vouts, function(err, data, resHeaders){
-		if(err==null){
-			txstring = data
-		}else{return err}
-		client.cmd('tl_createrawtx_reference', txstring, refaddresses, function(err, data, resHeaders){
-			if(err==null){
-				txstring = data
-			}else{return err}
-			client.cmd('tl_createrawtx_opreturn', txstring, payload, function(err, data, resHeaders){
-				if(err==null){
-				txstring = data
-				}else{return err}
-				    rest.get('https://blockchain.info/rawtx/'+inputs[0]).on('complete', function(data){
-			    	/*
-			    	{
-				    "hash":"b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da",
-				    "ver":1,
-				    "vin_sz":1,
-				    "vout_sz":2,
-				    "lock_time":"Unavailable",
-				    "size":258,
-				    "relayed_by":"64.179.201.80",
-				    "block_height, 12200,
-				    "tx_index":"12563028",
-				    "inputs":[
+// tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
+// 	var txstring = ""
+// 	client.cmd('tl_createrawtx_input', txstring, inputs, vouts, function(err, data, resHeaders){
+// 		if(err==null){
+// 			txstring = data
+// 		}else{return err}
+// 		client.cmd('tl_createrawtx_reference', txstring, refaddresses, function(err, data, resHeaders){
+// 			if(err==null){
+// 				txstring = data
+// 			}else{return err}
+// 			client.cmd('tl_createrawtx_opreturn', txstring, payload, function(err, data, resHeaders){
+// 				if(err==null){
+// 				txstring = data
+// 				}else{return err}
+// 				    rest.get('https://blockchain.info/rawtx/'+inputs[0]).on('complete', function(data){
+// 			    	/*
+// 			    	{
+// 				    "hash":"b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da",
+// 				    "ver":1,
+// 				    "vin_sz":1,
+// 				    "vout_sz":2,
+// 				    "lock_time":"Unavailable",
+// 				    "size":258,
+// 				    "relayed_by":"64.179.201.80",
+// 				    "block_height, 12200,
+// 				    "tx_index":"12563028",
+// 				    "inputs":[
 
 
-				            {
-				                "prev_out":{
-				                    "hash":"a3e2bcc9a5f776112497a32b05f4b9e5b2405ed9",
-				                    "value":"100000000",
-				                    "tx_index":"12554260",
-				                    "n":"2"
-				                },
-				                "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
-				            }
+// 				            {
+// 				                "prev_out":{
+// 				                    "hash":"a3e2bcc9a5f776112497a32b05f4b9e5b2405ed9",
+// 				                    "value":"100000000",
+// 				                    "tx_index":"12554260",
+// 				                    "n":"2"
+// 				                },
+// 				                "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
+// 				            }
 
-				        ],
-				    "out":[
+// 				        ],
+// 				    "out":[
 
-						        {
-				                    "value":"98000000",
-				                    "hash":"29d6a3540acfa0a950bef2bfdc75cd51c24390fd",
-				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
-				                },
+// 						        {
+// 				                    "value":"98000000",
+// 				                    "hash":"29d6a3540acfa0a950bef2bfdc75cd51c24390fd",
+// 				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
+// 				                },
 
-				                {
-				                    "value":"2000000",
-				                    "hash":"17b5038a413f5c5ee288caa64cfab35a0c01914e",
-				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
-				                }
+// 				                {
+// 				                    "value":"2000000",
+// 				                    "hash":"17b5038a413f5c5ee288caa64cfab35a0c01914e",
+// 				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
+// 				                }
 
-					        ]
-					}
-					*/
-					var vOut = vOuts[0]
-					rawPubScripts = []
-					rawPubScripts.push(data.out[vOut].script)
-					var fee = 0.00001*(inputs.length*0.11+0.04+0.038*3)
-					if(inputs.length>1){
-						rest.get('https://blockchain.info/rawtx/'+inputs[1]).on('complete', function(data){
-						scripts.push(data.out[vOut].script)
-						return tl.addChangeAddress(txstring, rawPubScripts, inputs, vOuts, changeAddress, amount,fee)
-						}
-					}else{
-						return tl.addChangeAddress(txstring, rawPubScripts,inputs, vOuts, changeAddress, amount,fee)
-					}
-			    }
-			})
-		})
-	}
-}
+// 					        ]
+// 					}
+// 					*/
+// 					var vOut = vOuts[0]
+// 					rawPubScripts = []
+// 					rawPubScripts.push(data.out[vOut].script)
+// 					var fee = 0.00001*(inputs.length*0.11+0.04+0.038*3)
+// 					if(inputs.length>1){
+// 						rest.get('https://blockchain.info/rawtx/'+inputs[1]).on('complete', function(data){
+// 						scripts.push(data.out[vOut].script)
+// 						return tl.addChangeAddress(txstring, rawPubScripts, inputs, vOuts, changeAddress, amount,fee)
+// 						})
+// 					}else{
+// 						return tl.addChangeAddress(txstring, rawPubScripts,inputs, vOuts, changeAddress, amount,fee)
+// 					}
+// 			    }
+// 			})
+// 		})
+// 	}
+// }
 
 tl.addChangeAddress = function(txstring, rawPubScripts,inputs, vOuts,changeAddress, amount){
-	var data = "[{\'txid\': \'"+inputs+"\',\'vout\':"+vOuts+",\'scriptPubKey\':\'"+rawPubScripts+",\"value \":"+amount"}]"
+	var data = "[{\'txid\': \'"+inputs+"\',\'vout\':"+vOuts+",\'scriptPubKey\':\'"+rawPubScripts+",\"value \":"+amount+"}]"
 	client.cmd('tl_createrawtx_change', txstring, data, changeAddress, fee, function(err, data, resHeaders){
 		if(err == null){
 			return {'tx':data,'rawPubScripts':rawPubScripts,'input':inputs,'vOuts':vOuts}
@@ -569,14 +574,14 @@ tl.getContractInfo =  function(index, oracleContracts, nativeContracts){
 
 tl_createNativeContract= function(thisAddress, numeratorid, title, durationInBlocks, notional,denominatorCollateralid, marginReq){
 	////tl_createcontract ${ADDR} 1 4 "ALL/dUSD" 1000 1 4 0.5 #leverage = 10
-	client.cmd('tl_createcontract', thisAddress, 1, numeratorid denominatorid, title, durationInBlocks, notional,denominatorCollateralid, marginReq, function(err,data,resHeaders){
+	client.cmd('tl_createcontract', thisAddress, 1, numeratorid, denominatorid, title, durationInBlocks, notional,denominatorCollateralid, marginReq, function(err,data,resHeaders){
 		if(err == null){
 			return data
 		}else{return err}
 	}) 
 }
 
-tl.createOracleContract = function(thisAddress, numeratorid, title, durationInBlocks, notional,denominatorCollateralid, marginReq backUpAddr){
+tl.createOracleContract = function(thisAddress, numeratorid, title, durationInBlocks, notional,denominatorCollateralid, marginReq, backUpAddr){
 	//tl_create_oraclecontract ${ADDR} 1 4 "OIL dUSD" 1000 1 4 0.5 ${ADDR2}
 	client.cmd('tl_createoraclecontract', thisAddress, 1, numeratorid, title, durationInBlocks, notional,denominatorCollateralid, marginReq, backUpAddr, function(err,data,resHeaders){
 		if(err == null){
