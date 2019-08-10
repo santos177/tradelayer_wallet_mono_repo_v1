@@ -452,80 +452,80 @@ tl.cancelAllContractsByAddress = function(address, ecosystem, contractid, cb){
 
 var rawPubScripts = []
 
-// tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
-// 	var txstring = ""
-// 	client.cmd('tl_createrawtx_input', txstring, inputs, vouts, function(err, data, resHeaders){
-// 		if(err==null){
-// 			txstring = data
-// 		}else{return err}
-// 		client.cmd('tl_createrawtx_reference', txstring, refaddresses, function(err, data, resHeaders){
-// 			if(err==null){
-// 				txstring = data
-// 			}else{return err}
-// 			client.cmd('tl_createrawtx_opreturn', txstring, payload, function(err, data, resHeaders){
-// 				if(err==null){
-// 				txstring = data
-// 				}else{return err}
-// 				    rest.get('https://blockchain.info/rawtx/'+inputs[0]).on('complete', function(data){
-// 			    	/*
-// 			    	{
-// 				    "hash":"b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da",
-// 				    "ver":1,
-// 				    "vin_sz":1,
-// 				    "vout_sz":2,
-// 				    "lock_time":"Unavailable",
-// 				    "size":258,
-// 				    "relayed_by":"64.179.201.80",
-// 				    "block_height, 12200,
-// 				    "tx_index":"12563028",
-// 				    "inputs":[
+tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
+	var txstring = ""
+	client.cmd('tl_createrawtx_input', txstring, inputs, vouts, function(err, data, resHeaders){
+		if(err==null){
+			txstring = data
+		}else{return err}
+		client.cmd('tl_createrawtx_reference', txstring, refaddresses, function(err, data, resHeaders){
+			if(err==null){
+				txstring = data
+			}else{return err}
+			client.cmd('tl_createrawtx_opreturn', txstring, payload, function(err, data, resHeaders){
+				if(err==null){
+				txstring = data
+				}else{return err}
+				    rest.get('https://blockchain.info/rawtx/'+inputs[0]).on('complete', function(data){
+			    	/*
+			    	{
+				    "hash":"b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da",
+				    "ver":1,
+				    "vin_sz":1,
+				    "vout_sz":2,
+				    "lock_time":"Unavailable",
+				    "size":258,
+				    "relayed_by":"64.179.201.80",
+				    "block_height, 12200,
+				    "tx_index":"12563028",
+				    "inputs":[
 
 
-// 				            {
-// 				                "prev_out":{
-// 				                    "hash":"a3e2bcc9a5f776112497a32b05f4b9e5b2405ed9",
-// 				                    "value":"100000000",
-// 				                    "tx_index":"12554260",
-// 				                    "n":"2"
-// 				                },
-// 				                "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
-// 				            }
+				            {
+				                "prev_out":{
+				                    "hash":"a3e2bcc9a5f776112497a32b05f4b9e5b2405ed9",
+				                    "value":"100000000",
+				                    "tx_index":"12554260",
+				                    "n":"2"
+				                },
+				                "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
+				            }
 
-// 				        ],
-// 				    "out":[
+				        ],
+				    "out":[
 
-// 						        {
-// 				                    "value":"98000000",
-// 				                    "hash":"29d6a3540acfa0a950bef2bfdc75cd51c24390fd",
-// 				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
-// 				                },
+						        {
+				                    "value":"98000000",
+				                    "hash":"29d6a3540acfa0a950bef2bfdc75cd51c24390fd",
+				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
+				                },
 
-// 				                {
-// 				                    "value":"2000000",
-// 				                    "hash":"17b5038a413f5c5ee288caa64cfab35a0c01914e",
-// 				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
-// 				                }
+				                {
+				                    "value":"2000000",
+				                    "hash":"17b5038a413f5c5ee288caa64cfab35a0c01914e",
+				                    "script":"76a914641ad5051edd97029a003fe9efb29359fcee409d88ac"
+				                }
 
-// 					        ]
-// 					}
-// 					*/
-// 					var vOut = vOuts[0]
-// 					rawPubScripts = []
-// 					rawPubScripts.push(data.out[vOut].script)
-// 					var fee = 0.00001*(inputs.length*0.11+0.04+0.038*3)
-// 					if(inputs.length>1){
-// 						rest.get('https://blockchain.info/rawtx/'+inputs[1]).on('complete', function(data){
-// 						scripts.push(data.out[vOut].script)
-// 						return tl.addChangeAddress(txstring, rawPubScripts, inputs, vOuts, changeAddress, amount,fee)
-// 						})
-// 					}else{
-// 						return tl.addChangeAddress(txstring, rawPubScripts,inputs, vOuts, changeAddress, amount,fee)
-// 					}
-// 			    }
-// 			})
-// 		})
-// 	}
-// }
+					        ]
+					}
+					*/
+					var vOut = vOuts[0]
+					rawPubScripts = []
+					rawPubScripts.push(data.out[vOut].script)
+					var fee = 0.00001*(inputs.length*0.11+0.04+0.038*3)
+					if(inputs.length>1){
+						rest.get('https://blockchain.info/rawtx/'+inputs[1]).on('complete', function(data){
+						scripts.push(data.out[vOut].script)
+						return tl.addChangeAddress(txstring, rawPubScripts, inputs, vOuts, changeAddress, amount,fee)
+						})
+					}else{
+						return tl.addChangeAddress(txstring, rawPubScripts,inputs, vOuts, changeAddress, amount,fee)
+					}
+			    })
+			})
+		})
+	})
+}
 
 tl.addChangeAddress = function(txstring, rawPubScripts,inputs, vOuts,changeAddress, amount){
 	var data = "[{\'txid\': \'"+inputs+"\',\'vout\':"+vOuts+",\'scriptPubKey\':\'"+rawPubScripts+",\"value \":"+amount+"}]"

@@ -1,26 +1,9 @@
 var user = 'Ale'
 var pass = '12345678'
-// var client = require('./ltc_client.js')
 var litecoin = require('litecoin');
 
 var tl = require('./TradeLayerRPCAPI.js').tl
 
-// tl.init = function(user, pass, otherip, test){
-//   var host
-//   if(otherip == null){host = 'localhost'}else{host=otherip}
-//   var port
-//   if(test == false || test == null){port = 9332}else{port=19336}  
-//   var client = new litecoin.Client({
-//     host: host,
-//     port: port,
-//     user: user,
-//     pass: pass,
-//     timeout:30000,
-//     ssl:false
-//   })
-  
-//   return client
-// }
 
 var volume = 1000
 var priceFix = 1 
@@ -44,7 +27,7 @@ function tradeBot(cb){
             	console.log(data)
             })}
             tradeBot()
-        }, 2000);
+        }, 20000);
 }
 
 tradeBot()
