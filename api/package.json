@@ -8,7 +8,8 @@
     "start": "nodemon index.js",
     "resetDB": "node scripts/resetDB.js",
     "syncChain": "node scripts/syncToChain.js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "bot": "node bot/TradeLayerBot.js"
   },
   "author": "",
   "license": "ISC",
