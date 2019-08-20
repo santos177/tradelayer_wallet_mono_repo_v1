@@ -152,6 +152,7 @@ function getInfo(){
 
 //$SRC/litecoin-cli -datadir=$DATADIR tl_gettradehistory ${CONTRACT_ID}
 var port = process.env.PORT || 76;        // set our port
+var socketPort =process.env.SOCKET_PORT || 75; 
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -173,7 +174,7 @@ configureRoutes(app)
 
 // START THE SERVER
 // =============================================================================
-//app.listen(port);
-http.listen(port, function(){
-  console.log('Magic happens on port ' + port);
+app.listen(port);
+http.listen(socketPort, function(){
+  console.log('Magic happens on port ' + socketPort);
 });
