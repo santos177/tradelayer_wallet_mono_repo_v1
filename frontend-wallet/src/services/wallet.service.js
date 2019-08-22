@@ -16,14 +16,43 @@ const getUTXOs = (address, next) => {
     });
 };
 
+
+
+const getUTXOs2 = (address, next)=>{
+  axios.get(`https://api.bitaps.com/ltc/testnet/v1/blockchain/address/transactions/${address}`).then( async (res)=>{
+    const txnData = res.data.data.list.map((txnObj)=> {
+      return {
+        txid: txnObj.txId,
+        outsCount: txnObj.outsCount
+      }
+    }) 
+    
+    axiosInstance.post("/txn/utxos", {txnData, address}).then((data)=>{
+      
+      const utxoDataFormatted = data.data.map((utxo)=> {
+        return {
+          txid: utxo.txid,
+          outputIndex: utxo.outputIndex,
+          script: utxo.scriptPubKey.hex,
+          satoshis: btcToSats(utxo.value),          
+        }
+      })
+      console.warn(utxoDataFormatted);
+      next(utxoDataFormatted)
+      
+    }).catch((err)=>{
+      console.warn(err);
+    })
+  })
+}
+
 const mapToTxnFormat = (txn)=>{
   return {
     txid: txn.txid,
     outputIndex: txn.output_no,
     script: txn.script_hex,
     satoshis: btcToSats(txn.value),
-    confirmations: txn.confirmations,
-    time: txn.time
+    // or amount
   }
 }
 
