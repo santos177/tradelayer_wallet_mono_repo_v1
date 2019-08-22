@@ -5,6 +5,7 @@ const createProperty = require("./property.js");
 const createOrder = require("./order.js");
 const createAddress = require("./address.js");
 const createChannel = require("./channel.js");
+const createTxn= require("./txn.js");
 
 const db = new Sequelize({
   database: "tradelayer",
@@ -21,6 +22,7 @@ const Property = createProperty(db);
 const Order = createOrder(db);
 const Address = createAddress(db);
 const Channel = createChannel(db);
+const Txn = createTxn(db)
 Wallet.hasMany(Address);
 
 
@@ -51,5 +53,6 @@ module.exports = {
   Balance,
   Property,
   Address,
-  Channel
+  Channel, 
+  Txn
 };
