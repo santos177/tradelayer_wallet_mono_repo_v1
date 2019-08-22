@@ -3,7 +3,7 @@ import {axiosInstance} from '../api/api'
 const network = process.env.NODE_ENV === "development" ? "ltctest" : "ltc";
 const {Unit} = require('litecore-lib')
 window.Unit = Unit
-const getUTXOs = (address, next) => {
+const getUTXOs2 = (address, next) => {
   axios
     .get(`https://chain.so/api/v2/get_tx_unspent/${network}/${address}`)
     .then( ({data}) => {
@@ -18,7 +18,7 @@ const getUTXOs = (address, next) => {
 
 
 
-const getUTXOs2 = (address, next)=>{
+const getUTXOs = (address, next)=>{
   axios.get(`https://api.bitaps.com/ltc/testnet/v1/blockchain/address/transactions/${address}`).then( async (res)=>{
     const txnData = res.data.data.list.map((txnObj)=> {
       return {
