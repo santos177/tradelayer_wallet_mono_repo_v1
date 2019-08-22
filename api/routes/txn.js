@@ -51,7 +51,6 @@ const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
         if(index >= txnsToQuery.length){
             return next(allUTXOs)
         }
-        // todo: ensure vout is right name:
         const {txid, outsCount} = txnsToQuery[index]
         getAllUTXOs(txid, outsCount, omniClient, (utxoData)=>{
             allUTXOs = [...allUTXOs, ...utxoData]
