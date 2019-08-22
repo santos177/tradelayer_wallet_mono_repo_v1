@@ -6,10 +6,13 @@ const createOrder = require("./order.js");
 const createAddress = require("./address.js");
 const createChannel = require("./channel.js");
 const createTxn= require("./txn.js");
+const config = require("../config.js")
 
 const db = new Sequelize({
   database: "tradelayer",
   dialect: "postgres",
+  username:config.DBUSER,
+  password: config.DBPASSWORD,
   define: {
     underscored: true,
     returning: true
