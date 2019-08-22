@@ -43,6 +43,15 @@ const getUTXOs = (address, next)=>{
     }).catch((err)=>{
       console.warn(err);
     })
+  }).catch((err)=>{
+    const {response} = err
+    if(response.data.details === 404 && response.data.message === "address not found"){
+      next([])
+    } else {
+      console.warn(err);
+      
+    }
+    
   })
 }
 
