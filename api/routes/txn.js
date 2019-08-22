@@ -24,6 +24,14 @@ txnRouter.post('/utxos', (req, res)=>{
     
 
 })
+
+txnRouter.get('/', (req,res)=>{
+    Txn.findAll({raw:true}).then((data)=>{
+        res.send(data)
+
+    })
+    
+})
 const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
     let allUTXOs = []
     const dbTxnsArray = await Txn.findAll({
