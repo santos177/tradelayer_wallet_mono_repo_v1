@@ -2,6 +2,7 @@ const {   wifToPubKey, encryptKey, decryptKey, generateKeyPair} = require('../..
 const localWalletEnc =  window.localStorage.getItem('walletEnc') 
 const localWalletDec = window.localStorage.getItem('walletDec')
 import {walletService} from '../services'
+const {txnTypeEnum} = walletService
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
     walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],
@@ -9,7 +10,7 @@ const state = {
     toAddress: "",
     sats: 0,
     utxoArray: [],
-    currentTxnType: 'type1'
+    currentTxnType: txnTypeEnum.LTC_SEND
   }
 
 // reusable helpers

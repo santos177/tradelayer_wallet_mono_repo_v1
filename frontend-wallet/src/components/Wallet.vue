@@ -25,11 +25,9 @@
         </div>
         <div class='form-group'>
           <select v-model='txnType'>
-              <option value="type1">type1</option>
-              <option value="type2">type2</option>
-              <option value="type3">type3</option>
-  
-  
+              <option :value="this.txnTypeEnum.LTC_SEND">Send LTC</option>
+              <option :value="this.txnTypeEnum.BUY_CONTRACT">Buy</option>
+              <option :value="this.txnTypeEnum.SELL_CONTRACT">Sell</option>
             </select>
         </div>
         <input type='submit' />
@@ -42,10 +40,12 @@
 import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
 import { createTxn, signTxn } from "../../lib/wallet.js";
 import { walletService } from "../services";
+const {txnTypeEnum} = walletService
 export default {
   name: "Wallet",
   data: () => ({
-    showDialog: true
+    showDialog: true,
+    txnTypeEnum
   }),
   computed: {
     ...mapState("wallet", [
