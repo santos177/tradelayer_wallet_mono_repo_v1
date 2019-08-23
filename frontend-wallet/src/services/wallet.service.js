@@ -79,7 +79,9 @@ const btcToSats = (value)=>{
 const txnTypeEnum = {
   LTC_SEND: 0,
   BUY_CONTRACT: 1,
-  SELL_CONTRACT: 2
+  SELL_CONTRACT: 2,
+  ISSUE_CURRENCY: 3,
+  REDEEM_CURRENCY: 4
 }
 
 
