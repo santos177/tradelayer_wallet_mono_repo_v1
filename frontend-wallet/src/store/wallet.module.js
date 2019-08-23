@@ -62,6 +62,14 @@ const state = {
       if (walletDec[currentAddressIndex]){
         dispatch('setCurrentAddress', currentAddressIndex)
       }
+    },
+    decryptWalletAction({commit, state}, args){
+      const {password, next} = args
+      if(decryptWalletExtracted(state, password)){
+        next(true)
+      } else {
+        next(false)
+      }
     }
   }
   const mutations = {

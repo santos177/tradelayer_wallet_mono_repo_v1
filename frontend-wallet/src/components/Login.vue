@@ -18,7 +18,7 @@
         <div class="md-raised md-accent animated rubberBand" v-else> no addresses found! </div>
         <router-link to="/CreateWallet" class="btn btn-link">Register/Create Wallet</router-link>
         <router-link to="/Recover" class="btn btn-link recover">Recover from private key</router-link>
-        <p v-if="loginError">
+        <p v-if="errors.length">
           <b>Please correct the following error(s):</b>
           <ul>
             <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
@@ -42,7 +42,8 @@
       return {
         uuid: '',
         password: '',
-        submitted: false
+        submitted: false,
+        errors: []
       }
     },
     computed: {
@@ -58,17 +59,23 @@
     methods: {
       ...mapActions('account', ['verify']),
       ...mapActions('auth', ['logout']),
-      ...mapMutations('wallet', ['decryptWallet']),
+      ...mapActions('wallet', ['decryptWalletAction']),
       handleSubmit(e) {
         this.submitted = true
         const {
           password,
-          decryptWallet
+          decryptWalletAction
         } = this
   
         if (password) {
-          decryptWallet(password);
-          this.$router.push('/Summary')
+          
+          const res = decryptWalletAction({password, next:(res)=>{
+            if(res){
+              this.$router.push('/Summary')
+            } else {
+              this.errors.push('invallid password; try again')
+            }
+          }})
         }
       }
     }
