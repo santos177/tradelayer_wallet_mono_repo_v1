@@ -118,10 +118,8 @@ export default {
   methods: {
     ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
-    handleSubmit() {
-      if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
-      if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
-      let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
+    handleLTCSubmit(){
+        let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
 
       let { publicAddress, wifKey } = walletDec[currentAddressIndex];
 
@@ -131,6 +129,34 @@ export default {
       walletService.sendRawTxn(signedTxn).then((data)=>{
         console.log(data);
       })
+    },
+    handleBuySellSubmit(){
+      // placeholder
+      return
+    },
+    handleIssueRedeemSubmit(){
+      // placeholder
+      return
+    },
+    handleSubmit(e) {
+      if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
+
+      const {currentTxnType, handleLTCSubmit, handleIssueRedeemSubmit, handleBuySellSubmit} = this
+      const {LTC_SEND,  BUY_CONTRACT, SELL_CONTRACT, ISSUE_CURRENCY, REDEEM_CURRENCY} = txnTypeEnum
+
+      switch (currentTxnType) {
+        case  LTC_SEND:
+          return handleLTCSubmit();
+        case BUY_CONTRACT:
+        case SELL_CONTRACT:
+          return handleBuySellSubmit()
+        case ISSUE_CURRENCY:
+        case REDEEM_CURRENCY:
+          return handleIssueRedeemSubmit()
+        default:
+          break;
+      }
+     
     },
     txnFormUpdate(e) {
       const { name, value } = e.target;
