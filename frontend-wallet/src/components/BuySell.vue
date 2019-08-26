@@ -22,8 +22,8 @@
                     </md-field>
                   </div>
                   <div class="md-layout-item">
-                    <button @click="handleBuy" class='md-raised mycolors-buy animated rubberBand delay-3s'>Buy</button>
-                    <button @click="handleSell" class='md-raised mycolors-sell animated rubberBand delay-3s'>Sell</button>
+                    <button @click="handleWalletBuy" class='md-raised mycolors-buy animated rubberBand delay-3s'>Buy</button>
+                    <button @click="handleWalletSell" class='md-raised mycolors-sell animated rubberBand delay-3s'>Sell</button>
                   </div>
                   <div class="md-layout-item">
                     txid {{lastTXID}}
@@ -38,8 +38,10 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 import { required, between } from 'vuelidate/lib/validators'
+import { walletService } from "../services";
+const {txnTypeEnum} = walletService
 
 export default {
   name: 'BuySell',
@@ -83,6 +85,8 @@ export default {
   methods: {
     ...mapActions('contracts', ['buyContracts', 'sellContracts', 'postCancelTrades', 'addPendingTXID']),
     ...mapActions('user', ['walletAddress']),
+    ...mapMutations('wallet', ['setBuyOrSellContract']),
+
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
 
@@ -92,8 +96,27 @@ export default {
         }
       }
     },
+    handleWalletBuy(){
+        const { form, selectedContract, setBuyOrSellContract } = this
+      this.setBuyOrSellContract({
+        txnType: txnTypeEnum.BUY_CONTRACT,
+        quantity: form.quantity,
+        price: form.price,
+        contract: selectedContract 
+      })
+    },
+    handleWalletSell(){
+      const { form, selectedContract, setBuyOrSellContract } = this
+      this.setBuyOrSellContract({
+        txnType: txnTypeEnum.SELL_CONTRACT,
+        quantity: form.quantity,
+        price: form.price,
+        contract: selectedContract 
+      })
+    },
     handleBuy (e) {
       const { form } = this
+
       this.buyContracts(form).then((data) => {
         this.lastTXID = data.lastTXID
         console.log('this is pending TXIDs in buysell ', this.pendingTXIDsGetter)

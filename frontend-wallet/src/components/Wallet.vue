@@ -38,8 +38,7 @@
             <div class='form-group'>
             <input :value="contract" @input="txnFormUpdate" type='text' placeholder='contract' name='contract' /> 
             <input :value="name" @input="txnFormUpdate" type='text' placeholder='name' name='name' /> 
-
-            <input :value="price" @input="txnFormUpdate" type='number' placeholder='price' name='price' /> 
+            <input :value="quantity" @input="txnFormUpdate" type='number' placeholder='quantity' name='quantity' /> 
             </div>
         </div>
         <div class='form-group'>
@@ -75,7 +74,11 @@ export default {
       "toAddress",
       "sats",
       "utxoArray",
-      "currentTxnType"
+      "currentTxnType",
+      "name",
+      "price",
+      "contract",
+      "quantity"
     ]),
     ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"]),
     txnType: {
