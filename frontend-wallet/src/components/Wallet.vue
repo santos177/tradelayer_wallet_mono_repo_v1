@@ -120,6 +120,10 @@ export default {
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
     handleLTCSubmit(){
         let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
+    handleSubmit() {
+      if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
+      if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
+      let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
 
       let { publicAddress, wifKey } = walletDec[currentAddressIndex];
 
