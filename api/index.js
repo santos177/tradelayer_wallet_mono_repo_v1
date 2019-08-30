@@ -174,7 +174,7 @@ configureRoutes(app)
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
-http.listen(socketPort, function(){
-  console.log('Magic happens on port ' + socketPort);
+// app.listen();
+http.listen(port, function(){
+  console.log('Magic happens on port ' + port);
 });
