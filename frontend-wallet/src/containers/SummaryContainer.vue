@@ -93,6 +93,7 @@
         </div>
         <div style="height: 600px" class="md-layout-item md-small-size-100 md-medium-size-100 md-large-size-33">
            <HistoricalTrades/>
+           <TradeChannels/>
         </div>
       </div>
 
