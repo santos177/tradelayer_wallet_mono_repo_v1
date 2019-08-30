@@ -6,5 +6,5 @@ const baseUrl = "http://192.155.93.12";
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   API_URL: `"${baseUrl}:76/api"`,
-  SOCKET_URL:`"${baseUrl}:75"`
+  SOCKET_URL:`"${baseUrl}:76"`
 })
