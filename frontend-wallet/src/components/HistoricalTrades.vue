@@ -1,6 +1,6 @@
 <template>
   <div id="HistoricalTrades">
-  <md-table style="height: 340px" md-card>
+  <md-table style="height: 260px" md-card>
    <md-card-header>Recent Trades</md-card-header>
      <md-tabs style="margin: -20px 0px 0px;">
       <md-tab id="tab-recent"  md-label="Recent">

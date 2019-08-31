@@ -1,5 +1,5 @@
 <template>
-    <md-table md-card>
+    <md-table md-card style="height: 268px">
         <md-table-row> 
               <md-table-cell> 
               <md-icon>offline_bolt</md-icon>
