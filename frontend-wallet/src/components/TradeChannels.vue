@@ -30,6 +30,7 @@
  
 </template>
 <script>
+import socket from '../socket/socketconnect.js'
 export default {
   name: "TradeChannels",
   data() {
@@ -38,24 +39,30 @@ export default {
           marginBalance: 1,
           quotePrice: 2,
           unpublishedTradeSize: 3,
-          address: "0xdanielgoldman"
+          address: "0xdanielgoldman",
+          id: 123
         },
         {
           marginBalance: 4,
           quotePrice: 5,
           unpublishedTradeSize: 6,
-          address: "0xsatoshinakamoto"
-        },
-        {
-          marginBalance: 4,
-          quotePrice: 5,
-          unpublishedTradeSize: 6,
-          address: "0xsatoshinakamoto1"
+          address: "0xsatoshinakamoto",
+          id: 456
         }
       ]
     return {
       channels: dummyChannels
     };
+  },
+  mounted(){
+    socket.on('receiveChannelProposal', (data)=>{
+      const channelData = (({ marginBalance, quotePrice, unpublishedTradeSize, address, id }) => ( 
+        {marginBalance, quotePrice, unpublishedTradeSize, address, id }
+        ))(data);
+        this.channels.push(channelData)
+      
+  
+    })
   }
 };
 </script>

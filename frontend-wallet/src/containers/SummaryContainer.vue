@@ -128,6 +128,7 @@ import Positions from '@/components/Positions'
 import Close from '@/components/Close'
 import Active from '@/components/Active'
 import Pending from '@/components/Pending'
+import TradeChannels from '@/components/TradeChannels'
 // import Balances from '@/components/Balances'
 
 export default {
@@ -151,7 +152,7 @@ export default {
       this.setSelectedContract(data)
     }
   },
-  components: {BuySell, OrderbookBuy, OrderbookSell, HistoricalTrades, Positions, Close, Active, Pending, HistoricalTradesbyAddress}
+  components: {BuySell, OrderbookBuy, OrderbookSell, HistoricalTrades, Positions, Close, Active, Pending, HistoricalTradesbyAddress, TradeChannels}
 }
 </script>
 

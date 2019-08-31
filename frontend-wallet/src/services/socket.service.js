@@ -1,6 +1,4 @@
-const io = require("socket.io-client");
-
-const socket = io.connect(process.env.SOCKET_URL);
+import socket from '../socket/socketconnect.js'
 
 socket.on("ponger", (data) => {
   console.warn("pong", data);
@@ -11,10 +9,6 @@ socket.on('receiveIndicator', (data)=>{
   
 })
 
-socket.on('receiveChannelProposal', (data)=>{
-  console.warn('new channel proposed', data);
-  
-})
 
 const registerAddresses = (addresses) => {
   socket.emit("registerAddresses", { addresses }, () => {
