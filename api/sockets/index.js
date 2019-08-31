@@ -25,8 +25,11 @@ const handleIoConnection = client => {
 
   client.on('indicateInterest', function(data) {
     console.log('indicator received');
-    SocketManager.sendIndication(data, client)
-    
+    SocketManager.sendIndication(data, client)   
+  })
+
+  client.on('proposeChannel', function(data) {
+    SocketManager.proposeChannel(data.channelData, client)
   })
 };
 

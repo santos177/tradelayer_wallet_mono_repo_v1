@@ -3,7 +3,9 @@ class SocketManager {
         this.sockIdToClient = {}
         this.addressToSockId = {}
         this.sockIdToAddresses = {}
+        this.proposedChannels = {}
 
+        this._sendToAllClients = this._sendToAllClients.bind(this)
     }
 
     handleRegisterAddresses(sockId, addressArray){
@@ -70,6 +72,23 @@ class SocketManager {
 
         client.emit(messageStr, payload)
     }
+
+    _sendToAllClients(messageStr, payload){
+        Object.keys(this.sockIdToClient).forEach((sockId)=>{
+            const client = this.sockIdToClient[sockId];
+            this._sendMessage(messageStr, payload, {byClient: client})
+        })
+    }
+    proposeChannel(data, client){
+        
+        const {proposedChannels, _sendToAllClients} = this;        
+        if (!proposedChannels[data.id]){
+            proposedChannels[data.id] = data;
+            _sendToAllClients('receiveChannelProposal', data)
+        }
+    }
+
+    
 }
 
 module.exports = SocketManager
