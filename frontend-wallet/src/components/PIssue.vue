@@ -24,7 +24,7 @@
           </md-field>
 
           <div>
-            <md-button class="md-raised md-accent" v-on:click="createPegCurrency">Create</md-button>
+            <md-button class="md-raised md-accent" v-on:click="createPegWallet">Create</md-button>
           </div>
         </md-card-content>
       </md-card>
@@ -34,7 +34,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState, mapMutations } from 'vuex'
+import { walletService } from "../services";
+const {txnTypeEnum} = walletService
 
 export default {
   name: 'PIssue',
@@ -68,6 +70,16 @@ export default {
   },
   methods: {
     ...mapActions('pcurrency', ['createPegCurrencies', 'maxPeggedCurrency']),
+    ...mapMutations('wallet', ['setIssueOrRedeemCurrency']),
+    createPegWallet () {
+      const {name, quantity, peggedContract} =  this
+      this.setIssueOrRedeemCurrency({
+        name, 
+        quantity,
+        txnType: txnTypeEnum.ISSUE_CURRENCY,
+        contract: peggedContract
+      })
+    },
     createPegCurrency (e) {
       this.createPegCurrencies({'name': this.name, 'quantity': this.quantity, 'address': this.address, 'contractID': '10'})
       alert('Pegg currency successfully created')

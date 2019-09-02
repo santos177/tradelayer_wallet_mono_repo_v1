@@ -23,7 +23,7 @@
           </md-field>
 
           <div>
-            <md-button class="md-raised md-accent" v-on:click="redeemPegCurrency">Redeem</md-button>
+            <md-button class="md-raised md-accent" v-on:click="redeemPegWallet">Redeem</md-button>
           </div>
         </md-card-content>
       </md-card>
@@ -32,7 +32,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { walletService } from "../services";
+const {txnTypeEnum} = walletService
 
 export default {
   name: 'PRedeem',
@@ -63,8 +65,19 @@ export default {
   },
   methods: {
     ...mapActions('pcurrency', ['redeemPeggedCurrency', 'getBalancePegged']),
-    redeemPegCurrency (e) {
-      // console.log('address is : ', this.addressGetter)
+    ...mapMutations('wallet', ['setIssueOrRedeemCurrency']),
+    redeemPegWallet(){
+         const {setIssueOrRedeemCurrency, amount, selectedContract, name} = this
+      // TODO selected contract? Is it necessary?
+         this.setIssueOrRedeemCurrency({
+          name, 
+          quantity: amount,
+          txnType: txnTypeEnum.REDEEM_CURRENCY,
+          contract: selectedContract
+      })
+
+    },
+    redeemPegCurrency (e) {  
       this.redeemPeggedCurrency({'redeemAddress': this.addressGetter, 'name': this.name, 'amount': this.amount, 'contractID': 'ALL/USD'})
         .then((data) => {
           alert('Pegg currency redeemed')

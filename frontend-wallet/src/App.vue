@@ -94,8 +94,8 @@
             </circle-menu>
           </div>
           <!-- <md-button @click="showNavigation = true">
-                        <md-icon>menu</md-icon>
-                      </md-button> -->
+                          <md-icon>menu</md-icon>
+                        </md-button> -->
         </div>
       </div>
     </md-toolbar>
@@ -137,10 +137,10 @@
     mapState
   } from 'vuex'
   import Wallet from '@/components/Wallet'
-  import {socketService} from './services'
+  import { socketService } from './services'
   
   
-  export default {
+  export default  {
     name: 'App',
     components: {
       Wallet
@@ -152,12 +152,13 @@
   
     mounted() {
       // TODO: run this whenever addresses change
-     socketService.registerAddresses(this.publicAddresses)
+      socketService.registerAddresses(this.publicAddresses)
       socketService.ping()
-
+  
       socketService.socket.on("requestAddresses", () => {
         socketService.registerAddresses(this.publicAddresses)
-});
+      });
+      window.toggleWallet = this.toggleWallet
     },
     computed: {
       ...mapGetters('user', ['walletBlobGetter']),
@@ -175,6 +176,9 @@
           this.clearKeys();
           this.$router.push('/')
         }
+      },
+      toggleWallet(formData) {          
+        this.showWallet = !this.showWallet
       }
     }
   

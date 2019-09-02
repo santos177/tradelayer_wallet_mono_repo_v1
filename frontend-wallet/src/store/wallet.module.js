@@ -2,14 +2,19 @@ const {   wifToPubKey, encryptKey, decryptKey, generateKeyPair} = require('../..
 const localWalletEnc =  window.localStorage.getItem('walletEnc') 
 const localWalletDec = window.localStorage.getItem('walletDec')
 import {walletService} from '../services'
+const {txnTypeEnum} = walletService
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
     walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],
     currentAddressIndex: 0,
-    toAddress: "",
-    sats: 0,
     utxoArray: [],
-    currentTxnType: 'type1'
+    currentTxnType: txnTypeEnum.LTC_SEND,
+    price: 0,
+    sats: 0,
+    toAddress: "",
+    name: "",
+    contract: "",
+    quantity: 0
   }
 
 // reusable helpers
@@ -62,6 +67,14 @@ const state = {
       if (walletDec[currentAddressIndex]){
         dispatch('setCurrentAddress', currentAddressIndex)
       }
+    },
+    decryptWalletAction({commit, state}, args){
+      const {password, next} = args
+      if(decryptWalletExtracted(state, password)){
+        next(true)
+      } else {
+        next(false)
+      }
     }
   }
   const mutations = {
@@ -108,6 +121,23 @@ const state = {
       },
       setCurrentTxnType(state, value){
         state.currentTxnType = value
+      },
+      setIssueOrRedeemCurrency(state, {contract, name, quantity, txnType}){
+        state.contract = contract
+        state.name = name
+        state.quantity = quantity
+        state.currentTxnType = txnType
+        
+        window.toggleWallet && window.toggleWallet()
+
+      },
+      setBuyOrSellContract(state, {quantity, price, txnType, contract}){
+        state.quantity = quantity
+        state.price = price
+        state.currentTxnType= txnType 
+        state.contract = contract
+
+        window.toggleWallet && window.toggleWallet()
       }
   }
 

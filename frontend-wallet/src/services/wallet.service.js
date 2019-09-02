@@ -76,7 +76,15 @@ const btcToSats = (value)=>{
 
   return Unit.fromBTC (value).toSatoshis() 
 }
+const txnTypeEnum = {
+  LTC_SEND: 0,
+  BUY_CONTRACT: 1,
+  SELL_CONTRACT: 2,
+  ISSUE_CURRENCY: 3,
+  REDEEM_CURRENCY: 4
+}
+
 
 export const walletService = {
-  getUTXOs, sendRawTxn
+  getUTXOs, sendRawTxn, txnTypeEnum
 };
