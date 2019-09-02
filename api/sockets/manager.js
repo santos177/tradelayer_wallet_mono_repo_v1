@@ -3,7 +3,10 @@ class SocketManager {
         this.sockIdToClient = {}
         this.addressToSockId = {}
         this.sockIdToAddresses = {}
+        this.proposedChannels = {}
 
+        this._sendToAllClients = this._sendToAllClients.bind(this)
+        this._sendMessage = this._sendMessage.bind(this)
     }
 
     handleRegisterAddresses(sockId, addressArray){
@@ -46,17 +49,15 @@ class SocketManager {
         this._sendMessage('requestAddresses', {}, options)
     }
     sendIndication(data, client){
-        const { targetAddress, fromAddress } = {data};
+        const { channel, fromAddress } = data;
         const payload = {
             fromAddress,
             otherData: 'trade info here'
         }
-        this._sendMessage("receiveIndicator", payload, {byAddress: targetAddress})
+        this._sendMessage("receiveIndicator", payload, {byAddress: channel.address})
     }
 
-    _sendMessage(messageStr, payload, options){
-        console.warn('message:', messageStr);
-        
+    _sendMessage(messageStr, payload, options){        
         const {sockIdToClient, addressToSockId, sockIdToAddresses} = this;
 
         let client;
@@ -67,9 +68,32 @@ class SocketManager {
         } else if (options.byAddress){
             client =   sockIdToClient[addressToSockId[options.byAddress]]
         }
-
-        client.emit(messageStr, payload)
+        if (client){
+            client.emit(messageStr, payload)
+        }  else {
+            console.warn('client not found');  
+        }
     }
+
+    _sendToAllClients(messageStr, payload){
+        Object.keys(this.sockIdToClient).forEach((sockId)=>{
+            const client = this.sockIdToClient[sockId];
+            this._sendMessage(messageStr, payload, {byClient: client})
+        })
+    }
+    proposeChannel(data, client){
+        
+        const {proposedChannels, _sendToAllClients} = this;        
+        if (!proposedChannels[data.id]){
+            proposedChannels[data.id] = data;
+            _sendToAllClients('receiveChannelProposal', data)
+        }
+    }
+    sendAllChannelsToClient(client){
+        this._sendMessage('receiveChannels', this.proposedChannels, {byClient:client})
+    }
+
+    
 }
 
 module.exports = SocketManager

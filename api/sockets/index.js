@@ -4,6 +4,8 @@ const handleIoConnection = client => {
 
   SocketManager.handleNewConnection(client)
 
+  SocketManager.sendAllChannelsToClient(client)
+  
   client.on("disconnect", function(x) {
     console.log("unregistering:", this.id);
     SocketManager.handleUnregister(this.id);
@@ -25,8 +27,11 @@ const handleIoConnection = client => {
 
   client.on('indicateInterest', function(data) {
     console.log('indicator received');
-    SocketManager.sendIndication(data, client)
-    
+    SocketManager.sendIndication(data, client)   
+  })
+
+  client.on('proposeChannel', function(data) {
+    SocketManager.proposeChannel(data.channelData, client)
   })
 };
 
