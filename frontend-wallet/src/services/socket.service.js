@@ -22,8 +22,8 @@ const ping = () => {
   });
 };
 
-const sendIOI = (targetAddress, fromAddress)=>{
-  socket.emit("indicateInterest", {targetAddress, fromAddress})
+const sendIOI = (channel, fromAddress)=>{
+  socket.emit("indicateInterest", {channel, fromAddress})
 }
 
 const proposeChannel = (channelData)=>{  

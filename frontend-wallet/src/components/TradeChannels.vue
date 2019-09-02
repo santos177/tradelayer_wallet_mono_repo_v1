@@ -19,7 +19,7 @@
             </md-table-cell>
         </md-table-row>
 
-        <md-table-row  v-for="(channel) in channels"  v-bind:key="channel.address">
+        <md-table-row  v-for="(channel) in channels"  v-bind:key="channel.address" @click="handleChannelClick(channel)">
             <md-table-cell>{{channel.marginBalance}}</md-table-cell>                       
             <md-table-cell>{{channel.quotePrice}} </md-table-cell>
             <md-table-cell>{{channel.unpublishedTradeSize}} </md-table-cell>
@@ -31,6 +31,9 @@
 </template>
 <script>
 import socket from '../socket/socketconnect.js'
+import {socketService } from "../services";
+import { mapGetters } from "vuex";
+
 export default {
   name: "TradeChannels",
   data() {
@@ -53,6 +56,9 @@ export default {
     return {
       channels: dummyChannels
     };
+  },
+  computed: {
+          ...mapGetters('wallet', ['addressGetter']),
   },
   mounted(){
 
@@ -77,6 +83,11 @@ export default {
       
   
     })
+  },
+  methods: {
+    handleChannelClick(channel){
+      socketService.sendIOI(channel, this.addressGetter)
+    }
   }
 };
 </script>
