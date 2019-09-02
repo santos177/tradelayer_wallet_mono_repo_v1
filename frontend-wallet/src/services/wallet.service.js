@@ -76,6 +76,25 @@ const btcToSats = (value)=>{
 
   return Unit.fromBTC (value).toSatoshis() 
 }
+
+
+const _getPayload = (url, data)=>{
+  return axiosInstance.post(url, data)
+}
+
+const getSendPeggedPayload = (amount, contractId)=>{
+  return _getPayload('dcurrency/sendPeggedPayload', {amount,contractID})
+}
+
+const getRedeemPeggedPayload = (amount, name)=>{
+  return _getPayload('dcurrency/redeemPeggedPayload',{amount,name})
+}
+
+const getSendIssuancePeggedPayload = (qty, name, contractID) =>{
+  return _getPayload('dcurrency/sendIssuancePeggedPayload',{qty, name, contractID})
+
+}
+
 const txnTypeEnum = {
   LTC_SEND: 0,
   BUY_CONTRACT: 1,
@@ -87,5 +106,5 @@ const txnTypeEnum = {
 
 
 export const walletService = {
-  getUTXOs, sendRawTxn, txnTypeEnum
+  getUTXOs, sendRawTxn, txnTypeEnum, getSendIssuancePeggedPayload, getRedeemPeggedPayload, getSendIssuancePeggedPayload
 };

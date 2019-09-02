@@ -187,6 +187,7 @@ export default {
         case SELL_CONTRACT:
           return handleBuySellSubmit()
         case ISSUE_CURRENCY:
+          return getSendIssuancePeggedPayload(/*datahere*/).then(this.handleOpReturnPayload)
         case REDEEM_CURRENCY:
           return handleIssueRedeemSubmit()
         case PROPOSE_CHANNEL:
@@ -195,6 +196,13 @@ export default {
           break;
       }
      
+    },
+    handleOpReturnPayload(txn){
+       const signedTxn = signTxn(txn, wifKey).serialize()
+      
+      walletService.sendRawTxn(signedTxn).then((data)=>{
+        console.log(data);
+      })
     },
     txnFormUpdate(e) {
       const { name, value } = e.target;
