@@ -14,7 +14,9 @@ const state = {
     toAddress: "",
     name: "",
     contract: "",
-    quantity: 0
+    quantity: 0,
+    channelPrice: 0,
+    channelBalance: 0
   }
 
 // reusable helpers

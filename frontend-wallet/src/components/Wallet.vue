@@ -64,6 +64,22 @@
               </div>
             </div>
         </div>
+         <div v-else-if="txnType === txnTypeEnum.PROPOSE_CHANNEL" >
+            <div class='form-group form-wrapper'>
+              <div>
+                <label for="contract">margin balance</label>
+                <input :value="channelBalance" @input="txnFormUpdate" type='text' placeholder='balance' name='channelBalance' /> 
+              </div>
+               <div>
+                <label for="contract">price</label>
+                <input :value="channelPrice" @input="txnFormUpdate" type='text' placeholder='price' name='channelPrice' /> 
+              </div>
+               <div>
+                <label for="contract">trade size</label>
+                <input :value="quantity" @input="quantity" type='text' placeholder='trade size' name='quantity' /> 
+              </div>
+            </div>
+        </div>
         <div class='form-group'>
           <md-field>
             <md-select v-model='txnType'>
@@ -72,6 +88,8 @@
               <md-option :value="this.txnTypeEnum.SELL_CONTRACT">Sell Contract</md-option>
               <md-option :value="this.txnTypeEnum.ISSUE_CURRENCY">Issue Currency</md-option>
               <md-option :value="this.txnTypeEnum.REDEEM_CURRENCY">Redeem Currency</md-option>
+              <md-option :value="this.txnTypeEnum.PROPOSE_CHANNEL">Propose Channel</md-option>
+
             </md-select>
           </md-field>
         </div>
@@ -84,7 +102,8 @@
 <script>
 import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
 import { createTxn, signTxn } from "../../lib/wallet.js";
-import { walletService } from "../services";
+import { walletService, socketService } from "../services";
+
 const {txnTypeEnum} = walletService
 export default {
   name: "Wallet",
@@ -103,7 +122,9 @@ export default {
       "name",
       "price",
       "contract",
-      "quantity"
+      "quantity",
+      "channelPrice",
+      "channelBalance"
     ]),
     ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"]),
     txnType: {
@@ -118,9 +139,7 @@ export default {
   methods: {
     ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
-    handleLTCSubmit(){
-        let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
-    handleSubmit() {
+    handleLTCSubmit() {
       if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
       if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
       let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
@@ -142,11 +161,24 @@ export default {
       // placeholder
       return
     },
+    handleProposeChannel(){
+      
+      const {   quantity, channelPrice, channelBalance, currentAddressIndex, walletDec} = this
+       let { publicAddress } = walletDec[currentAddressIndex];
+       
+       socketService.proposeChannel({
+         marginBalance: channelBalance,
+          quotePrice: channelPrice,
+          unpublishedTradeSize: quantity,
+          address: publicAddress
+       })
+       
+    },
     handleSubmit(e) {
       if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
 
-      const {currentTxnType, handleLTCSubmit, handleIssueRedeemSubmit, handleBuySellSubmit} = this
-      const {LTC_SEND,  BUY_CONTRACT, SELL_CONTRACT, ISSUE_CURRENCY, REDEEM_CURRENCY} = txnTypeEnum
+      const {currentTxnType, handleLTCSubmit, handleIssueRedeemSubmit, handleBuySellSubmit,handleProposeChannel} = this
+      const {LTC_SEND,  BUY_CONTRACT, SELL_CONTRACT, ISSUE_CURRENCY, REDEEM_CURRENCY, PROPOSE_CHANNEL} = txnTypeEnum
 
       switch (currentTxnType) {
         case  LTC_SEND:
@@ -157,6 +189,8 @@ export default {
         case ISSUE_CURRENCY:
         case REDEEM_CURRENCY:
           return handleIssueRedeemSubmit()
+        case PROPOSE_CHANNEL:
+          return handleProposeChannel()
         default:
           break;
       }

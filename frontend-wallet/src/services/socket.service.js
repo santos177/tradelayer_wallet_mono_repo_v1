@@ -26,7 +26,7 @@ const sendIOI = (targetAddress, fromAddress)=>{
   socket.emit("indicateInterest", {targetAddress, fromAddress})
 }
 
-const proposeChannel = (channelData)=>{
+const proposeChannel = (channelData)=>{  
   const data = Object.assign(channelData, {id: Math.random()})
   socket.emit("proposeChannel", {channelData: data})
 
@@ -35,5 +35,5 @@ const proposeChannel = (channelData)=>{
 window.pc = proposeChannel
 
 export const socketService = {
-    ping, registerAddresses, socket, sendIOI
+    ping, registerAddresses, socket, sendIOI, proposeChannel
 }
