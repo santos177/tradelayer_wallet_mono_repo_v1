@@ -4,6 +4,10 @@ var path= config.TLPATH
 var datadir = config.TLDATADIR
 var exec = require('child_process').exec;
 
+const express = require("express");
+const dcurrencyRouter = express.Router();
+
+
 const dcurrencyApi = ({omniClient, ...app}) => {
   app.post('/api/createPeg', function(req, res){
   			var obj = {};
@@ -58,7 +62,7 @@ const dcurrencyApi = ({omniClient, ...app}) => {
           }
   			});
   });
-
+  
   /* redeemPegged
   tl_redemption_pegged
   "\nArguments:\n"
@@ -117,4 +121,46 @@ const dcurrencyApi = ({omniClient, ...app}) => {
   return app
 }
 
-module.exports = dcurrencyApi
+dcurrencyRouter.post('/sendPeggedPayload', function(req, res){
+  const {amount, contractID} = req.body
+
+  req.omniClient.cmd('tl_createpayload_send_pegged', contractID, amount, (err, data)=>{
+    res.send(data)
+  })
+}); 
+
+dcurrencyRouter.post('/redeemPeggedPayload', function(req, res){
+  const {amount, name} = req.body
+
+
+  req.omniClient.cmd('tl_createpayload_redemption_pegged', name, amount, (err, data)=>{
+    res.send(data)
+  })
+}); 
+
+
+dcurrencyRouter.post('/sendIssuancePeggedPayload', function(req, res) {
+
+  const {qty, name, contractID} = req.body
+  // TODO:
+  // make the contractID a variable on the front end (not hardcorded in api)
+  // var command = path+"/litecoin-cli -datadir="+ datadir +" tl_sendissuance_pegged "+ address +" 1 2 0 \""+ name +"\" 4 \""+contractID+"\" "+ qty;  //req.params.command;
+
+  req.omniClient.cmd('tl_createpayload_sendissuance_pegged', 1, 2, 0, name, '/', contractID, qtyamou )
+  exec(command, function (error, stdout, stderr) {
+    if (error === null) {
+      console.log("La TRX "+ stdout)
+      req.body.trxid = stdout;
+      res.send(req.body);
+    } else {
+      console.log('something went wrong in createPeg', stderr)
+      res.send(stderr)
+    }
+  });
+
+})
+
+
+
+
+module.exports = {dcurrencyApi, dcurrencyRouter}
