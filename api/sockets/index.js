@@ -4,6 +4,8 @@ const handleIoConnection = client => {
 
   SocketManager.handleNewConnection(client)
 
+  SocketManager.sendAllChannelsToClient(client)
+  
   client.on("disconnect", function(x) {
     console.log("unregistering:", this.id);
     SocketManager.handleUnregister(this.id);

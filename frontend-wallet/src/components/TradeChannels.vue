@@ -55,6 +55,20 @@ export default {
     };
   },
   mounted(){
+
+    socket.on('receiveChannels', (newChannelsHash)=>{
+      const currentChannelIds = new Set(this.channels.map((channel)=> channel.id));
+      const channelsToAdd = []
+
+      Object.keys(newChannelsHash).forEach((channelId)=>{
+        if (!currentChannelIds.has(channelId)){
+          channelsToAdd.push(newChannelsHash[channelId])
+        }
+      })      
+      this.channels = this.channels.concat(channelsToAdd)
+
+    })
+
     socket.on('receiveChannelProposal', (data)=>{
       const channelData = (({ marginBalance, quotePrice, unpublishedTradeSize, address, id }) => ( 
         {marginBalance, quotePrice, unpublishedTradeSize, address, id }

@@ -87,6 +87,9 @@ class SocketManager {
             _sendToAllClients('receiveChannelProposal', data)
         }
     }
+    sendAllChannelsToClient(client){
+        this._sendMessage('receiveChannels', this.proposedChannels, {byClient:client})
+    }
 
     
 }
