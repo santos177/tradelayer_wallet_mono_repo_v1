@@ -161,7 +161,6 @@
       window.toggleWallet = this.toggleWallet
     },
     computed: {
-      ...mapGetters('user', ['walletBlobGetter']),
       ...mapGetters('wallet', ['walletCountDisplay', "isLoggedIn", "publicAddresses"]),
       ...mapGetters('contracts', ['equityGetter']),
     },

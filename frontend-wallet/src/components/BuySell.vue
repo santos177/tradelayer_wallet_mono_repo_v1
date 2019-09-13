@@ -59,7 +59,6 @@ export default {
   }),
   computed: {
     ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
-    ...mapState('user', ['walletBlob']),
     ...mapGetters('wallet', ['addressGetter'])
   },
   validations: {
@@ -84,7 +83,6 @@ export default {
   },
   methods: {
     ...mapActions('contracts', ['buyContracts', 'sellContracts', 'postCancelTrades', 'addPendingTXID']),
-    ...mapActions('user', ['walletAddress']),
     ...mapMutations('wallet', ['setBuyOrSellContract']),
 
     getValidationClass (fieldName) {

@@ -28,10 +28,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', ['walletBlobGetter']),
     ...mapGetters('contracts', ['fullPositionsGetter', 'selectedContractGetter']),
     ...mapState('contracts', ['fullPositions', 'selectedContract']),
-    ...mapState('user', ['walletBlob']),
     ...mapGetters('wallet', ['addressGetter'])
   },
   created () {

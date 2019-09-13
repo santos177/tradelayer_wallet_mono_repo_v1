@@ -52,7 +52,6 @@
       }
     },
     computed: {
-      ...mapState('user', ['nonce', 'walletBlob', 'publicKey', 'encryptedWallet']),
       ...mapState('wallet', ['walletDec']),
       ...mapGetters('wallet', ['hasEncryptedKeys'])
     },
@@ -62,7 +61,6 @@
       this.logout()
     },
     methods: {
-      ...mapActions('user', ['walletEmail', 'walletPassword', 'walletAddress', 'walletUUIDCreate', 'walletCreateCrypto', 'walletChallenge', 'walletCreate']),
       ...mapActions('auth', ['logout']),
       ...mapMutations('wallet', ['addKeyPair']),
       showFeedback({
