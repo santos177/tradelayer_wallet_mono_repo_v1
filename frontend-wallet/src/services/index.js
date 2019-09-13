@@ -1,4 +1,3 @@
-export * from './user.service.js'
 export * from './orderbook.service.js'
 export * from './contracts.service.js'
 export * from './pcurrency.service.js'
