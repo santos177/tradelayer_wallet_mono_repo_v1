@@ -3,6 +3,9 @@ const localWalletEnc =  window.localStorage.getItem('walletEnc')
 const localWalletDec = window.localStorage.getItem('walletDec')
 import {walletService} from '../services'
 const {txnTypeEnum} = walletService
+/**
+  * wallet data is cache in local storage; persists in encrypted form, 
+     */
 const state = {
     walletEnc: localWalletEnc ? JSON.parse(localWalletEnc) : [] ,
     walletDec:  localWalletDec ? JSON.parse(localWalletDec) : [],

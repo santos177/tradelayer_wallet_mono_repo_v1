@@ -1,3 +1,7 @@
+/**
+ * WIP, mostly scraps
+ */
+
 var litecoin = require('litecoin');
 
 const {Address, Balance, Property} = require('../models/index.js')

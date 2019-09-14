@@ -2,7 +2,8 @@ import axios from "axios";
 import {axiosInstance} from '../api/api'
 const network = process.env.NODE_ENV === "development" ? "ltctest" : "ltc";
 const {Unit} = require('litecore-lib')
-window.Unit = Unit
+
+// unused, leaving in case it's useful for dev
 const getUTXOs2 = (address, next) => {
   axios
     .get(`https://chain.so/api/v2/get_tx_unspent/${network}/${address}`)
@@ -17,7 +18,9 @@ const getUTXOs2 = (address, next) => {
 };
 
 
-
+/**
+     * Currently using external API for txn ids associated w/ address only; eventually these can be achieved from TL API
+     */
 const getUTXOs = (address, next)=>{
   axios.get(`https://api.bitaps.com/ltc/testnet/v1/blockchain/address/transactions/${address}`).then( async (res)=>{
     const txnData = res.data.data.list.map((txnObj)=> {
@@ -37,7 +40,6 @@ const getUTXOs = (address, next)=>{
           satoshis: btcToSats(utxo.value),          
         }
       })
-      console.warn(utxoDataFormatted);
       next(utxoDataFormatted)
       
     }).catch((err)=>{

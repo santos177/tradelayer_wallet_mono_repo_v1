@@ -8,19 +8,6 @@ const litecore= require('litecore-lib')
 
 
 
-
-// mainnet
-// const LITECOIN = {
-//   messagePrefix: '\x19Litecoin Signed Message:\n',
-//   bip32: {
-//     public: 0x019da462,
-//     private: 0x019d9cfe
-//   },
-//   pubKeyHash: 0x30,
-//   scriptHash: 0x32,
-//   wif: 0xb0
-// }
-
 // testnet
 const LITECOIN = {
   messagePrefix: '\x19Litecoin Signed Message:\n',
@@ -52,17 +39,17 @@ const wifToPubKey = (wifKey) =>{
 
 // bip38's encrypt/decrypt is incredibly slow, swapping for Cryptr for now:
 const encryptKey = (wifKey, password)=>{
-  // const decoded = wif.decode(wifKey)
-  // return bip38.encrypt(decoded.privateKey, decoded.compressed, password)
   const cryptr = new Cryptr(password);
-
   return cryptr.encrypt(wifKey);
 }
+
+//**
+ * 
+ * @param {String} encryptedKey 
+ * @param {String} password 
+ * returns decrypted key (String) if success, false if failure
+ */
 const decryptKey = (encryptedKey, password)=>{
-  // var decryptedKey = bip38.decrypt(encryptedKey, password,  (status)=> {
-  //   console.log(status.percent) // will print the percent every time current increases by 1000
-  // })
-  // return wif.encode(0xb0, decryptedKey.privateKey, decryptedKey.compressed)
   const cryptr = new Cryptr(password);
   const decrypted = cryptr.decrypt(encryptedKey);
   return decrypted.length == 52 ? decrypted : false; 
@@ -90,7 +77,6 @@ const createOpReturnTxn =(utxo, to, sats, change, data) =>{
 const signTxn = (txn, wifKey)=>{
   const privateKey = new litecore.PrivateKey(wifKey);
   return txn.sign(wifKey)
-
 }
 
 

@@ -1,4 +1,12 @@
 class SocketManager {
+      /**
+       * socketId is a unique, randomly assigned string
+       * mapping below are maintained to ensure constant retreival:
+    * @param sockIdToClient map socketId (String) to client object
+    * @param addressToSockId map public address (String) to socketId (String). Note that many-to-one is likely
+    * @param sockIdToAddresses map public address (String) to socketId (String).
+    * @param proposedChannels map randomly generated (by client) channelId (String) to channel data (Obj)
+   */
     constructor(){
         this.sockIdToClient = {}
         this.addressToSockId = {}
@@ -10,7 +18,6 @@ class SocketManager {
     }
 
     handleRegisterAddresses(sockId, addressArray){
-        // TODO: handle no client object?
         const {sockIdToClient, addressToSockId, sockIdToAddresses} = this;
 
         const client = sockIdToClient[sockId]
@@ -45,9 +52,9 @@ class SocketManager {
         this._sendMessage('ponger', {msg: 'pong'}, options)
     }
     requestAddressses(options){
-        
         this._sendMessage('requestAddresses', {}, options)
     }
+
     sendIndication(data, client){
         const { channel, fromAddress } = data;
         const payload = {
@@ -57,6 +64,12 @@ class SocketManager {
         this._sendMessage("receiveIndicator", payload, {byAddress: channel.address})
     }
 
+       /**
+       * Private, sends message
+    * @param messageStr (String) message type, i.e, "ponger"
+    * @param payload (Obj) data to send
+    * @param options (Obj) object specifiying how to reach target; byClient, bySockId, and byAddress are all supported
+   */
     _sendMessage(messageStr, payload, options){        
         const {sockIdToClient, addressToSockId, sockIdToAddresses} = this;
 
@@ -82,7 +95,6 @@ class SocketManager {
         })
     }
     proposeChannel(data, client){
-        
         const {proposedChannels, _sendToAllClients} = this;        
         if (!proposedChannels[data.id]){
             proposedChannels[data.id] = data;

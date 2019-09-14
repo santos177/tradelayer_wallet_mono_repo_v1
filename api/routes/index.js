@@ -10,6 +10,7 @@ const tradeApi = require('./trade')
 const userApi = require('./user')
 
 const configureRoutes = app => {
+  // app.use gives the prefix to all routes; all routes should probably use this syntax eventually
   app.use('/api/balances', balanceRouter)
   app.use('/api/properties', propertyRouter)
   app.use('/api/orderbooks', orderbookRouter)

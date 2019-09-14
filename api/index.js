@@ -4,7 +4,6 @@ const { base64encode, base64decode } = require('nodejs-base64')
 
 var omniClient = require('./ltc_client.js')
 
-console.log('this is the litecoin client ', omniClient)
 omniClient.getNetworkHashPs(function(err, hashps) {
 	if (err) console.error(err);
 	console.log('Network Hash Rate: ' + hashps);
@@ -18,7 +17,6 @@ var asynco = require('async');
 var dns = require("dns");
 var exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
-var WebSocketServer = require('ws').Server;
 var dgram = require('dgram');
 var udpserver= dgram.createSocket('udp4');
 var fs = require('fs')
@@ -27,31 +25,14 @@ var io = require('socket.io')(http);
 var path= config.TLPATH
 var datadir = config.TLDATADIR
 var morgan = require('morgan')
-// var account_creation_difficulty = '0400'
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 // var store_dir = datadir + '/sessions/'
 const handleIoConnection = require('./sockets/index.js')
-console.warn(handleIoConnection);
 
 app.use(cors())
 //SOCKET IO
 io.on('connection', handleIoConnection)
-
-// udpserver.on('message', (msg, rinfo) => {
-
-// 	//console.log("MSG :"+ msg)
-
-// 	 var msgStr = msg.toString().split("<<<")
-// 	 var msgArr = msgStr[0].split("-")
-// 	 console.log("MSG :"+ msgArr[5])
-
-// 	  wsCol.forEach(function(socket) {
-
-// 		socket.emit('messages', msg.toString());
-
-// 	  });
-// })
 
 //UDP server
 udpserver.on('error', (err) => {
@@ -67,8 +48,6 @@ udpserver.bind(666);
 
 const configureRoutes = require('./routes');
 
-// configure app to use bodyParser()
-// this will let us get the data from a POSTx
 
 app.omniClient = omniClient
 
