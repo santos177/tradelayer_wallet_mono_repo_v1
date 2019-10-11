@@ -12,6 +12,10 @@ txnRouter.post('/', (req,res)=>{
         res.send(data)
     })
 })
+/**
+     * Checks if any utxos remain for a given array of transactions (ids are all that are technically needed); spent txns are cached in the db to prevent redudant lookups
+     * callback / recursion chain is: from many transactions, check each transactions, for all of it's utxos, and if it turns out all the utxos were spent, mark it as such
+     */
 
 txnRouter.post('/utxos', (req, res)=>{
     const {txnData, address} = req.body
@@ -80,7 +84,6 @@ const getAllUTXOs = async (txid, vOutCount, omniClient, next, options={})=>{
     }
 
 
-
     const getAllUTXOsRecur = async  (txid, vOutIndex) =>{
         if(vOutIndex < 0){
 
@@ -109,7 +112,6 @@ const getAllUTXOs = async (txid, vOutCount, omniClient, next, options={})=>{
 * @param omniClient {litecoin.Client object}
 * @param next {callback func}
 returns via cb chain: utxo data or null
-
 */
 const getUTXO = (txid, vOutN, omniClient, next)=>{
     omniClient.cmd('gettxout', txid, vOutN, (err, data)=>{

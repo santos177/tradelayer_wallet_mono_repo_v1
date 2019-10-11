@@ -10,7 +10,6 @@ propertyRouter.get('/', (req,res)=>{
 })
 
 propertyRouter.get('/:id', (req, res)=>{
-     // TODO: check db first:
     let {id} = req.params
     id = +id    
     req.omniClient.cmd('tl_getproperty', id, (err, properties)=>{

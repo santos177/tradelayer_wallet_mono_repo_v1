@@ -1,3 +1,17 @@
-mono-repo for vue-js wallet frontend and node-js api backend
+### Tradelayer Wallet/Node Api
 
-(readme todo)
+_This doc serves as a high-level description of the app's achicture, including functionality both already in place and WIP components_
+
+##### Front End Wallet
+- **Identity / authenticaion / authorization** is all determined by key pairs; any remaining traces of UIDs, usernames, etc. are outmoded/unused and should be removed. "Signup" is simply the creation of a client-side keypair; the private keys are stored in encrypted form with a the user's password and in plaintext during a session. (Logging out === expiring the plaintext keys cache, logging in === decrypting them, etc.)
+
+- **Txn Signing:** For LTC sends, the wallet simply generates a signature and sends the raw txn to the api for processing. OP_RETURN transactions require an additional step; send raw data to API to retrieve the txn payload, sign on frontend, then send back to API for processing. Current intended frontend UX is that any to-be-on-chain transaction take the user to the wallet to explicitely sign (i.e., slides open the tab on the left). Whether off-chain channel txns should use the same UX is an open question.
+
+- **UTXO Strategy:** currently, the frontend uses an external API to retreive the transaction IDs associated with a given address; the rest is handled via the node API app, including caching redundant spent-txn RPC in the database (once the TL API can handle this one missing piece, no external APIs will be involved)
+
+- **Web Sockets:** The websocket messaging service allows users to send arbitrary data to another user via public address. Currently several message types are in place, including "propose channel", the states of which persist. Upon "accepting a proposal," the channel creation protocol should be initiated. Currently, the messaging system requires the API app to manage server site state and to process messages; switching to web RTC will make this process more strictly P2P (though as is, channels could still technically be created/used/closed with no trust assumptions / custodial risks).
+
+- **API/ DB caching** The API exists (primary) to expose RPCs as endpoints; we want to limit expensive RPCs by caching data whenever the possible; in other words, the end goal is to have node app process each new block and update the postgresDB with all new relevant data, and thus, calls to the API should will only use the postgres db and _never_ directly trigger RPCs. Note that since any block could contain relevant data, it logically follows that the only way to truly achieve this is to have the node app be a full, javascript implement of the TL protocol itself (some minor exceptions where you could get around are things that are immutable, like property names, perhaps, but meh). For now, the db infrastructure to set the stage for this is in place, along with some preliminary interactions in the API routes.
+
+- **Expected Usage** Users, in theory, have the option of running a "full node"   i.e., running the TL protocol (over litecoin) locally along with the node API app, and pointing their wallet to those endpoints. Realistically, most will connect use the app via the web only and connect to a remote node; this level of peer discovery etc. still needs to be implemented. Also worth consisering is checking the client's UTXOs against some client-side SPV block-header syncing, the mere suggestion of which is bound to be a controversial, highly political, and perhaps banable offence. 
+

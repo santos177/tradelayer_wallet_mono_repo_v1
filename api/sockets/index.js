@@ -1,5 +1,9 @@
 const SocketManager = new (require("./manager.js"))();
 
+/**
+     * Bind event listeners on initial socket connection
+     * note that client object is bound and references in some of the callbacks
+     */
 const handleIoConnection = client => {
 
   SocketManager.handleNewConnection(client)
