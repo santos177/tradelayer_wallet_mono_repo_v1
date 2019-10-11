@@ -57,7 +57,6 @@
       console.warn('LOGGING OUT IN LOGIN') // this.logout()
     },
     methods: {
-      ...mapActions('account', ['verify']),
       ...mapActions('auth', ['logout']),
       ...mapActions('wallet', ['decryptWalletAction']),
       handleSubmit(e) {
