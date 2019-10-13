@@ -5,6 +5,19 @@ var path= config.TLPATH
 var datadir = config.TLDATADIR
 
 const tradeApi = ({omniClient, ...app}) => {
+
+  app.get('/api/getFees', function(req, res){
+    const { conractId } = req.query
+    omniClient.cmd('tl_getfees', contractId, function whenOK(err, fees){
+      if(err){
+        res.send(err.toString())
+      } else {
+        res.send(fees)
+      }
+    })
+      
+  })
+
   app.post('/api/bot', function(req, res){
 
     console.log("PARAM :"+req.body)

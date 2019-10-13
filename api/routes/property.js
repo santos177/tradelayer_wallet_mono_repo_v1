@@ -8,6 +8,15 @@ propertyRouter.get('/', (req,res)=>{
         res.send(properties)
     })
 })
+propertyRouter.get('/listContracts', (req,res)=>{
+    req.omniClient.cmd('tl_listcontracts', (err, contracts)=>{
+        if(err){
+            res.send(err.toString())
+        } else {
+            res.send(contracts)
+        }       
+    })
+})
 
 propertyRouter.get('/:id', (req, res)=>{
     let {id} = req.params
