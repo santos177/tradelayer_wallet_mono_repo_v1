@@ -54,4 +54,16 @@ positionRouter.get('/getQuotes', (req, res)=>{
   })
 })
 
+positionRouter.get('/getInsurance', (req, res)=>{
+  const {contractID} = req.query;
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getinsurance', contractID, (err, insurance )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
 module.exports = positionRouter
