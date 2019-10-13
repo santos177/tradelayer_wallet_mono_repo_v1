@@ -7,7 +7,7 @@ var datadir = config.TLDATADIR
 const tradeApi = ({omniClient, ...app}) => {
 
   app.get('/api/getFees', function(req, res){
-    const { conractId } = req.query
+    const { contractId } = req.query
     omniClient.cmd('tl_getfees', contractId, function whenOK(err, fees){
       if(err){
         res.send(err.toString())
