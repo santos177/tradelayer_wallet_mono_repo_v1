@@ -9,7 +9,7 @@ const createTxn= require("./txn.js");
 const config = require("../config.js")
 
 const db = new Sequelize({
-  database: "tradelayer",
+  database: config.DBNAME,
   dialect: "postgres",
   username:config.DBUSER,
   password: config.DBPASSWORD,
