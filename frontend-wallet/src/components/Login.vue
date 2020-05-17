@@ -15,7 +15,7 @@
             />
           </div>
         </div>
-        <div class="md-raised md-accent animated rubberBand" v-else> no addresses found! </div>
+        <div class="md-raised md-accent animated rubberBand" v-else> No addresses found! </div>
         <router-link to="/CreateWallet" class="btn btn-link">Register/Create Wallet</router-link>
         <router-link to="/Recover" class="btn btn-link recover">Recover from private key</router-link>
         <p v-if="errors.length">
