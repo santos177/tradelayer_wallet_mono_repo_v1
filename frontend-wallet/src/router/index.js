@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PeggedCurrenciesContainer from '@/containers/PeggedCurrenciesContainer'
 import CreateWalletContainer from '@/containers/CreateWalletContainer'
 import LoginContainer from '@/containers/LoginContainer'
 import SummaryContainer from '@/containers/SummaryContainer'
@@ -62,11 +61,6 @@ export const router = new Router({
       path: '/Balances',
       name: 'Balances',
       component: PortfolioContainer
-    },
-    {
-      path: '/dCurrency',
-      name: 'dCurrency',
-      component: PeggedCurrenciesContainer
     },
     {
       path: '/Positions',

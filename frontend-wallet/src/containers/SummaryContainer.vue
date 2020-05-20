@@ -16,7 +16,6 @@
     <div class="md-layout-item md-small-hide">
       <md-tabs style="margin: 0px 0px 0px 40px" md-sync-route>
         <md-tab id="tab-summary" md-label="Trading" to="/Summary"></md-tab>
-        <md-tab id="tab-dCurrency" md-label="dCurrency" to="/dCurrency"></md-tab>
         <md-tab id="tab-portfolios" md-label="Portfolio" to="/Portfolio"></md-tab>
         <md-tab id="tab-taxes" md-label="Taxes" to="/Taxes"></md-tab>
       </md-tabs>
