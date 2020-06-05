@@ -17,7 +17,7 @@ balanceRouter.get('/', (req, res)=>{
   })
 })
 
-balanceRouter.get('/tl_getTX/',  (req, res)=> {
+balanceRouter.get('/gettx/',  (req, res)=> {
   const txnId = req.query.txnId;
   req.omniClient.getTransaction(txnId, (data, err)=>{
     if(err){
@@ -27,7 +27,7 @@ balanceRouter.get('/tl_getTX/',  (req, res)=> {
   })
 })
 
-balanceRouter.get('/tl_getBalances/',  async  (req, res)=> {
+balanceRouter.get('/getBalances/',  async  (req, res)=> {
   // todo: optional prop arg
   const {address, propId} = req.query;
   if (address){
