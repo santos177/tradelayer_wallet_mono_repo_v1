@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PeggedCurrenciesContainer from '@/containers/PeggedCurrenciesContainer'
 import CreateWalletContainer from '@/containers/CreateWalletContainer'
 import LoginContainer from '@/containers/LoginContainer'
 import SummaryContainer from '@/containers/SummaryContainer'
@@ -14,11 +13,10 @@ import HistoricalTradesContainer from '@/containers/HistoricalTradesContainer'
 import OrderbookBuy from '@/components/OrderbookBuy'
 import OrderbookSell from '@/components/OrderbookSell'
 import TaxesContainer from '@/containers/TaxesContainer'
-import ValidatorsContainer from '@/containers/ValidatorsContainer'
 import HistoricalTradesbyAddressContainer from '@/containers/HistoricalTradesbyAddressContainer'
 import Recover from '@/components/Recover'
 
-import {store} from '../store'
+import { store } from '../store'
 
 Vue.use(Router)
 
@@ -40,11 +38,6 @@ export const router = new Router({
       component: ChartsContainer
     },
     {
-      path: '/Validators',
-      name: 'Validators',
-      component: ValidatorsContainer
-    },
-    {
       path: '/OrderbookSell',
       name: 'OrderbookSell',
       component: OrderbookSell
@@ -59,7 +52,8 @@ export const router = new Router({
       name: 'CreateWallet',
       component: CreateWalletContainer
     },
-    { path: '/',
+    {
+      path: '/',
       name: 'LoginContainer',
       component: LoginContainer
     },
@@ -67,11 +61,6 @@ export const router = new Router({
       path: '/Balances',
       name: 'Balances',
       component: PortfolioContainer
-    },
-    {
-      path: '/dCurrency',
-      name: 'dCurrency',
-      component: PeggedCurrenciesContainer
     },
     {
       path: '/Positions',
@@ -97,7 +86,7 @@ export const router = new Router({
       path: '/HistoricalTrades',
       name: 'Historical Trades',
       component: HistoricalTradesContainer
-    },  {
+    }, {
       path: '/Recover',
       name: 'Recover',
       component: Recover
@@ -115,24 +104,24 @@ export const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  
-  const {walletEnc, walletDec} = store.state.wallet
+
+  const { walletEnc, walletDec } = store.state.wallet
   const walletEncPresent = walletEnc.length > 0;
   const walletDecPresent = walletDec.length > 0;
   // root to summary if logged in
-  if(to.path=='/' && walletDecPresent){
+  if (to.path == '/' && walletDecPresent) {
     return next('/Summary')
   }
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ['/', '/CreateWallet', '/Recover']
   // console.log('to path', to.path)
-  if (publicPages.includes(to.path)){
+  if (publicPages.includes(to.path)) {
     return next()
-  } 
+  }
   console.log(from)
-  if (!walletDecPresent){
+  if (!walletDecPresent) {
     return next('/')
-  } 
+  }
 
 
   next()
