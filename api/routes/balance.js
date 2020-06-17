@@ -24,7 +24,7 @@ balanceRouter.get('/byid', (req, res)=>{
   })
 })
 
-balanceRouter.get('/gettx/',  (req, res)=> {
+balanceRouter.get('/bytx/',  (req, res)=> {
   const txnId = req.query.txnId;
   req.omniClient.getTransaction(txnId, (data, err)=>{
     if(err){
