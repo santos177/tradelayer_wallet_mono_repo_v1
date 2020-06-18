@@ -3,7 +3,7 @@ const config = require("../config");
 const express = require("express");
 const positionRouter = express.Router();
 
-positionRouter.post("/postFullPositions", (req, res) => {
+positionRouter.get("/getFullPosition", (req, res) => {
   const {omniClient} = req
   
   var account = req.body.account;
@@ -27,11 +27,11 @@ positionRouter.post("/postFullPositions", (req, res) => {
     }
   );
 });
-
-positionRouter.get('/getVolume', (req, res)=>{
-  const {contractID, blocks} = req.query;
+//deprecated until associated RPC is implemented, also this should go under its own route with other trade history data.
+/*positionRouter.get('/getContractVolume', (req, res)=>{
+  const {contractID, startblock, endblock} = req.query;
   const {omniClient} = req; 
-  omniClient.cmd('tl_getvolume', contractID, blocks, (err, volume )=>{
+  omniClient.cmd('tl_getvolume', contractID, startblock, endblock, (err, volume )=>{
     if(err){
       res.send(err.toString())
     } else {
@@ -39,7 +39,7 @@ positionRouter.get('/getVolume', (req, res)=>{
 
     }
   })
-})
+})*/
 
 
 positionRouter.get('/getQuotes', (req, res)=>{
