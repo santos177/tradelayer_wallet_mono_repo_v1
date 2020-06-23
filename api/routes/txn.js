@@ -36,6 +36,25 @@ txnRouter.get('/', (req,res)=>{
     })
     
 })
+
+txnRouter.get('/getblocktx', (req,res)=>{
+    const {block} = req.body
+    req.omniClient.cmd('tl_getalltxonblock', block, (err, data)=>{
+        if(err) res.status(500).send('error')
+        
+        res.send(data)
+    })
+})
+
+txnRouter.get('/gettx', (req,res)=>{
+    const {txid} = req.body
+    req.omniClient.cmd('tl_gettransaction', txid, (err, data)=>{
+        if(err) res.status(500).send('error')
+        
+        res.send(data)
+    })
+})
+
 const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
     let allUTXOs = []
     const dbTxnsArray = await Txn.findAll({
