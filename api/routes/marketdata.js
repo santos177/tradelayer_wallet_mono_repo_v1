@@ -86,7 +86,7 @@ marketdataRouter.get('/getOracleInsuranceFund', (req, res)=>{
 marketdataRouter.get('/getKYCRegistarList', (req, res)=>{
   const {contractID} = req.query;
   const {omniClient} = req; 
-  omniClient.cmd('tl_listkyc', (err, insurance )=>{
+  omniClient.cmd('tl_listkyc', (err, data )=>{
     if(err){
       res.send(err.toString())
     } else {
@@ -94,3 +94,52 @@ marketdataRouter.get('/getKYCRegistarList', (req, res)=>{
     }
   })
 })
+
+marketdataRouter.get('/getActivations', (req, res)=>{
+  const {contractID} = req.query;
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getactivations', (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+  
+marketdataRouter.get('/getCurrencyTotal', (req, res)=>{
+  const {propertyid} = req.query;
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getcurrencytotal', propertyid, (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+                
+marketdataRouter.get('/getALLPrice', (req, res)=>{
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getallprice', (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+marketdataRouter.get('/getContractPrice', (req, res)=>{
+  const {contractid} = req.query;
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getmarketprice', contractid, (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+  
