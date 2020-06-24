@@ -43,7 +43,7 @@ marketDataRouter.get('/getTotalLTCVolume', (req, res)=>{
 
     }
   })
-}
+})
 
 //this isn't actually an RPC and we need to create a layer of abstraction
 /*marketdataRouter.get('/getQuotes', (req, res)=>{
