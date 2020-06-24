@@ -39,5 +39,122 @@ propertyRouter.get('/getproperty/:id', (req, res)=>{
     }) 
 })
 
+propertyRouter.get('/getNativeInsuranceFund/:id', (req, res)=>{
+  let {id} = req.params;
+  id = +id
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getcache', id, (err, insurance )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+propertyRouter.get('/getOracleInsuranceFund/:id', (req, res)=>{
+  let {id} = req.params;
+  id = +id
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getoraclecache', id, (err, insurance )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+propertyRouter.get('/getKYCRegistarList', (req, res)=>{
+  const {omniClient} = req; 
+  omniClient.cmd('tl_listkyc', (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+propertyRouter.get('/getActivations', (req, res)=>{
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getactivations', (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+  
+propertyRouter.get('/getCurrencyTotal/:id', (req, res)=>{
+  let {id} = req.params;
+  id = +id
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getcurrencytotal', id, (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+                
+propertyRouter.get('/getALLPrice', (req, res)=>{
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getallprice', (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+propertyRouter.get('/getContractPrice/:id', (req, res)=>{
+  let {id} = req.params;
+  id = +id
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getmarketprice', id, (err, data )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(insurance)
+    }
+  })
+})
+
+marketDataRouter.get('/getSpotTokenVolume/:id1/:id2/:startblock/:endblock', (req, res)=>{
+  let {id1, id2, startblock, endblock} = req.params;
+  id1 = +id1
+  id2 = +id2
+  startblock = +startblock
+  endblock = +endblock
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getmdexvolume', id1, id2, startblock, endblock, (err, volume )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(volume)
+
+    }
+  })
+})
+  
+marketDataRouter.get('/getTotalLTCVolume/:id/:startblock/:endblock', (req, res)=>{
+  let {id, startblock, endblock} = req.params;
+  id = +id
+  startblock = +startblock
+  endblock = +endblock  
+  const {omniClient} = req; 
+  omniClient.cmd('tl_getdexvolume', id, startblock, endblock, (err, volume )=>{
+    if(err){
+      res.send(err.toString())
+    } else {
+      res.send(volume)
+
+    }
+  })
+})
 
 module.exports =  propertyRouter 
