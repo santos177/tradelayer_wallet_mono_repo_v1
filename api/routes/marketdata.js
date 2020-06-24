@@ -4,7 +4,7 @@ var path= config.TLPATH
 var datadir = config.TLDATADIR
 var exec = require('child_process').exec;
 const express = require('express')
-const marketdataRouter = express.Router()
+const marketDataRouter = express.Router()
 
 //deprecated until associated RPC is implemented, also this should go under its own route with other trade history data.
 /*marketDataRouter.get('/getContractVolume', (req, res)=>{
