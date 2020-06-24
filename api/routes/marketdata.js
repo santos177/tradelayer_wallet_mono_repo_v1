@@ -47,7 +47,7 @@ marketDataRouter.get('/getTotalLTCVolume', (req, res)=>{
 })
 
 //this isn't actually an RPC and we need to create a layer of abstraction
-/*marketdataRouter.get('/getQuotes', (req, res)=>{
+/*marketDataRouter.get('/getQuotes', (req, res)=>{
   const {contractID, trustRating} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_getquotes', contractID, trustRating, (err, quotes )=>{
@@ -60,7 +60,7 @@ marketDataRouter.get('/getTotalLTCVolume', (req, res)=>{
 })
 */
 
-marketdataRouter.get('/getNativeInsuranceFund', (req, res)=>{
+marketDataRouter.get('/getNativeInsuranceFund', (req, res)=>{
   const {contractID} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_getcache', contractID, (err, insurance )=>{
@@ -72,7 +72,7 @@ marketdataRouter.get('/getNativeInsuranceFund', (req, res)=>{
   })
 })
 
-marketdataRouter.get('/getOracleInsuranceFund', (req, res)=>{
+marketDataRouter.get('/getOracleInsuranceFund', (req, res)=>{
   const {contractID} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_getoraclecache', contractID, (err, insurance )=>{
@@ -84,7 +84,7 @@ marketdataRouter.get('/getOracleInsuranceFund', (req, res)=>{
   })
 })
 
-marketdataRouter.get('/getKYCRegistarList', (req, res)=>{
+marketDataRouter.get('/getKYCRegistarList', (req, res)=>{
   const {contractID} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_listkyc', (err, data )=>{
@@ -96,7 +96,7 @@ marketdataRouter.get('/getKYCRegistarList', (req, res)=>{
   })
 })
 
-marketdataRouter.get('/getActivations', (req, res)=>{
+marketDataRouter.get('/getActivations', (req, res)=>{
   const {contractID} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_getactivations', (err, data )=>{
@@ -108,7 +108,7 @@ marketdataRouter.get('/getActivations', (req, res)=>{
   })
 })
   
-marketdataRouter.get('/getCurrencyTotal', (req, res)=>{
+marketDataRouter.get('/getCurrencyTotal', (req, res)=>{
   const {propertyid} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_getcurrencytotal', propertyid, (err, data )=>{
@@ -120,7 +120,7 @@ marketdataRouter.get('/getCurrencyTotal', (req, res)=>{
   })
 })
                 
-marketdataRouter.get('/getALLPrice', (req, res)=>{
+marketDataRouter.get('/getALLPrice', (req, res)=>{
   const {omniClient} = req; 
   omniClient.cmd('tl_getallprice', (err, data )=>{
     if(err){
@@ -131,7 +131,7 @@ marketdataRouter.get('/getALLPrice', (req, res)=>{
   })
 })
 
-marketdataRouter.get('/getContractPrice', (req, res)=>{
+marketDataRouter.get('/getContractPrice', (req, res)=>{
   const {contractid} = req.query;
   const {omniClient} = req; 
   omniClient.cmd('tl_getmarketprice', contractid, (err, data )=>{
