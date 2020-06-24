@@ -8,7 +8,7 @@ const orderbookApi =require('./orderbook')
 const priceApi = require('./price')
 const tradeApi = require('./trade')
 const userApi = require('./user')
-const marketdataAPI = require('./marketdata')
+const marketDataAPI = require('./marketdata')
 
 const configureRoutes = app => {
   // app.use gives the prefix to all routes; all routes should probably use this syntax eventually
