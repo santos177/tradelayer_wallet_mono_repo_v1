@@ -24,7 +24,7 @@ const configureRoutes = app => {
   priceApi(app)
   tradeApi(app)
   userApi(app)
-  marketdataAPI(app)
+  marketDataAPI(app)
 }
 
 module.exports = configureRoutes
