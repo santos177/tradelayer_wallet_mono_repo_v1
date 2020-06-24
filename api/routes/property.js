@@ -124,7 +124,7 @@ propertyRouter.get('/getContractPrice/:id', (req, res)=>{
   })
 })
 
-marketDataRouter.get('/getSpotTokenVolume/:id1/:id2/:startblock/:endblock', (req, res)=>{
+propertyRouter.get('/getSpotTokenVolume/:id1/:id2/:startblock/:endblock', (req, res)=>{
   let {id1, id2, startblock, endblock} = req.params;
   id1 = +id1
   id2 = +id2
@@ -141,7 +141,7 @@ marketDataRouter.get('/getSpotTokenVolume/:id1/:id2/:startblock/:endblock', (req
   })
 })
   
-marketDataRouter.get('/getTotalLTCVolume/:id/:startblock/:endblock', (req, res)=>{
+propertyRouter.get('/getTotalLTCVolume/:id/:startblock/:endblock', (req, res)=>{
   let {id, startblock, endblock} = req.params;
   id = +id
   startblock = +startblock
