@@ -8,7 +8,6 @@ const orderbookApi =require('./orderbook')
 const priceApi = require('./price')
 const tradeApi = require('./trade')
 const userApi = require('./user')
-const marketDataAPI = require('./marketdata')
 
 const configureRoutes = app => {
   // app.use gives the prefix to all routes; all routes should probably use this syntax eventually
@@ -18,13 +17,11 @@ const configureRoutes = app => {
   app.use('/api/txn', txnRouter)
   app.use('/api/positions', positionRouter)
   app.use('/api/dcurrency', dcurrencyApi)
-  app.use('/api/marketdata', marketDataAPI)
   balanceApi(app)
   dcurrencyApi(app)
   priceApi(app)
   tradeApi(app)
   userApi(app)
-  marketDataAPI(app)
 }
 
 module.exports = configureRoutes
