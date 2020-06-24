@@ -31,6 +31,7 @@ marketDataRouter.get('/getSpotTokenVolume', (req, res)=>{
 
     }
   })
+})
   
 marketDataRouter.get('/getTotalLTCVolume', (req, res)=>{
   const {id, startblock, endblock} = req.query;
