@@ -143,4 +143,4 @@ marketDataRouter.get('/getContractPrice', (req, res)=>{
   })
 })
 
-  
+module.exports=marketDataRouter;
