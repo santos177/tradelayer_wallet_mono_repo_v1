@@ -71,7 +71,7 @@ propertyRouter.get('/getKYCRegistarList', (req, res)=>{
     if(err){
       res.send(err.toString())
     } else {
-      res.send(insurance)
+      res.send(data)
     }
   })
 })
@@ -82,7 +82,7 @@ propertyRouter.get('/getActivations', (req, res)=>{
     if(err){
       res.send(err.toString())
     } else {
-      res.send(insurance)
+      res.send(data)
     }
   })
 })
@@ -95,7 +95,7 @@ propertyRouter.get('/getCurrencyTotal/:id', (req, res)=>{
     if(err){
       res.send(err.toString())
     } else {
-      res.send(insurance)
+      res.send(data)
     }
   })
 })
@@ -106,7 +106,7 @@ propertyRouter.get('/getALLPrice', (req, res)=>{
     if(err){
       res.send(err.toString())
     } else {
-      res.send(insurance)
+      res.send(data)
     }
   })
 })
@@ -119,7 +119,7 @@ propertyRouter.get('/getContractPrice/:id', (req, res)=>{
     if(err){
       res.send(err.toString())
     } else {
-      res.send(insurance)
+      res.send(data)
     }
   })
 })
