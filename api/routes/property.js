@@ -76,11 +76,11 @@ propertyRouter.get('/getKYCRegistarList', (req, res)=>{
   })
 })
 
-propertyRouter.get('/checkKYC/:address';, (req, res)=>{
+propertyRouter.get('/checkKYC/:address', (req, res)=>{
   let {address} = req.params;
   address = +address
   const {omniClient} = req; 
-  omniClient.cmd('tl_checkkyc', address, (err, data )=>{
+  omniClient.cmd('tl_check_kyc', address, (err, data )=>{
     if(err){
       res.send(err.toString())
     } else {
