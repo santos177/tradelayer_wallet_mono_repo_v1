@@ -7,8 +7,8 @@ const express = require('express')
 const balanceRouter = express.Router()
 const {Address, Balance} = require('../models/index.js') 
 
-balanceRouter.get('/', (req, res)=>{
-  let {address} = req.query;
+balanceRouter.get('/:address', (req, res)=>{
+  let {address} = req.body;
   const {omniClient} = req; 
   omniClient.cmd('tl_getbalance', address, (err, balance )=>{
     res.send(balance)
@@ -24,9 +24,10 @@ balanceRouter.get('/byid', (req, res)=>{
   })
 })
 
-balanceRouter.get('/bytx/',  (req, res)=> {
-  const txnId = req.query.txnId;
-  req.omniClient.getTransaction(txnId, (data, err)=>{
+balanceRouter.get('/bytx/:txid',  (req, res)=> {
+  let {txid} = req.body.txid;
+  txid = +txid
+  req.omniClient.cmd('tl_gettransaction", txid, (data, err)=>{
     if(err){
       res.json(err.Error)
     }
