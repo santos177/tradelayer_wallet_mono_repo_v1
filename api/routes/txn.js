@@ -38,8 +38,8 @@ txnRouter.get('/', (req,res)=>{
 })
 
 txnRouter.get('/getblocktx/:block', (req,res)=>{
-    const {block} = req.body
-    //block = +block
+    let {block} = req.query
+    block = +block
     req.omniClient.cmd('tl_getalltxonblock', block, (err, data)=>{
         if(err) res.status(500).send('error')
         
@@ -48,7 +48,7 @@ txnRouter.get('/getblocktx/:block', (req,res)=>{
 })
 
 txnRouter.get('/gettx/:txid', (req,res)=>{
-    const {txid} = req.body
+    const {txid} = req.query
     req.omniClient.cmd('tl_gettransaction', txid, (err, data)=>{
         if(err) res.status(500).send('error')
         
