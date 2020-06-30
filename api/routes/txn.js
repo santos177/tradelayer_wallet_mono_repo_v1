@@ -39,6 +39,7 @@ txnRouter.get('/', (req,res)=>{
 
 txnRouter.get('/getblocktx/:block', (req,res)=>{
     const {block} = req.body
+    block = +block
     req.omniClient.cmd('tl_getalltxonblock', block, (err, data)=>{
         if(err) res.status(500).send('error')
         
