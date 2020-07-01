@@ -7,7 +7,7 @@ const {Txn} = require('../models/index.js')
 txnRouter.post('/', (req,res)=>{
     const {rawTxn} = req.body
     req.omniClient.cmd('sendrawtransaction', rawTxn, (err, data)=>{
-        if(err) res.status(500).send('error')
+        //if(err) res.status(500).send('error')
         
         res.send(data)
     })
@@ -41,7 +41,7 @@ txnRouter.get('/getblocktx/:block', (req,res)=>{
     let {block} = req.query
     block = +block
     req.omniClient.cmd('tl_getalltxonblock', block, (err, data)=>{
-        if(err) res.status(500).send('error')
+        //if(err) res.status(500).send('error')
         
         res.send(data)
     })
@@ -50,7 +50,7 @@ txnRouter.get('/getblocktx/:block', (req,res)=>{
 txnRouter.get('/gettx/:txid', (req,res)=>{
     const {txid} = req.query
     req.omniClient.cmd('tl_gettransaction', txid, (err, data)=>{
-        if(err) res.status(500).send('error')
+        //if(err) res.status(500).send('error')
         
         res.send(data)
     })
