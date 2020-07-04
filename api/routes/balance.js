@@ -27,7 +27,7 @@ balanceRouter.get('/byid', (req, res)=>{
 balanceRouter.get('/bytx/:txid',  (req, res)=> {
   let {txid} = req.params;
   txid = +txid
-  req.omniClient.cmd('tl_gettransaction', txid, (data, err)=>{
+  omniClient.cmd('tl_gettransaction', txid, (data, err)=>{
     if(err){
       res.json(err.Error)
     }
