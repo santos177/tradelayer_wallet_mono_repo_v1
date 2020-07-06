@@ -9,6 +9,7 @@ const {Address, Balance} = require('../models/index.js')
 
 balanceRouter.get('/:address', (req, res)=>{
   let {address} = req.params;
+  address = +address
   const {omniClient} = req; 
   omniClient.cmd('tl_getbalance', address, (err, balance )=>{
     res.send(balance)
@@ -27,6 +28,7 @@ balanceRouter.get('/byid', (req, res)=>{
 balanceRouter.get('/bytx/:txid',  (req, res)=> {
   let {txid} = req.params;
   txid = +txid
+  const {omniClient} = req; 
   omniClient.cmd('tl_gettransaction', txid, (data, err)=>{
     if(err){
       res.json(err.Error)
