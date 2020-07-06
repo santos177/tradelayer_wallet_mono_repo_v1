@@ -30,9 +30,9 @@ balanceRouter.get('/bytx/:txid',  (req, res)=> {
   txid = +txid
   const {omniClient} = req; 
   omniClient.cmd('tl_gettransaction', txid, (data, err)=>{
-    if(err){
+    /*if(err){
       res.json(err.Error)
-    }
+    }*/
     res.json(data)
   })
 })
