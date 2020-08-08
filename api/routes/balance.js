@@ -7,8 +7,8 @@ const express = require('express')
 const balanceRouter = express.Router()
 const {Address, Balance} = require('../models/index.js') 
 
-balanceRouter.get('/', (req, res)=>{
-  let {address} = req.query;
+balanceRouter.get('/:address', (req, res)=>{
+  let {address} = req.param;
   const {omniClient} = req; 
   omniClient.cmd('tl_getallbalancesforaddress', address, (err, balance )=>{
     res.send(balance)
