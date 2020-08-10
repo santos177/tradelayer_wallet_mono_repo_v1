@@ -37,6 +37,15 @@ txnRouter.get('/', (req,res)=>{
     
 })
 
+txnRouter.get('/getinfo/', (req,res)=>{
+    req.omniClient.cmd('tl_getinfo', (err, data)=>{
+        //if(err) res.status(500).send('error')
+        
+        res.send(data)
+    })
+})
+
+
 txnRouter.get('/getblocktx/:block', (req,res)=>{
     let {block} = req.params
     block = +block
