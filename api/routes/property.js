@@ -3,9 +3,10 @@ const propertyRouter = express.Router()
 
 propertyRouter.get('/listproperties', (req,res)=>{
     req.omniClient.cmd('tl_listproperties', (err, properties)=>{
+        req.omniClient.cmd('tl_getinfo', (err, info)=>{
         console.log(err, properties);
-        
-        res.send(properties)
+        var obj = {'block':info.block,'blocktime':info.blocktime,'properties':properties}
+        res.send(obj)
     })
 })
 
