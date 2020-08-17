@@ -7,6 +7,7 @@ propertyRouter.get('/listproperties', (req,res)=>{
         console.log(err, properties);
         var obj = {'block':info.block,'blocktime':info.blocktime,'properties':properties}
         res.send(obj)
+        })
     })
 })
 
