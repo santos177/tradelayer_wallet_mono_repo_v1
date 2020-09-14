@@ -7,10 +7,10 @@ var omniClient = require('./ltc_client.js')
 omniClient.getNetworkHashPs(function(err, hashps) {
 	if (err) console.error(err);
 	console.log('Network Hash Rate: ' + hashps);
-  });
+});
 //connect to express
-var express    = require('express');        // call express
-var app        = express();                 // define our app using express
+var express = require('express');        // call express
+var app = express();                 // define our app using express
 var cors = require("cors")
 var bodyParser = require('body-parser');
 var asynco = require('async');
@@ -25,8 +25,6 @@ var io = require('socket.io')(http);
 var path= config.TLPATH
 var datadir = config.TLDATADIR
 var morgan = require('morgan')
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectID;
 // var store_dir = datadir + '/sessions/'
 const handleIoConnection = require('./sockets/index.js')
 
@@ -65,26 +63,16 @@ config.LOGGER && app.use(morgan())
 //****LAST PROP CODE
 var lastBlock = 0
 var firstTime = true;
-// getInfo().then(function(value) {
-//     lastBlock = Number((JSON.parse(value)).block)
-// 	//createContractFirstTime()
-// 	//createContract(4)
-// 	console.log("lastBlock "+ lastBlock)
-//   }, function(reason) {
-//     console.log("ERROR :"+ reason)
-// });
 
 function getInfo(){
-
-	 var command = path+'/litecoin-cli -datadir='+ datadir +' tl_getinfo'
-	 return (new Promise((resolve, reject) => {
-
-									exec(command, function (error2, stdout2, stderr2) {
-											 //console.log("ERR "+ error2)
-										     if (error2) return resolve(false);
-											 resolve(stdout2);
-									});
-	  }));
+	var command = path+'/litecoin-cli -datadir='+ datadir +' tl_getinfo'
+	return (new Promise((resolve, reject) => {
+		exec(command, function (error2, stdout2, stderr2) {
+			//console.log("ERR "+ error2)
+			if (error2) return resolve(false);
+			resolve(stdout2);
+		});
+	}));
 }
 
 // function createContract(blocks){
@@ -130,30 +118,30 @@ function getInfo(){
 // }
 
 //$SRC/litecoin-cli -datadir=$DATADIR tl_gettradehistory ${CONTRACT_ID}
-var port = process.env.PORT || 76;        // set our port
-var socketPort =process.env.SOCKET_PORT || 75; 
-
-// ROUTES FOR OUR API
-// =============================================================================
-var router = express.Router();              // get an instance of the express Router
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
-});
-
 
 app.use((req, res, next)  => {
 	// give routes access to omniClient
 	req.omniClient = omniClient;
 	next()
-} ) 
-app.use('/api', router);
-configureRoutes(app)
+})
+
+// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+app.get('/api/index', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });
+});
+
+// ROUTES FOR OUR API
+// =============================================================================
+// app.use('/api', apiRoutes);
+configureRoutes(app);
+
 
 // START THE SERVER
 // =============================================================================
 // app.listen();
-http.listen(port, function(){
+var port = process.env.PORT || 3002;        // set our port
+var socketPort =process.env.SOCKET_PORT || 75; 
+
+app.listen(port, function(){
   console.log('Magic happens on port ' + port);
 });

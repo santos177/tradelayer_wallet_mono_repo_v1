@@ -16,8 +16,11 @@ const config = {
   TLPATH: process.env.TLPATH,
   TLDATADIR: process.env.TLDATADIR,
   LOGGER: process.env.LOGGER,
-  TLPORT: process.env.TLPORT
-
+  TLPORT: process.env.TLPORT,
+  RPC_USER: process.env.RPC_USER,
+  RPC_PASS: process.env.RPC_PASS,
+  RPC_HOST: process.env.RPC_HOST,
+  RPC_PORT: process.env.RPC_PORT
 }
 
 module.exports = config

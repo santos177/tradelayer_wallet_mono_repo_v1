@@ -2,9 +2,12 @@ var litecoin = require('litecoin');
 const config = require('./config')
 
 module.exports = new litecoin.Client({
-    host: 'localhost',
+    host: config.RPC_HOST,
     port: config.TLPORT,
-    user: "pepejandro",
-    pass: "pepecash",
+    user: config.RPC_USER,
+    pass: config.RPC_PASS,
     ssl: false/* true, */
   });
+
+  // user: "pepejandro",
+  // pass: "pepecash",
