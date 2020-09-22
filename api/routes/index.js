@@ -19,7 +19,7 @@ const configureRoutes = app => {
   app.use('/api/txn', txnRouter)
   app.use('/api/positions', positionRouter)
   app.use('/api/dcurrency', dcurrencyApi)
-  balanceApi(app)
+  // balanceApi(app)
   dcurrencyApi(app)
   priceApi(app)
   tradeApi(app)
