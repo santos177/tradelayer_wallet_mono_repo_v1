@@ -47,15 +47,9 @@ udpserver.bind(666);
 const configureRoutes = require('./routes');
 
 
-app.omniClient = omniClient
+// app.omniClient = omniClient
 
 app.use('/', express.static(__dirname + '/public'));
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -63,6 +57,13 @@ config.LOGGER && app.use(morgan())
 //****LAST PROP CODE
 var lastBlock = 0
 var firstTime = true;
+
+// set the omniClient  to the request object
+app.use((req, res, next)  => {
+	// give routes access to omniClient
+	req.omniClient = omniClient;
+	next()
+})
 
 function getInfo(){
 	var command = path+'/litecoin-cli -datadir='+ datadir +' tl_getinfo'
@@ -119,12 +120,6 @@ function getInfo(){
 
 //$SRC/litecoin-cli -datadir=$DATADIR tl_gettradehistory ${CONTRACT_ID}
 
-app.use((req, res, next)  => {
-	// give routes access to omniClient
-	req.omniClient = omniClient;
-	next()
-})
-
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 app.get('/api/index', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
@@ -132,9 +127,12 @@ app.get('/api/index', function(req, res) {
 
 // ROUTES FOR OUR API
 // =============================================================================
-// app.use('/api', apiRoutes);
 configureRoutes(app);
 
+
+getInfo()
+.then(response => console.log(response))
+.catch(err => console.log(err.message))
 
 // START THE SERVER
 // =============================================================================

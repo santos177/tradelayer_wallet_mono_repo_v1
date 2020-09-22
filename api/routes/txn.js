@@ -41,7 +41,7 @@ txnRouter.get('/getinfo/', (req,res)=>{
     req.omniClient.cmd('tl_getinfo', (err, data)=>{
         //if(err) res.status(500).send('error')
         
-        res.send(data)
+        res.json(data)
     })
 })
 
@@ -50,18 +50,18 @@ txnRouter.get('/getblocktx/:block', (req,res)=>{
     let {block} = req.params
     block = +block
     req.omniClient.cmd('tl_getalltxonblock', block, (err, data)=>{
-        //if(err) res.status(500).send('error')
+        if(err) res.status(500).json('error')
         
-        res.send(data)
+        res.json(data)
     })
 })
 
 txnRouter.get('/gettx/:txid', (req,res)=>{
     const {txid} = req.params
     req.omniClient.cmd('tl_gettransaction', txid, (err, data)=>{
-        //if(err) res.status(500).send('error')
+        if(err) res.status(500).send('error')
         
-        res.send(data)
+        res.json(data)
     })
 })
 

@@ -7,43 +7,49 @@ const express = require('express')
 const balanceRouter = express.Router()
 const {Address, Balance} = require('../models/index.js') 
 
-balanceRouter.get('/:address', (req, res)=>{
+balanceRouter.get('/address/:address', (req, res)=>{
   let {address} = req.params;
   const {omniClient} = req; 
   omniClient.cmd('tl_getallbalancesforaddress', address, (err, balance )=>{
     if(err) {
-      res.send(err)
+      res.json(err)
     }
-    res.send(balance)
+    res.json(balance)
   })
 })
 
 balanceRouter.get('/allbalancesofproperty', (req, res)=>{
   let {propertyID} = req.query;
-  propertyID = +propertyID
+  propertyID = parseInt(propertyID);
   const {omniClient} = req; 
-  omniClient.cmd('tl_getallbalancesforid', +propertyID, (err, balance )=>{
-    res.send(balance)
+  omniClient.cmd('tl_getallbalancesforid', propertyID, (err, balance )=>{
+    if(err) {
+      res.json(err)
+    }
+    res.json(balance);
   })
 })
 
 balanceRouter.get('/byid', (req, res)=>{
   let {address, propertyID} = req.query;
-  propertyID = +propertyID
+  propertyID = parseInt(propertyID);
   const {omniClient} = req; 
-  omniClient.cmd('tl_getbalance', address, +propertyID, (err, balance )=>{
-    res.send(balance)
+  omniClient.cmd('tl_getbalance', address, propertyID, (err, balance )=>{
+    if(err) {
+      res.json(err)
+    }
+    res.json(balance);
   })
 })
 
-balanceRouter.get('/bytx/',  (req, res)=> {
+balanceRouter.get('/bytx',  (req, res)=> {
   let txid = req.query;
   const {omniClient} = req; 
-  omniClient.cmd('tl_gettransaction', txid, (data, err)=>{
+  omniClient.cmd('tl_gettransaction', txid, (err, balance)=>{
     if(err){
-      res.json(err.Error)
+      res.json(err)
     }
-    res.json(data)
+    res.json(balance)
   })
 })
 
@@ -85,161 +91,139 @@ balanceRouter.get('/bytx/',  (req, res)=> {
 */
 
 
+balanceRouter.get('/getBalancePegged', function(req, res){
+  var address = req.query.address
+  var contractID = req.query.contractID
 
-const balanceApi = ({omniClient, ...app}) => {
+  var balanceCommand = path+"/litecoin-cli -datadir="+ datadir +" tl_getbalance "+address.toString()+" "+ contractID;
+  console.log('get balance pegged command line ', balanceCommand)
+  var options = { env : process.env }
 
-
-
-
-  app.get('/api/getBalancePegged', function(req, res){
-      var address = req.query.address
-      var contractID = req.query.contractID
-      console.log(' this is the address in getBalancePegged ', address.toString())
-
-  		var balances = []
-
-  		var balanceCommand = path+"/litecoin-cli -datadir="+ datadir +" tl_getbalance "+address.toString()+" "+ contractID;
-      console.log('get balance pegged command line ', balanceCommand)
-  		var options = { env : process.env }
-
-      exec(balanceCommand, options, function (error, stdout2, stderr) {
-  				if (error === null) {
-  					var balance = JSON.parse(stdout2).balance
-  					// console.log('balance is ' + balance )
-  					balances.push({'balance' : balance })
-  					// console.log('balances are' + balances)
-  					res.send(balances);
-
-  				}
-  				else {
-            console.log('balance not greater than 0', stderr)
-  					res.send(stderr)
-  		  	}
-  	})
+  exec(balanceCommand, options, function (error, stdout2, stderr) {
+      if (error === null) {
+        var balance = JSON.parse(stdout2).balance
+        res.json(balance);
+      }
+      else {
+        console.log('balance not greater than 0', stderr)
+        res.json(stderr)
+      }
   })
+})
 
-  app.get('/api/getBalanceALL', function(req, res){
-      var address = req.query.address.toString();
-      var contractID = req.query.contractID;
+balanceRouter.get('/getBalanceALL', function(req, res){
+  var address = req.query.address.toString();
+  var contractID = req.query.contractID;
+  const {omniClient} = req;
+  var sellObj = "";
+  var buyObj = "";
 
-      console.log(' this is the address in getBalancePegged ', address.toString())
-  	  var sellObj = "";
-  	  var buyObj = "";
-  		var balances = [];
+  var balanceCommand = path+"/litecoin-cli -datadir="+ datadir +" tl_getbalance "+address.toString()+" "+ parseInt(contractID);
+  var options = { env : process.env }
 
-  		var balanceCommand = path+"/litecoin-cli -datadir="+ datadir +" tl_getbalance "+address.toString()+" "+ parseInt(contractID);
+  exec(balanceCommand, options, function (error, stdout2, stderr) {
+      if (error === null) {
+        var balances = [];
+        var balance = JSON.parse(stdout2).balance;
 
-      // console.log('get balance command line ', balanceCommand)
-  	  var options = { env : process.env }
-
-    	exec(balanceCommand, options, function (error, stdout2, stderr) {
-  				if (error === null) {
-  					var name = 'ALL';
-  					// console.log('name of coin', name)
-  					var balance = JSON.parse(stdout2).balance
-  					// console.log('balance is ' + balance )
-
-            if(Number(balance) > 0){
-  						console.log('inside parse of balance as number')
-  						balances.push({'name' : name, 'balance' : balance })
-  						console.log('balances are' + balances)
-  							if (balances.length > 0){
-                  //after getting all balance, then get Vesting token balance
-                  omniClient.cmd('tl_getbalance', address, 3, function whenOK(err, vesting, resHeaders){
+        if(Number(balance) > 0){
+          var balanceObj = {'name' : 'ALL', 'balance' : balance };
+          balances.push(balanceObj);
+          console.log('balances are' + balances)
+            if (balances.length > 0){
+              //after getting all balance, then get Vesting token balance
+              omniClient.cmd('tl_getbalance', address, 3, function whenOK(err, vesting, resHeaders){
+                if(err === null){
+                  console.log('this is vesting balance ', vesting.balance)
+                  balances.push({'name' : 'Vesting', 'balance' : vesting.balance})
+                  console.log('this is balance in vesting ', balances  )
+                  omniClient.cmd('tl_getbalance', address, 1, function whenOK(err, vested, resHeaders){
                     if(err === null){
-                      console.log('this is vesting balance ', vesting.balance)
-                      balances.push({'name' : 'Vesting', 'balance' : vesting.balance})
-                      console.log('this is balance in vesting ', balances  )
-                      omniClient.cmd('tl_getbalance', address, 1, function whenOK(err, vested, resHeaders){
-                        if(err === null){
-                          console.log('this is vested ALL ', vested.balance)
-                          balances.push({'name' : 'Vested ALL', 'balance' : vested.balance})
-                          console.log('this is balance in vested all ', balances  )
+                      console.log('this is vested ALL ', vested.balance)
+                      balances.push({'name' : 'Vested ALL', 'balance' : vested.balance})
+                      console.log('this is balance in vested all ', balances  )
 
-                          res.send(balances);
-                        } else {
-                          console.log('something wnt wrong in calling balance of vested ALL ', err)
-                          res.send(err)
-                        }
-                      })
+                      res.json(balances);
                     } else {
-                      console.log('something went wrong in vesting balance ', err)
-                      res.send(err)
+                      console.log('something went wrong in calling balance of vested ALL ', err)
+                      res.json(err)
                     }
                   })
-  							}
-  							else {
-  								res.send('problem parsing balance' + balances)
-  							}
-  					 }
-  					 else {
-  						 res.send('empty balances')
-  						 console.log('balance not greater than 0')
-  					}
-  				} //end if balance command executes successfulluy
-  				else {
-  					res.send(stderr)
-  						console.log('balance command error', stderr)
-  				} //end balance command execution
-  		});
-  })
+                } else {
+                  console.log('something went wrong in vesting balance ', err)
+                  res.json(err)
+                }
+              })
+            }
+            else {
+              res.json('problem parsing balance' + balances)
+            }
+         }
+         else {
+           res.json('empty balances')
+           console.log('balance not greater than 0')
+        }
+      } //end if balance command executes successfulluy
+      else {
+        res.json(stderr)
+          console.log('balance command error', stderr)
+      } //end balance command execution
+  });
+})
 
-  app.get('/api/getEquity', function(req, res){
-      var address = req.query.address.toString();
-      var contractIDALL = req.query.contractIDALL;
-      var contractID = req.query.contractID;
-      // console.log(' this is the address in Equity ', address.toString())
-      var sellObj = "";
-      var buyObj = "";
-      var balances = [];
-      var balance = 0.0
-      var available = 0.0
-      var balanceCommand = path+"/litecoin-cli -datadir="+ datadir +" tl_getbalance "+address.toString()+" "+ parseInt(contractIDALL);
+balanceRouter.get('/getEquity', function(req, res){
+  var address = req.query.address.toString();
+  var contractIDALL = req.query.contractIDALL;
+  var contractID = req.query.contractID;
+  var sellObj = "";
+  var buyObj = "";
+  var balances = [];
+  var balance = 0.0
+  var available = 0.0
+  var balanceCommand = path+"/litecoin-cli -datadir="+ datadir +" tl_getbalance "+address.toString()+" "+ parseInt(contractIDALL);
+  var options = { env : process.env }
 
-      // console.log('get balance command line ', balanceCommand)
-      var options = { env : process.env }
+  exec(balanceCommand, options, function (error, stdout2, stderr) {
+      if (error === null) {
+        var name = 'ALL';
+        balance = parseFloat(JSON.parse(stdout2).balance)
+        balance += parseFloat(JSON.parse(stdout2).reserve)
+        var myBalance = {
+          'balance': balance,
+          'available': available
+        }
+        res.json(myBalance)
+        // after getting all balance, then get Contract Reserve balance
+        // omniClient.cmd('tl_getcontract_reserve', address, parseInt(contractIDALL), function whenOK(err, reserve, resHeaders){
+        //         if (err === null) {
+        //           console.log('this is reserve ', reserve)
+        //           console.log('this is reserve balance ', reserve['contract reserve'])
+        //           balance += parseFloat(reserve['contract reserve'])
+        //           console.log('this is balance incl reserve ', balance  )
+        //           var myBalance = {
+        //             'balance': balance,
+        //             'available': available
+        //           }
+        //           res.send(myBalance)
+        //         } else {
+        //           console.log('something went wrong in reserve balance ', err)
+        //           res.send(err)
+        //         }
+        //      })
+      } //end if balance command executes successfulluy
+      else {
+        console.log('balance command error', stderr)
+        res.json(stderr)
+      } //end of else error is null
+  }) // balance command execution
+})
 
-      exec(balanceCommand, options, function (error, stdout2, stderr) {
-          if (error === null) {
-            var name = 'ALL';
-            // console.log('name of coin', name)
-            balance = parseFloat(JSON.parse(stdout2).balance)
-            balance += parseFloat(JSON.parse(stdout2).reserve)
-            // console.log('balance is ' + balance )
-            var myBalance = {
-                         'balance': balance,
-                         'available': available
-                       }
-            res.send(myBalance)
-            // after getting all balance, then get Contract Reserve balance
-            // omniClient.cmd('tl_getcontract_reserve', address, parseInt(contractIDALL), function whenOK(err, reserve, resHeaders){
-            //         if (err === null) {
-            //           console.log('this is reserve ', reserve)
-            //           console.log('this is reserve balance ', reserve['contract reserve'])
-            //           balance += parseFloat(reserve['contract reserve'])
-            //           console.log('this is balance incl reserve ', balance  )
-            //           var myBalance = {
-            //             'balance': balance,
-            //             'available': available
-            //           }
-            //           res.send(myBalance)
-            //         } else {
-            //           console.log('something went wrong in reserve balance ', err)
-            //           res.send(err)
-            //         }
-            //      })
-          } //end if balance command executes successfulluy
-          else {
-            console.log('balance command error', stderr)
-            res.send(stderr)
-          } //end of else error is null
-    }) // balance command execution
-  })
 
-  return app
-}
+// const balanceApi = ({omniClient, ...app}) => {
+//   return app
+// }
 
 module.exports = {
-  balanceApi,
+  // balanceApi,
   balanceRouter
 }
