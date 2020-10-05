@@ -1,8 +1,9 @@
-const {balanceRouter, balanceApi} = require('./balance')
-const propertyRouter = require('./property')
-const orderbookRouter= require('./orderbook')
-const txnRouter = require('./txn')
-const positionRouter = require('./position')
+const {balanceRouter, balanceApi} = require('./balance');
+const propertyRouter = require('./property');
+const orderbookRouter= require('./orderbook');
+const txnRouter = require('./txn');
+const positionRouter = require('./position');
+const blocklistRouter = require('./blocklists')
 const {dcurrencyApi, dcurrencyRouter} = require('./dcurrency')
 const orderbookApi =require('./orderbook')
 const priceApi = require('./price')
@@ -19,6 +20,7 @@ const configureRoutes = app => {
   app.use('/api/txn', txnRouter)
   app.use('/api/positions', positionRouter)
   app.use('/api/dcurrency', dcurrencyApi)
+  app.use('/api/blocklist', blocklistRouter);
   // balanceApi(app)
   dcurrencyApi(app)
   priceApi(app)
