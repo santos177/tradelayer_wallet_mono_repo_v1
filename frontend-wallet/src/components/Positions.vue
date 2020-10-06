@@ -39,22 +39,22 @@ export default {
     ...mapActions('contracts', ['getFullPositions', 'postALLPrice']),
     handleGetPositions (e) {
       // console.log('this is the selected contract in fullpositions ', this.selectedContract)
-      var data = {
-        account: this.addressGetter,
-        contractID: this.selectedContractGetter
-      }
-      // console.log('data on positions ', data)
-      // console.log('  full positions state', this.fullPositions)
-      // console.log('  full positions symbol', this.fullPositions.symbol)
-      this.getFullPositions(data)
-      // console.log('this is the selected contract in fullpositions ', this.selectedContractGetter)
-      setInterval(() => {
-        data = {
-          account: this.addressGetter,
-          contractID: this.selectedContract}
-        // console.warn('data in full positions', data)
-        this.getFullPositions(data)
-      }, 2000)
+      // var data = {
+      //   account: this.addressGetter,
+      //   contractID: this.selectedContractGetter
+      // }
+      // // console.log('data on positions ', data)
+      // // console.log('  full positions state', this.fullPositions)
+      // // console.log('  full positions symbol', this.fullPositions.symbol)
+      // this.getFullPositions(data)
+      // // console.log('this is the selected contract in fullpositions ', this.selectedContractGetter)
+      // setInterval(() => {
+      //   data = {
+      //     account: this.addressGetter,
+      //     contractID: this.selectedContract}
+      //   // console.warn('data in full positions', data)
+      //   this.getFullPositions(data)
+      // }, 2000)
     }
   }
 }

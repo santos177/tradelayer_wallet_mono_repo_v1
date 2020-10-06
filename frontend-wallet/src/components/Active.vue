@@ -52,12 +52,12 @@ export default {
     ...mapActions('contracts', ['postActiveTradesbyAddress', 'postCancelSingleActiveTrade', 'postCancelTrades']),
     handleGetTransactions (e) {
       console.log('firing handle get active transactions')
-      var data = {
-        contractID: this.selectedContract,
-        address: this.addressGetter
-      }
-      this.postActiveTradesbyAddress(data)
-      setInterval(() => { this.postActiveTradesbyAddress(data) }, 10000)
+      // var data = {
+      //   contractID: this.selectedContract,
+      //   address: this.addressGetter
+      // }
+      // this.postActiveTradesbyAddress(data)
+      // setInterval(() => { this.postActiveTradesbyAddress(data) }, 10000)
     },
     handleSingleCancel (myitem) {
       console.log('firing popup with this data ', myitem)

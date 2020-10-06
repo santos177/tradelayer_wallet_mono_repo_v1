@@ -29,9 +29,9 @@ export default {
   methods: {
     ...mapActions('orderbook', ['getOrderBook']),
     handleorderBook (e) {
-      this.getOrderBook(this.selectedContract)
-      let that = this
-      setInterval(() => { that.getOrderBook(this.selectedContract) }, 4500)
+      // this.getOrderBook(this.selectedContract)
+      // let that = this
+      // setInterval(() => { that.getOrderBook(this.selectedContract) }, 4500)
     }
   }
 }

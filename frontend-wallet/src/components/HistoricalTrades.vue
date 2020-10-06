@@ -49,8 +49,8 @@ export default {
   methods: {
     ...mapActions('orderbook', ['getRecentTrades']),
     handleorderBook (e) {
-      this.getRecentTrades(this.selectedContractGetter.toString())
-      setInterval(() => { this.getRecentTrades(this.selectedContractGetter.toString()) }, 4700)
+      // this.getRecentTrades(this.selectedContractGetter.toString())
+      // setInterval(() => { this.getRecentTrades(this.selectedContractGetter.toString()) }, 4700)
     }
   }
 }
