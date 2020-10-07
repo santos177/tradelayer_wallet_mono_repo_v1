@@ -4,12 +4,23 @@
       <md-field>
         <md-tooltip md-direction="right">First, select a contract</md-tooltip>
         <label for="selectedContract">Contract</label>
+        <!-- 
         <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
           <md-option value="ALL/USD">ALL/USD</md-option>
           <md-option value="ALL/JPY">ALL/JPY</md-option>
           <md-option value="ALL/LTC">ALL/LTC</md-option>
           <md-option value="LTC/USD">LTC/USD</md-option>
           <md-option value="LTC/JPY">LTC/JPY</md-option>
+        </md-select>
+        -->
+         <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
+          <md-option 
+          v-for="contract in contractsList"
+          v-bind:key="contract.name"
+          :value="contract.id"
+          >
+          {{contract.name}}
+          </md-option>
         </md-select>
       </md-field>
     </div>
@@ -30,7 +41,7 @@
           <md-table-row>
             <md-tabs style="height: 250px;">
               <md-tab id="tab-orderbooksell" md-label="Sell">
-                <OrderbookSell />
+                <OrderbookSell :key="selectedContractGetter.id" />
               </md-tab>
             </md-tabs>
           </md-table-row>
@@ -143,8 +154,31 @@ export default {
   name: "SummaryContainer",
   data() {
     return {
-      selectedContract: "ALL/USD",
-      selectedContractNew: ""
+      selectedContract: {},
+      selectedContractNew: "",
+      contractsList: [
+        {
+          id:   1,
+          name:'DPof8/SuperV',
+          propsIdForSale: 6,
+          propsIdDesired: 9,
+          type: "pairContract",
+        },
+        {
+          id: 2,
+          name:'token1/token2',
+          propsIdForSale: 1,
+          propsIdDesired: 2,
+          type: "pairContract",
+        },
+        {
+          id: 3,
+          name:'token3/token4',
+          propsIdForSale: 3,
+          propsIdDesired: 4,
+          type: "pairContract",
+        }
+      ]
     };
   },
   computed: {
@@ -152,12 +186,10 @@ export default {
   },
   methods: {
     ...mapActions("contracts", ["setSelectedContract"]),
-    handleSelectedContract(e) {
-      console.log("selected contract selected", e);
-      var data = {
-        selectedContract: e
-      };
-      this.setSelectedContract(data);
+    handleSelectedContract(value) {
+      const pair = this.contractsList.find(e => e.id === value)
+      console.log(`Selecting contract with ID: ${pair.id}, Name: ${pair.name}`);
+      this.setSelectedContract({selectedContract: pair});
     }
   },
   components: {

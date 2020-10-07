@@ -13,7 +13,7 @@ const state = {
   lastContractId: 6,
   ALLPrice: 4,
   lastContractName: 'ALL F20',
-  selectedContract: 'ALL/USD',
+  selectedContract: {},
   pendingByAddress: [],
   pendingTXIDs: []
 }
@@ -73,7 +73,7 @@ const actions = {
     commit('addPendingTXID', txid)
   },
   setSelectedContract ({dispatch, commit, rootState, rootGetters}, data) {
-    console.log('this is selected contract', data.selectedContract)
+    console.log(`Selected Contract - ${data.selectedContract.name} - with ID: - ${data.selectedContract.id} -`)
     commit('selectedContract', data.selectedContract)
     return 'setState successful'
   },

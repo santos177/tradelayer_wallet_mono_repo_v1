@@ -1,7 +1,7 @@
 'use strict'
 const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
-const baseUrl = "localhost";
+const baseUrl = "http://localhost";
 const basePort = 3002;
 const socketPort = 75
 
