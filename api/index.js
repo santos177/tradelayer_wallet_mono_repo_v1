@@ -26,7 +26,10 @@ var path= config.TLPATH
 var datadir = config.TLDATADIR
 var morgan = require('morgan')
 // var store_dir = datadir + '/sessions/'
-const handleIoConnection = require('./sockets/index.js')
+const handleIoConnection = require('./sockets/index.js');
+const { blockchainInfo } = require('./scripts/blockchainInfo');
+const { findNewBlockTask } = require('./jobs');
+const { redisClient } = require('./redis_client');
 
 app.use(cors())
 //SOCKET IO
@@ -133,6 +136,17 @@ configureRoutes(app);
 getInfo()
 .then(response => console.log(response))
 .catch(err => console.log(err.message))
+
+// Call the redis client to cache the getblockchainInfo
+const blockchainParams = {
+	omniClient,
+}
+blockchainInfo(blockchainParams);
+
+// start the cron job
+findNewBlockTask.start();
+// redisClient.cl
+
 
 // START THE SERVER
 // =============================================================================
