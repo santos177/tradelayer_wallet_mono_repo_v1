@@ -51,15 +51,28 @@ orderbookRouter.get("/", (req, res) => {
 orderbookRouter.get("/pair", (req, res) => {
   const { omniClient } = req;
   const {propsIdForSale, propsIdDesired} = req.query
+  const resultObj = {}
+
   omniClient.cmd("tl_getorderbook", +propsIdForSale, +propsIdDesired , 
   (err, result) => {
     if (err) {
       console.log(`Error with tl_getorderbook \n ${err}`)
       res.send({error: err})
     } else {
-      res.send(result)
+      resultObj.buyBook = result
+      omniClient.cmd("tl_getorderbook", +propsIdDesired, +propsIdForSale, 
+      (err, result) => {
+       if (err) {
+         console.log(`Error with tl_getorderbook \n ${err}`)
+         res.send({error: err})
+       } else {
+         resultObj.sellBook = result
+         res.send(resultObj)
+       }
+     })
     }
   })
+
 
 });
 

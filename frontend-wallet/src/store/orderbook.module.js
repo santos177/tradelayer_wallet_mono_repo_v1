@@ -31,7 +31,32 @@ const actions = {
     orderbookService.getPairOrderBook({propsIdForSale, propsIdDesired})
     .then(res => {
       const orderBook = res.data;
-      console.log({orderBook})
+      const { buyBook, sellBook } = orderBook;
+
+      const newBuyBookArray = []
+      buyBook.forEach((book, i) => {
+        const buyBookObj = {
+          quantity: parseInt(book.amountremaining).toFixed(8),
+          price: (parseInt(book.amountdesired) / parseInt(book.amountforsale)).toFixed(8),
+        }
+        newBuyBookArray[i] = buyBookObj;
+      })
+
+      const newSellBookArray = []
+      sellBook.forEach((book, i) => {
+        const sellBookObj = {
+          quantity: parseInt(book.amountremaining).toFixed(8),
+          price: (parseInt(book.amountdesired) / parseInt(book.amountforsale)).toFixed(8),
+        }
+        newSellBookArray[i] = sellBookObj;
+      })
+
+      newBuyBookArray.sort((a, b) => Number(a.price) - Number(b.price))
+      newSellBookArray.sort((a, b) => Number(a.price) - Number(b.price))
+      commit('buyBookFull', newBuyBookArray)
+      commit('sellBookFull', newSellBookArray)
+      commit('buyBook', newBuyBookArray.slice(0, 5))
+      commit('sellBook', newSellBookArray.slice(0, 5))
     })
   },
 
