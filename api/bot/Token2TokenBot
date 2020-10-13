@@ -1,0 +1,33 @@
+var user = 'Ale'
+var pass = '12345678'
+var litecoin = require('litecoin');
+
+var tl = require('./TradeLayerRPCAPI.js').tl
+
+
+var volume = 1000
+var priceFix = 1 
+var loops = 0
+var property1 = 11
+var property2 = 12
+var ecosystem = 1
+
+function tradeBot(cb){
+    
+        setTimeout(function(){
+            loops +=1
+            var amount1 =  Math.random()>=0.5 ? 1 : 2
+            var amount2 = Math.random()*2
+            var address = loops%2==0 ? "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy" : "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy"
+            var params = {address:address,propertyidforsale:property1,amountforsale:amount1,}
+            tl.sendTrade(params,function(data, err){
+            	console.log(data,err)
+            })
+            if(loops%50==0){tl.cancelAllContractsByAddress(address,1,5,function(data){
+            	console.log(data)
+            })}
+            tradeBot()
+        }, 20000);
+}
+
+tradeBot()
