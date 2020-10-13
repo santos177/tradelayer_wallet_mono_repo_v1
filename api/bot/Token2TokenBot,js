@@ -19,11 +19,11 @@ function tradeBot(cb){
             var amount1 =  Math.random()>=0.5 ? 1 : 2
             var amount2 = Math.random()*2
             var address = loops%2==0 ? "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy" : "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy"
-            var params = {address:address,propertyidforsale:property1,amountforsale:amount1,}
+            var params = {address:address,propertyidforsale:property1,amountforsale:amount1,propertyiddesired:property2,amountdesired:amount2}
             tl.sendTrade(params,function(data, err){
             	console.log(data,err)
             })
-            if(loops%50==0){tl.cancelAllContractsByAddress(address,1,5,function(data){
+            if(loops%50==0){tl.sendcancelalltrades(address,property1,property2,function(data){
             	console.log(data)
             })}
             tradeBot()
