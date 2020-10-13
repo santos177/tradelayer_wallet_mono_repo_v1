@@ -37,11 +37,13 @@
         class="md-xsmall-hide md-small-hide md-layout-item md-small-size-100 md-medium-size-25 md-large-size-25"
       >
         <md-table md-card>
-          <md-card-header style="height: 40px;" class="md-alignment-top-center">OrderBook</md-card-header>
+          <md-card-header 
+          style="height: 40px;" 
+          class="md-alignment-top-center">OrderBook</md-card-header>
           <md-table-row>
             <md-tabs style="height: 250px;">
               <md-tab id="tab-orderbooksell" md-label="Sell">
-                <OrderbookSell :key="selectedContractGetter.id" />
+                <OrderbookSell />
               </md-tab>
             </md-tabs>
           </md-table-row>
@@ -166,9 +168,9 @@ export default {
         },
         {
           id: 2,
-          name:'token1/token2',
-          propsIdForSale: 1,
-          propsIdDesired: 2,
+          name:'DPof8/8ofBG',
+          propsIdForSale: 6,
+          propsIdDesired: 11,
           type: "pairContract",
         },
         {
@@ -184,12 +186,26 @@ export default {
   computed: {
     ...mapGetters("contracts", ["selectedContractGetter"])
   },
+   watch: {
+    selectedContractGetter: {
+      immediate: true,
+      handler() {
+        this.handleOrderBook()
+      }
+    }
+  },
   methods: {
     ...mapActions("contracts", ["setSelectedContract"]),
+    ...mapActions("orderbook", ["getPairOrderBook"]),
     handleSelectedContract(value) {
       const pair = this.contractsList.find(e => e.id === value)
       console.log(`Selecting contract with ID: ${pair.id}, Name: ${pair.name}`);
       this.setSelectedContract({selectedContract: pair});
+    },
+    handleOrderBook() {
+        if (this.selectedContractGetter.type === "pairContract") {
+          this.getPairOrderBook(this.selectedContract)
+        }
     }
   },
   components: {

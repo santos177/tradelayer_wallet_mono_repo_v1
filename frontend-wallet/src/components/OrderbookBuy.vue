@@ -1,5 +1,5 @@
 <template>
-  <div id="OrderbookBuy" style="">
+  <div id="OrderbookBuy" style="" v-if="buy && buy.length > 0">
   <md-table v-model="buy" style="height: 305px; margin: -30px 0px 0px; padding:0px;">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
           <md-table-cell md-label="Price" style="height: 12px;" md-sort-by="price" class="mycolors" md-numeric>{{item.price}}</md-table-cell>
@@ -7,6 +7,7 @@
       </md-table-row>
     </md-table>
   </div>
+  <span v-else>Empty list</span>
 </template>
 
 <script>

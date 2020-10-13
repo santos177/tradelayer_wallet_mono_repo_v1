@@ -1,5 +1,5 @@
 <template>
-  <div id="OrderbookSell">
+  <div id="OrderbookSell" v-if="sell && sell.length > 0">
     <md-table v-model="sell" style="height: 300px; margin: -30px 0px 0px;">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell  md-label="Price" md-sort-by="price" style="height: 14px;" class="mycolors" md-numeric>{{item.price}}</md-table-cell>
@@ -7,6 +7,7 @@
       </md-table-row>
     </md-table>
   </div>
+  <span v-else>Empty list</span>
 </template>
 
 <script>
@@ -24,14 +25,10 @@ export default {
   },
   created () {
     // reset login status
-    this.handleorderBook()
   },
   methods: {
     ...mapActions('orderbook', ['getOrderBook', 'getPairOrderBook']),
     handleorderBook (e) {
-      if (this.selectedContract.type === "pairContract") {
-        this.getPairOrderBook(this.selectedContract)
-      }
       // this.getOrderBook(this.selectedContract)
       // let that = this
       // setInterval(() => { that.getOrderBook(this.selectedContract) }, 4500)
