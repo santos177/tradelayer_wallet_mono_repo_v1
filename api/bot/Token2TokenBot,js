@@ -11,7 +11,7 @@ var loops = 0
 var property1 = 11
 var property2 = 12
 var ecosystem = 1
-
+//'tl_sendtrade', address, id1, amount.toString(), id2, amount2.toString()
 function tradeBot(cb){
     
         setTimeout(function(){
@@ -19,7 +19,7 @@ function tradeBot(cb){
             var amount1 =  Math.random()>=0.5 ? 1 : 2
             var amount2 = Math.random()*2
             var address = loops%2==0 ? "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy" : "QMjCWx6G85V89PYcb3msyyQvbp2RxCprEy"
-            var params = {address:address,propertyidforsale:property1,amountforsale:amount1,propertyiddesired:property2,amountdesired:amount2}
+            var params = {address:address,id1:property1,amount:amount1,id2:property2,amount2:amount2}
             tl.sendTrade(params,function(data, err){
             	console.log(data,err)
             })
