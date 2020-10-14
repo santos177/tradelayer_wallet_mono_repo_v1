@@ -14,12 +14,37 @@ export const contractsService = {
   getLastContractId,
   postTransactionsbyAddress,
   postActiveTradesbyAddress,
-  postCancelSingleActiveTrade
+  postCancelSingleActiveTrade,
+  getTokenAmount,
+  getTokenInfo
 }
 
 // getEquity
 // pass the address, contractIDALL, contractID (which you want reserve balance of)
 // returns JSONobject of balance
+function getTokenInfo(token) {
+  return new Promise(async (resolve,reject) => {
+    try {
+      const params = {id: token}
+      const result = await axiosInstance.get('/properties/getproperty/' + token, { params })
+      resolve(result.data);
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
+function getTokenAmount(address, token) {
+  return new Promise(async (resolve,reject) => {
+    try {
+      const params = {address, propertyID: token}
+      const result = await axiosInstance.get('/balances/byid', { params })
+      resolve(result.data);
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
+
 function getEquity (address, contractID, contractIDALL) {
   return axiosInstance.get('/getEquity', {
     params: {

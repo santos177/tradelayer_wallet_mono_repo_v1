@@ -133,6 +133,9 @@
         <md-tab id="tab-content-pending" class="tab-tight md-label-tight" md-label="Pending">
           <Pending />
         </md-tab>
+         <md-tab id="tab-content-contractBalances" class="tab-tight md-label-tight" md-label="Balances">
+          <ContractBalances />
+        </md-tab>
       </md-tabs>
     </div>
   </div>
@@ -150,6 +153,7 @@ import Close from "@/components/Close";
 import Active from "@/components/Active";
 import Pending from "@/components/Pending";
 import TradeChannels from "@/components/TradeChannels";
+import ContractBalances from "@/components/ContractBalances";
 // import Balances from '@/components/Balances'
 
 export default {
@@ -218,7 +222,8 @@ export default {
     Active,
     Pending,
     HistoricalTradesbyAddress,
-    TradeChannels
+    TradeChannels,
+    ContractBalances
   }
 };
 </script>
