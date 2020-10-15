@@ -86,10 +86,8 @@ export default {
     selectedOrder: {
       immediate: true,
       handler() {
-        if (this.selectedOrder.price && this.selectedOrder.quantity) {
-        this.form.price = this.selectedOrder.price
-        this.form.quantity = this.selectedOrder.quantity
-        }
+        this.form.price = this.selectedOrder.price ? this.selectedOrder.price : 0;
+        this.form.quantity = this.selectedOrder.quantity ? this.selectedOrder.quantity : 0;
       }
     }
   },

@@ -200,11 +200,12 @@ export default {
   },
   methods: {
     ...mapActions("contracts", ["setSelectedContract"]),
-    ...mapActions("orderbook", ["getPairOrderBook"]),
+    ...mapActions("orderbook", ["getPairOrderBook", "selectOrder"]),
     handleSelectedContract(value) {
       const pair = this.contractsList.find(e => e.id === value)
       console.log(`Selecting contract with ID: ${pair.id}, Name: ${pair.name}`);
       this.setSelectedContract({selectedContract: pair});
+      this.selectOrder({})
     },
     handleOrderBook() {
         if (this.selectedContractGetter.type === "pairContract") {
