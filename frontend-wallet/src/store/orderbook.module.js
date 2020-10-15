@@ -10,7 +10,8 @@ const state = {
   sellFull: {},
   orderBookFull: {},
   recent: {},
-  recentbyaddress: {}
+  recentbyaddress: {},
+  selectedOrder: {}
 }
 
 const getters = {
@@ -22,10 +23,16 @@ const getters = {
   },
   recentByAddressGetter (state) {
     return state.recentbyaddress
+  },
+  selectedOrder (state) {
+    return state.selectedOrder
   }
 }
 
 const actions = {
+  selectOrder(state, data) {
+    state.commit('selectOrder', data)
+  },
   getPairOrderBook({dispatch, commit, rootState, rootGetters}, data) {
     const { propsIdForSale, propsIdDesired} = rootState.contracts.selectedContract;
     orderbookService.getPairOrderBook({propsIdForSale, propsIdDesired})
@@ -208,6 +215,9 @@ const mutations = {
   },
   recentbyaddress (state, transactions) {
     state.recentbyaddress = transactions
+  },
+  selectOrder (state, order) {
+    state.selectedOrder = order
   }
 }
 
