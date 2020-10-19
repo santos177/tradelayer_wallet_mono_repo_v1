@@ -9,7 +9,8 @@
     "resetDB": "node scripts/resetDB.js",
     "syncChain": "node scripts/syncToChain.js",
     "seed": "node scripts/seed.js",
-    "bot": "node bot/TradeLayerBot.js"
+    "bot": "node bot/TradeLayerBot.js",
+    "bot-t2t": "node bot/Token2TokenBot.js"
   },
   "author": "",
   "license": "ISC",

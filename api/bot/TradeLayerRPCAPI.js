@@ -341,9 +341,9 @@ tl.senddexaccept = function(address, address2, id, amount, cb){  //action = (1 f
     })
 }
     
-tl.sendcancelalltrades = function(address, ecosystem, cb){
-    client.cmd('tl_sendcancelalltrades', address, ecosystem,function(err, data, resHeaders){
-        return cb(data)
+tl.sendcancelalltrades = function(address, cb){
+    client.cmd('tl_sendcancelalltrades', address ,function(err, data, resHeaders){
+        return cb(data, err)
     })
 }
 
@@ -365,10 +365,10 @@ tl.sendchangeissuer = function(address1, address2, propertyid, cb){
     })
 }
 
-tl.sendtrade = function(address, id1, amount, id2, amount2, cb){
-    client.cmd('tl_sendtrade', address, id1, amount.toString(), id2, amount2.toString(), function(err, data, resHeaders){
-        if(err){data=err}
-        return cb(data)
+tl.sendtrade = function(options, cb){
+    const { address, id1, amount1, id2, amount2 } = options;
+    client.cmd('tl_sendtrade', address, id1, amount1.toString(), id2, amount2.toString(), function(err, data, resHeaders){
+        cb(data, err)
     })
 }
 
