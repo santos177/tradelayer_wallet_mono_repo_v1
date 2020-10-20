@@ -1,5 +1,7 @@
-var user = ''
-var pass = ''
+const config = require('../config');
+
+var user = config.RPC_USER;
+var pass = config.RPC_PASS;
 var client = require('../ltc_client.js')
 
 /*
