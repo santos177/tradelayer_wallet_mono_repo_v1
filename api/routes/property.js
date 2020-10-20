@@ -35,8 +35,6 @@ propertyRouter.get('/getproperty/:id', (req, res)=>{
     let {id} = req.params
     id = +id    
     req.omniClient.cmd('tl_getproperty', id, (err, properties)=>{
-        console.log(err, properties);
-        
         res.send(properties)
     }) 
 })

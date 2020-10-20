@@ -10,7 +10,8 @@ const state = {
   sellFull: {},
   orderBookFull: {},
   recent: {},
-  recentbyaddress: {}
+  recentbyaddress: {},
+  selectedOrder: {}
 }
 
 const getters = {
@@ -22,10 +23,50 @@ const getters = {
   },
   recentByAddressGetter (state) {
     return state.recentbyaddress
+  },
+  selectedOrder (state) {
+    return state.selectedOrder
   }
 }
 
 const actions = {
+  selectOrder(state, data) {
+    state.commit('selectOrder', data)
+  },
+  getPairOrderBook({dispatch, commit, rootState, rootGetters}, data) {
+    const { propsIdForSale, propsIdDesired} = rootState.contracts.selectedContract;
+    orderbookService.getPairOrderBook({propsIdForSale, propsIdDesired})
+    .then(res => {
+      const orderBook = res.data;
+      const { buyBook, sellBook } = orderBook;
+
+      const newBuyBookArray = []
+      buyBook.forEach((book, i) => {
+        const buyBookObj = {
+          quantity:parseFloat(book.amountremaining).toFixed(8),
+          price: (parseFloat(book.amountdesired) / parseFloat(book.amountforsale)).toFixed(8),
+        }
+        newBuyBookArray[i] = buyBookObj;
+      })
+
+      const newSellBookArray = []
+      sellBook.forEach((book, i) => {
+        const sellBookObj = {
+          quantity: parseFloat(book.amountremaining).toFixed(8),
+          price: (parseFloat(book.amountdesired) / parseFloat(book.amountforsale)).toFixed(8),
+        }
+        newSellBookArray[i] = sellBookObj;
+      })
+
+      newBuyBookArray.sort((a, b) => Number(a.price) - Number(b.price))
+      newSellBookArray.sort((a, b) => Number(a.price) - Number(b.price))
+      commit('buyBookFull', newBuyBookArray)
+      commit('sellBookFull', newSellBookArray)
+      commit('buyBook', newBuyBookArray.slice(0, 5))
+      commit('sellBook', newSellBookArray.slice(0, 5))
+    })
+  },
+
   getOrderBook ({dispatch, commit, rootState, rootGetters}, data) {
     dispatch('contracts/getEquity', {address: rootGetters['wallet/addressGetter'], contractID: rootState.contracts.selectedContract, contractIDALL: '4'}, { root: true })
     orderbookService.getOrderBook(rootState.contracts.selectedContract)
@@ -174,6 +215,9 @@ const mutations = {
   },
   recentbyaddress (state, transactions) {
     state.recentbyaddress = transactions
+  },
+  selectOrder (state, order) {
+    state.selectedOrder = order
   }
 }
 

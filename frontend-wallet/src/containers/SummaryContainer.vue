@@ -4,12 +4,23 @@
       <md-field>
         <md-tooltip md-direction="right">First, select a contract</md-tooltip>
         <label for="selectedContract">Contract</label>
+        <!-- 
         <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
           <md-option value="ALL/USD">ALL/USD</md-option>
           <md-option value="ALL/JPY">ALL/JPY</md-option>
           <md-option value="ALL/LTC">ALL/LTC</md-option>
           <md-option value="LTC/USD">LTC/USD</md-option>
           <md-option value="LTC/JPY">LTC/JPY</md-option>
+        </md-select>
+        -->
+         <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
+          <md-option 
+          v-for="contract in contractsList"
+          v-bind:key="contract.name"
+          :value="contract.id"
+          >
+          {{contract.name}}
+          </md-option>
         </md-select>
       </md-field>
     </div>
@@ -26,7 +37,9 @@
         class="md-xsmall-hide md-small-hide md-layout-item md-small-size-100 md-medium-size-25 md-large-size-25"
       >
         <md-table md-card>
-          <md-card-header style="height: 40px;" class="md-alignment-top-center">OrderBook</md-card-header>
+          <md-card-header 
+          style="height: 40px;" 
+          class="md-alignment-top-center">OrderBook</md-card-header>
           <md-table-row>
             <md-tabs style="height: 250px;">
               <md-tab id="tab-orderbooksell" md-label="Sell">
@@ -120,6 +133,9 @@
         <md-tab id="tab-content-pending" class="tab-tight md-label-tight" md-label="Pending">
           <Pending />
         </md-tab>
+         <md-tab id="tab-content-contractBalances" class="tab-tight md-label-tight" md-label="Balances">
+          <ContractBalances />
+        </md-tab>
       </md-tabs>
     </div>
   </div>
@@ -137,27 +153,64 @@ import Close from "@/components/Close";
 import Active from "@/components/Active";
 import Pending from "@/components/Pending";
 import TradeChannels from "@/components/TradeChannels";
+import ContractBalances from "@/components/ContractBalances";
 // import Balances from '@/components/Balances'
 
 export default {
   name: "SummaryContainer",
   data() {
     return {
-      selectedContract: "ALL/USD",
-      selectedContractNew: ""
+      selectedContract: {},
+      selectedContractNew: "",
+      contractsList: [
+        {
+          id:   1,
+          name:'DPof8/SuperV',
+          propsIdForSale: 6,
+          propsIdDesired: 9,
+          type: "pairContract",
+        },
+        {
+          id: 2,
+          name:'DPof8/8ofBG',
+          propsIdForSale: 6,
+          propsIdDesired: 11,
+          type: "pairContract",
+        },
+        {
+          id: 3,
+          name:'token3/token4',
+          propsIdForSale: 3,
+          propsIdDesired: 4,
+          type: "pairContract",
+        }
+      ]
     };
   },
   computed: {
     ...mapGetters("contracts", ["selectedContractGetter"])
   },
+   watch: {
+    selectedContractGetter: {
+      immediate: true,
+      handler() {
+        this.handleOrderBook()
+      }
+    }
+  },
   methods: {
     ...mapActions("contracts", ["setSelectedContract"]),
-    handleSelectedContract(e) {
-      console.log("selected contract selected", e);
-      var data = {
-        selectedContract: e
-      };
-      this.setSelectedContract(data);
+    ...mapActions("orderbook", ["getPairOrderBook", "selectOrder"]),
+    handleSelectedContract(value) {
+      const pair = this.contractsList.find(e => e.id === value)
+      console.log(`Selecting contract with ID: ${pair.id}, Name: ${pair.name}`);
+      this.setSelectedContract({selectedContract: pair});
+      this.selectOrder({})
+    },
+    handleOrderBook() {
+        if (this.selectedContractGetter.type === "pairContract") {
+          this.getPairOrderBook(this.selectedContract)
+        }
     }
   },
   components: {
@@ -170,7 +223,8 @@ export default {
     Active,
     Pending,
     HistoricalTradesbyAddress,
-    TradeChannels
+    TradeChannels,
+    ContractBalances
   }
 };
 </script>

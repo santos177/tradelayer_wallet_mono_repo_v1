@@ -3,7 +3,7 @@
     <div class="md-layout animated jello">
      <div class="">
            <md-card>
-             <md-card-header>ALL/dUSD Inverse</md-card-header>
+             <md-card-header>{{selectedContract.name ? selectedContract.name : "Please select Contract"}}</md-card-header>
                <md-card-content>
                  <div class="">
                    <div class="md-layout-item">
@@ -18,7 +18,7 @@
                     </md-field>
                    <md-field>
                       <label for="price">Price</label>
-                      <md-input name="price" id="price" v-model="form.price" />
+                      <md-input name="price" id="price"  v-model="form.price" />
                     </md-field>
                   </div>
                   <div class="md-layout-item">
@@ -59,6 +59,7 @@ export default {
   }),
   computed: {
     ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
+    ...mapGetters("orderbook", ["selectedOrder"]),
     ...mapGetters('wallet', ['addressGetter'])
   },
   validations: {
@@ -80,6 +81,15 @@ export default {
     }
   },
   created () {
+  },
+  watch: {
+    selectedOrder: {
+      immediate: true,
+      handler() {
+        this.form.price = this.selectedOrder.price ? this.selectedOrder.price : 0;
+        this.form.quantity = this.selectedOrder.quantity ? this.selectedOrder.quantity : 0;
+      }
+    }
   },
   methods: {
     ...mapActions('contracts', ['buyContracts', 'sellContracts', 'postCancelTrades', 'addPendingTXID']),
@@ -144,7 +154,7 @@ export default {
         console.log('last TX id is', this.lastTXID)
         alert('Your order is Pending.  You can check the Pending tab.')
       })
-    }
+    },
   }
 }
 </script>
@@ -162,11 +172,10 @@ button {
   font-size: 16px;
 
   cursor: pointer;
-  &[disabled]{
+}
+  button[disabled]{
     cursor: not-allowed;
   }
-}
-
 .md-card {
   padding:10px;
   border-radius: 50%;

@@ -49,19 +49,19 @@ export default {
   methods: {
     ...mapActions('orderbook', ['getRecentTrades', 'postRecentTradesbyAddress']),
     handleTrades () {
-      var data = {
-        contractID: this.selectedContractGetter,
-        address: this.addressGetter
-      }
-      this.postRecentTradesbyAddress(data)
-      console.log('recent trades by address are ', this.recentByAddressGetter)
-      setInterval(() => {
-        data = {
-          contractID: this.selectedContractGetter,
-          address: this.addressGetter
-        }
-        this.postRecentTradesbyAddress(data)
-      }, 2500)
+      // var data = {
+      //   contractID: this.selectedContractGetter,
+      //   address: this.addressGetter
+      // }
+      // this.postRecentTradesbyAddress(data)
+      // console.log('recent trades by address are ', this.recentByAddressGetter)
+      // setInterval(() => {
+      //   data = {
+      //     contractID: this.selectedContractGetter,
+      //     address: this.addressGetter
+      //   }
+      //   this.postRecentTradesbyAddress(data)
+      // }, 2500)
     }
   }
 }

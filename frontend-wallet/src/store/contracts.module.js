@@ -13,7 +13,7 @@ const state = {
   lastContractId: 6,
   ALLPrice: 4,
   lastContractName: 'ALL F20',
-  selectedContract: 'ALL/USD',
+  selectedContract: {},
   pendingByAddress: [],
   pendingTXIDs: []
 }
@@ -68,12 +68,43 @@ const getters = {
 }
 
 const actions = {
+  asyncGetTokenName(root, data){
+    const token = data;
+    if (token) {
+      return new Promise((resolve, reject) => {
+        contractsService.getTokenInfo(token)
+        .then(result => {
+          if (result) {
+            if(result.name){
+              resolve(result.name)
+            }
+          }
+        })
+        .catch(err => reject(err))
+      })
+    }
+  },
+  asyncGetTokenAmount({dispatch, commit, rootState, rootGetters}, data) {
+    const address = rootState.wallet.walletDec[0].publicAddress;
+    const token = data;
+    if (address && token) {
+      return new Promise((resolve, reject) => {
+        contractsService.getTokenAmount(address, token)
+        .then(result => {
+          if (result.balance) {
+            resolve(result.balance)
+          }
+        })
+        .catch(err => reject(err))
+      })
+    }
+  },
   addPendingTXID ({dispatch, commit, rootState, rootGetters}, txid) {
     console.log('this is the txid passed to the add pending action ', txid)
     commit('addPendingTXID', txid)
   },
   setSelectedContract ({dispatch, commit, rootState, rootGetters}, data) {
-    console.log('this is selected contract', data.selectedContract)
+    console.log(`Selected Contract - ${data.selectedContract.name} - with ID: - ${data.selectedContract.id} -`)
     commit('selectedContract', data.selectedContract)
     return 'setState successful'
   },

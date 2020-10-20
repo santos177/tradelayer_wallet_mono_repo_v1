@@ -4,7 +4,8 @@ import {axiosInstance} from '../api'
 export const orderbookService = {
   getOrderBook,
   getRecentTrades,
-  postRecentTradesbyAddress
+  postRecentTradesbyAddress,
+  getPairOrderBook
 }
 
 // postLogin
@@ -15,6 +16,9 @@ function getOrderBook (contractID) {
   // in account post Login
   // console.log('this is the contractID we are passing to orderbook rest call ', contractID)
   return axiosInstance.get('/orderbooks', {'contractID': contractID})
+}
+function getPairOrderBook (pairObj) {
+  return axiosInstance.get('/orderbooks/pair', { params : pairObj })
 }
 
 function getRecentTrades (contractID) {
