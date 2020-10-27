@@ -241,6 +241,11 @@ app.post('/api/recentTradesbyAddress', function(req, res){
       })
 })
 
+app.post('/api/sendtade', (req,res) => {
+  const data = req.body;
+  console.log(data)
+})
+
 return app
 }
 
