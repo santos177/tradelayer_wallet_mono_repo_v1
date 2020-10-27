@@ -25,7 +25,7 @@ export const contractsService = {
 // returns JSONobject of balance
 
 function sendtrade(data) {
-  if( !data.propsIdForSale || !data.amountforsale || !data.propsIdDesired || !data.amountdesired) {
+  if( !data.propsIdForSale || !data.amountforsale || !data.propsIdDesired || !data.amountdesired || !data.address) {
     console.log("Error with body of the trade post request")
     return;
   }
