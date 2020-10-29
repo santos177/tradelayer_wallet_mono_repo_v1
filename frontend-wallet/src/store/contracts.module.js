@@ -68,6 +68,9 @@ const getters = {
 }
 
 const actions = {
+  sendtrade(root, data) {
+    contractsService.sendtrade(data)
+  },
   asyncGetTokenName(root, data){
     const token = data;
     if (token) {

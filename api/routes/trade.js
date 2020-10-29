@@ -241,6 +241,17 @@ app.post('/api/recentTradesbyAddress', function(req, res){
       })
 })
 
+app.post('/api/sendtade', (req,res) => {
+  const { omniClient } = req
+  const {data} = req.body;
+  const { address, propsIdForSale, amountforsale, propsIdDesired, amountdesired } = data
+  console.log(data)
+  omniClient.cmd('tl_sendtrade', address, propsIdForSale, amountforsale.toString(), propsIdDesired, amountdesired.toString(), 
+  function whenOK(err, tradeResp, resHeaders){
+    if(err) console.log(err)
+  })
+})
+
 return app
 }
 

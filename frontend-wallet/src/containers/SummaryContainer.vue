@@ -1,10 +1,13 @@
 <template>
   <div id="SummaryContainer">
-    <div class="md-layout-item">
-      <md-field>
-        <md-tooltip md-direction="right">First, select a contract</md-tooltip>
-        <label for="selectedContract">Contract</label>
-        <!-- 
+    <div class="md-layout-item" style="display:flex;">
+            <md-button 
+            v-for="contract of contractsList" 
+            v-bind:key="contract.id"  
+            v-on:click="handleSelectedContract(contract.id)">
+            {{contract.name}}
+            </md-button>
+        <!-- <label for="selectedContract">Contract</label>
         <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
           <md-option value="ALL/USD">ALL/USD</md-option>
           <md-option value="ALL/JPY">ALL/JPY</md-option>
@@ -12,7 +15,7 @@
           <md-option value="LTC/USD">LTC/USD</md-option>
           <md-option value="LTC/JPY">LTC/JPY</md-option>
         </md-select>
-        -->
+       
          <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
           <md-option 
           v-for="contract in contractsList"
@@ -21,8 +24,7 @@
           >
           {{contract.name}}
           </md-option>
-        </md-select>
-      </md-field>
+        </md-select> -->
     </div>
     <div class="md-layout-item md-small-hide">
       <md-tabs style="margin: 0px 0px 0px 40px" md-sync-route>
@@ -183,7 +185,14 @@ export default {
           propsIdForSale: 3,
           propsIdDesired: 4,
           type: "pairContract",
-        }
+        },
+                {
+          id: 4,
+          name:'Wooden/Iron',
+          propsIdForSale: 12,
+          propsIdDesired: 13,
+          type: "pairContract",
+        },
       ]
     };
   },
