@@ -69,7 +69,7 @@ const getters = {
 
 const actions = {
   sendtrade(root, data) {
-    contractsService.sendtrade(data)
+    contractsService.sendtrade(data).then(result => console.log(result))
   },
   asyncGetTokenName(root, data){
     const token = data;

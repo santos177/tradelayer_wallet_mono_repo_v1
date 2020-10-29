@@ -1,12 +1,7 @@
 <template>
   <div id="SummaryContainer">
     <div class="md-layout-item" style="display:flex;">
-            <md-button 
-            v-for="contract of contractsList" 
-            v-bind:key="contract.id"  
-            v-on:click="handleSelectedContract(contract.id)">
-            {{contract.name}}
-            </md-button>
+
         <!-- <label for="selectedContract">Contract</label>
         <md-select v-model="selectedContract" @md-selected="handleSelectedContract($event)">
           <md-option value="ALL/USD">ALL/USD</md-option>
@@ -26,14 +21,20 @@
           </md-option>
         </md-select> -->
     </div>
-    <div class="md-layout-item md-small-hide">
-      <md-tabs style="margin: 0px 0px 0px 40px" md-sync-route>
-        <md-tab id="tab-summary" md-label="Trading" to="/Summary"></md-tab>
-        <md-tab id="tab-portfolios" md-label="Portfolio" to="/Portfolio"></md-tab>
-        <md-tab id="tab-taxes" md-label="Taxes" to="/Taxes"></md-tab>
-      </md-tabs>
-    </div>
-
+      <div class="md-layout-item md-small-hide">
+        <md-tabs md-sync-route>
+          <md-tab id="tab-summary" md-label="Trading" to="/Summary"></md-tab>
+          <md-tab id="tab-portfolios" md-label="Portfolio" to="/Portfolio"></md-tab>
+          <md-tab id="tab-charts" md-label="Charts" to="/Charts"></md-tab>
+          <md-tab id="tab-taxes" md-label="Taxes" to="/Taxes"></md-tab>
+        </md-tabs>
+      </div>
+            <md-button 
+            v-for="contract of contractsList" 
+            v-bind:key="contract.id"  
+            v-on:click="handleSelectedContract(contract.id)">
+            {{contract.name}}
+            </md-button>
     <div class="md-layout md-alignment-top-center">
       <div
         class="md-xsmall-hide md-small-hide md-layout-item md-small-size-100 md-medium-size-25 md-large-size-25"
