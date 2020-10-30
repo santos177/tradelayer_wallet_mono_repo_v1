@@ -23,6 +23,9 @@ function onlyUnique (value, index, self) {
 }
 
 const getters = {
+  lastTXID (state) {
+    return state.lastTXID
+  },
   pendingTXIDsGetter (state) {
     return state.pendingTXIDs
   },
@@ -68,8 +71,13 @@ const getters = {
 }
 
 const actions = {
-  sendtrade(root, data) {
-    contractsService.sendtrade(data).then(result => console.log(result))
+  sendtrade({dispatch, commit, rootState, rootGetters}, data) {
+    contractsService.sendtrade(data)
+    .then(result => {
+      const txId = result.data.txId;
+      commit('lastTXID', txId)
+
+    })
   },
   asyncGetTokenName(root, data){
     const token = data;
