@@ -7,50 +7,51 @@ const findNewBlocks = () => {
 
     // const blockchainInfoArr = [];
 
-    // first check if blockchainInfo exist on redis
-    const blockchainInfoRedisKey = 'blockChainInfo';
+    // first check if getInfo exist on redis
+    const getInfoRedisKey = 'getInfo';
     const blocksInfoRedisKey = 'blocksInfo';
-    redisClient.get(blockchainInfoRedisKey, (err, blockchainInfo) => {
+    redisClient.get(getInfoRedisKey, (err, getInfo) => {
 
         redisClient.get(blocksInfoRedisKey, (err, blocksInfo) => {
 
-            if(blockchainInfo && blocksInfo) {
+            if(getInfo && blocksInfo) {
                 const blocksInfoArr = JSON.parse(blocksInfo);
-                console.log(blockchainInfo)
-                const { bestblockhash, blocks } = JSON.parse(blockchainInfo);
-                const oldBestblockhash = bestblockhash;
+                console.log(getInfo)
+                const { blocks } = JSON.parse(getInfo);
                 const oldBlocks = blocks;
-                omniClient.cmd('getblockchaininfo', (err, response) => {
+                omniClient.cmd('getinfo', (err, response) => {
     
                     if(response) {
                         console.log('response', response)
-                        const { bestblockhash, blocks } = response;
-                        const newBestblockhash = bestblockhash;
+                        const { blocks } = response;
                         const newBlocks = blocks;
                         const blocksDiff = (newBlocks - oldBlocks);
-                        const blockHashArr = [];
     
                         // get block hash using the loop
                         for(i = 0; i < blocksDiff; i++) {
     
-                            omniClient.cmd('getblockhash', (oldBlocks + i), (err, blockHash) => {
+                            omniClient.cmd('tl_listblocktransactions', (oldBlocks + i), (err, blockTransactions) => {
     
-                                if(blockHash) {
-                                    console.log('blockHash', blockHash)
-                                    omniClient.cmd('getblock', blockHash, (err, blocksObj) => {
+                                if(blockTransactions) {
+                                    console.log('blockTransaction', blockTransactions)
+
+                                    blockTransactions.map((blockTransaction, index) => {
+
+                                        omniClient.cmd('tl_listtransactions', blockTransaction, (err, blocksObj) => {
                                         
-                                        if(blocksObj) {
-                                            console.log('blocksObj', blocksObj)
-                                            const blocksInfoObj = {
-                                                height: blocksObj.height,
-                                                timestamp: blocksObj.time,
-                                                transactions: blocksObj.tx.length,
-                                                value: '',
-                                                hash: blocksObj.hash,
+                                            if(blocksObj) {
+                                                console.log('blocksObj', blocksObj)
+                                                const blocksInfoObj = {
+                                                    height: blocksObj.height,
+                                                    timestamp: blocksObj.time,
+                                                    transactions: blocksObj.tx.length,
+                                                    value: '',
+                                                    hash: blocksObj.hash,
+                                                }
+                                                // blocksInfoArr.concat(blocksObj);
+                                                redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj)));
                                             }
-                                            // blocksInfoArr.concat(blocksObj);
-                                            redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj)));
-                                        }
+                                        })
                                     })
                                 }
                             })
@@ -59,7 +60,7 @@ const findNewBlocks = () => {
                 })
                 
                 console.log('blocksInfoArr', blocksInfoArr);
-                // return blockchainInfoArr;
+                // return getInfoArr;
             }
         })
     })
