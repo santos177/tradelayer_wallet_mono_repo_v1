@@ -247,7 +247,7 @@ app.get('/api/sendtade', (req,res) => {
   omniClient.cmd('tl_sendtrade', address, parseInt(propsIdForSale), amountforsale, parseInt(propsIdDesired), amountdesired, 
   function whenOK(err, tradeResp, resHeaders){
     if(err) {
-      console.log(err)
+      res.send({err})
     } else {
       res.send({txId: tradeResp})
     }

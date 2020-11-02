@@ -72,12 +72,20 @@ const getters = {
 
 const actions = {
   sendtrade({dispatch, commit, rootState, rootGetters}, data) {
+    try {
     contractsService.sendtrade(data)
     .then(result => {
       const txId = result.data.txId;
+      if (result.data.err) {
+        alert('there is an error with the trade \n err code: ' + result.data.err.code )
+      } else {
       commit('lastTXID', txId)
+      }
 
     })
+  } catch(err) {
+    alert('there is an error with the trade');
+  }
   },
   asyncGetTokenName(root, data){
     const token = data;
