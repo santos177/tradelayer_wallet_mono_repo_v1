@@ -161,14 +161,14 @@ export default {
     const {BUY_CONTRACT, SELL_CONTRACT} = txnTypeEnum
     const { propsIdForSale, propsIdDesired } = this.selectedContract
     const data = {};
-    if (this.currentTxnType === BUY_CONTRACT) {
+    if (this.currentTxnType === SELL_CONTRACT) {
       data.address = address
       data.propsIdForSale = propsIdForSale;
       data.amountforsale = parseFloat(this.quantity);
       data.propsIdDesired = propsIdDesired;
       data.amountdesired = parseFloat(this.price);
     }
-    if (this.currentTxnType === SELL_CONTRACT) {
+    if (this.currentTxnType === BUY_CONTRACT) {
       data.address = address
       data.propsIdForSale = propsIdDesired;
       data.amountforsale = parseFloat(this.quantity);

@@ -19,6 +19,7 @@
                     <button @click="handleWalletSell" class='md-raised mycolors-sell animated rubberBand delay-3s'>Sell</button>
                   </div>
                   <div>
+                    Last txId: <br />{{lastTXID}}
                   </div>
             </md-card-content>
           </md-card>
