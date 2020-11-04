@@ -77,14 +77,14 @@ const actions = {
     .then(result => {
       const txId = result.data.txId;
       if (result.data.err) {
-        alert('there is an error with the trade \n err code: ' + result.data.err.code )
+        commit('alert/error', 'There is an error with the trade', {root: true})
       } else {
       commit('lastTXID', txId)
       }
 
     })
   } catch(err) {
-    alert('there is an error with the trade');
+    commit('alert/error', 'There is an error with the trade', {root: true})
   }
   },
   asyncGetTokenName(root, data){
