@@ -1,5 +1,8 @@
-var user = 'Ale'
-var pass = '12345678'
+// var user = 'Ale'
+// var pass = '12345678'
+
+var user = 'pepejandro';
+var pass = 'pepecash';
 var litecoin = require('litecoin');
 
 var tl = require('./TradeLayerRPCAPI.js').tl

@@ -39,16 +39,16 @@
             <div class='form-group form-wrapper' >
               <div>
                 <label for='quantity'>quant</label>
-                <input :value="quantity" @input="txnFormUpdate" type='number' placeholder='quantity' name='quantity' />
+                <input :value="quantity" @input="txnFormUpdate" type='number' step='any' placeholder='quantity' name='quantity' />
               </div>
               <div> 
                 <label for="price">price</label>
-                <input :value="price" @input="txnFormUpdate" type='number' placeholder='price' name='price' /> 
+                <input :value="price" @input="txnFormUpdate" type='number' step='any' placeholder='price' name='price' /> 
               </div>
             </div>
         </div>
         
-      <div v-else-if="txnType === txnTypeEnum.ISSUE_CURRENCY|| txnType === txnTypeEnum.REDEEM_CURRENCY" >
+      <div v-else-if="txnType === txnTypeEnum.ISSUE_CURRENCY || txnType === txnTypeEnum.REDEEM_CURRENCY" >
             <div class='form-group form-wrapper'>
               <div>
                 <label for="contract">contract</label>
@@ -127,6 +127,8 @@ export default {
       "channelBalance"
     ]),
     ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"]),
+    ...mapState('contracts', ['selectedContract']),
+
     txnType: {
       get(){
         return this.currentTxnType
@@ -137,6 +139,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions("contracts", ["sendtrade"]),
     ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
     handleLTCSubmit() {
@@ -154,8 +157,27 @@ export default {
       })
     },
     handleBuySellSubmit(){
-      // placeholder
-      return
+    const address = this.walletDec[this.currentAddressIndex].publicAddress;
+    const {BUY_CONTRACT, SELL_CONTRACT} = txnTypeEnum
+    const { propsIdForSale, propsIdDesired } = this.selectedContract
+    const data = {};
+    if (this.currentTxnType === SELL_CONTRACT) {
+      data.address = address
+      data.propsIdForSale = propsIdForSale;
+      data.amountforsale = parseFloat(this.quantity);
+      data.propsIdDesired = propsIdDesired;
+      data.amountdesired = parseFloat(this.price);
+    }
+    if (this.currentTxnType === BUY_CONTRACT) {
+      data.address = address
+      data.propsIdForSale = propsIdDesired;
+      data.amountforsale = parseFloat(this.quantity);
+      data.propsIdDesired = propsIdForSale;
+      data.amountdesired = parseFloat(this.price);
+    }
+      this.sendtrade(data);
+      window.toggleWallet();
+    return
     },
     handleIssueRedeemSubmit(){
       // placeholder

@@ -23,6 +23,9 @@ function onlyUnique (value, index, self) {
 }
 
 const getters = {
+  lastTXID (state) {
+    return state.lastTXID
+  },
   pendingTXIDsGetter (state) {
     return state.pendingTXIDs
   },
@@ -68,6 +71,22 @@ const getters = {
 }
 
 const actions = {
+  sendtrade({dispatch, commit, rootState, rootGetters}, data) {
+    try {
+    contractsService.sendtrade(data)
+    .then(result => {
+      const txId = result.data.txId;
+      if (result.data.err) {
+        commit('alert/error', 'There is an error with the trade', {root: true})
+      } else {
+      commit('lastTXID', txId)
+      }
+
+    })
+  } catch(err) {
+    commit('alert/error', 'There is an error with the trade', {root: true})
+  }
+  },
   asyncGetTokenName(root, data){
     const token = data;
     if (token) {

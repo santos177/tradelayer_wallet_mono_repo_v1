@@ -5,30 +5,26 @@
            <md-card>
              <md-card-header>{{selectedContract.name ? selectedContract.name : "Please select Contract"}}</md-card-header>
                <md-card-content>
-                 <div class="">
-                   <div class="md-layout-item">
-                   <md-radio name="contractCurrency" id="contracts" value= "Contracts" v-model="form.contractCurrency" :disabled="sending" >
-                     Contracts </md-radio>
-                   </div>
-                   <div class="md-layout-item">
-                 </div>
                    <md-field>
                         <label for="quantity">Quantity</label>
                         <md-input name="quantity" id="quantity" v-model="form.quantity" />
+                        <span class="md-helper-text">Max.: <span style="font-weight: bold;">-</span></span>
                     </md-field>
                    <md-field>
                       <label for="price">Price</label>
                       <md-input name="price" id="price"  v-model="form.price" />
                     </md-field>
-                  </div>
                   <div class="md-layout-item">
                     <button @click="handleWalletBuy" class='md-raised mycolors-buy animated rubberBand delay-3s'>Buy</button>
                     <button @click="handleWalletSell" class='md-raised mycolors-sell animated rubberBand delay-3s'>Sell</button>
                   </div>
-                  <div class="md-layout-item">
-                    txid {{lastTXID}}
+                  <br/>
+                  <div v-if='lastTXID'>
+                    Last txId: <br />{{lastTXID}}
                   </div>
-                  <div>
+                  <div v-if='message'>
+                    Error: <br />
+                    <span style="color:red">{{message}}</span>
                   </div>
             </md-card-content>
           </md-card>
@@ -59,6 +55,7 @@ export default {
   }),
   computed: {
     ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
+    ...mapState('alert', ['message']),
     ...mapGetters("orderbook", ["selectedOrder"]),
     ...mapGetters('wallet', ['addressGetter'])
   },

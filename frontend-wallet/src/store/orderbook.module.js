@@ -44,7 +44,7 @@ const actions = {
       buyBook.forEach((book, i) => {
         const buyBookObj = {
           quantity:parseFloat(book.amountremaining).toFixed(8),
-          price: (parseFloat(book.amountdesired) / parseFloat(book.amountforsale)).toFixed(8),
+          price: (parseFloat(book.amountdesired) / parseFloat(book.amountforsale) * parseFloat(book.amountremaining)).toFixed(8),
         }
         newBuyBookArray[i] = buyBookObj;
       })
@@ -53,7 +53,7 @@ const actions = {
       sellBook.forEach((book, i) => {
         const sellBookObj = {
           quantity: parseFloat(book.amountremaining).toFixed(8),
-          price: (parseFloat(book.amountdesired) / parseFloat(book.amountforsale)).toFixed(8),
+          price: ((parseFloat(book.amountdesired) / parseFloat(book.amountforsale) * parseFloat(book.amountremaining)).toFixed(8)),
         }
         newSellBookArray[i] = sellBookObj;
       })

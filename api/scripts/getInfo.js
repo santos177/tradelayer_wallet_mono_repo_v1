@@ -4,11 +4,13 @@ const getInfo = (getInfoParams) => {
     const { omniClient } = getInfoParams;
     const getInfoRedisKey = 'getInfo';
     const blocksInfoRedisKey = 'blocksInfo';
+    const blockTxnRedisKey = 'blockTxnRedisKey';
 
     redisClient.on('error', (err) => {
         console.log('Error', err);
     })
 
+    redisClient.del(blockTxnRedisKey);
 
     // first check if blockchainInfo and blocksInfo exist on redis
     redisClient.get(getInfoRedisKey, (err, getInfo) => {

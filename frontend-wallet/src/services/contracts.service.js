@@ -16,12 +16,29 @@ export const contractsService = {
   postActiveTradesbyAddress,
   postCancelSingleActiveTrade,
   getTokenAmount,
-  getTokenInfo
+  getTokenInfo,
+  sendtrade,
 }
 
 // getEquity
 // pass the address, contractIDALL, contractID (which you want reserve balance of)
 // returns JSONobject of balance
+
+function sendtrade(data) {
+  if( !data.propsIdForSale || !data.amountforsale || !data.propsIdDesired || !data.amountdesired || !data.address) {
+    console.log("Error with body of the trade post request")
+    return;
+  }
+  return new Promise(async (resolve,reject) => {
+    try {
+      const result =  axiosInstance.get('/sendtade', { params: data })
+      resolve(result);
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
+
 function getTokenInfo(token) {
   return new Promise(async (resolve,reject) => {
     try {
