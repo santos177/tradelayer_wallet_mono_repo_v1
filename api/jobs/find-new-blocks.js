@@ -7,37 +7,34 @@ const findNewBlocks = () => {
 
     // const blockchainInfoArr = [];
 
-    // first check if blockchainInfo exist on redis
-    const blockchainInfoRedisKey = 'blockChainInfo';
+    // first check if getInfo exist on redis
+    const getInfoRedisKey = 'getInfo';
     const blocksInfoRedisKey = 'blocksInfo';
-    redisClient.get(blockchainInfoRedisKey, (err, blockchainInfo) => {
+    redisClient.get(getInfoRedisKey, (err, getInfo) => {
 
         redisClient.get(blocksInfoRedisKey, (err, blocksInfo) => {
 
-            if(blockchainInfo && blocksInfo) {
+            if(getInfo && blocksInfo) {
                 const blocksInfoArr = JSON.parse(blocksInfo);
-                console.log(blockchainInfo)
-                const { bestblockhash, blocks } = JSON.parse(blockchainInfo);
-                const oldBestblockhash = bestblockhash;
-                const oldBlocks = blocks;
-                omniClient.cmd('getblockchaininfo', (err, response) => {
+                console.log(getInfo)
+                const { block } = JSON.parse(getInfo);
+                const oldBlocks = block;
+                omniClient.cmd('tl_getinfo', (err, response) => {
     
                     if(response) {
                         console.log('response', response)
-                        const { bestblockhash, blocks } = response;
-                        const newBestblockhash = bestblockhash;
-                        const newBlocks = blocks;
+                        const { block } = response;
+                        const newBlocks = block;
                         const blocksDiff = (newBlocks - oldBlocks);
-                        const blockHashArr = [];
     
                         // get block hash using the loop
                         for(i = 0; i < blocksDiff; i++) {
     
-                            omniClient.cmd('getblockhash', (oldBlocks + i), (err, blockHash) => {
+                            omniClient.cmd('getblockhash', (oldBlocks + i), (err, getBlockHash) => {
     
-                                if(blockHash) {
-                                    console.log('blockHash', blockHash)
-                                    omniClient.cmd('getblock', blockHash, (err, blocksObj) => {
+                                if(getBlockHash) {
+
+                                    omniClient.cmd('getblock', getBlockHash, (err, blocksObj) => {
                                         
                                         if(blocksObj) {
                                             console.log('blocksObj', blocksObj)
@@ -59,7 +56,7 @@ const findNewBlocks = () => {
                 })
                 
                 console.log('blocksInfoArr', blocksInfoArr);
-                // return blockchainInfoArr;
+                // return getInfoArr;
             }
         })
     })

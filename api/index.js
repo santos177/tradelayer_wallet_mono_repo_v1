@@ -27,7 +27,7 @@ var datadir = config.TLDATADIR
 var morgan = require('morgan')
 // var store_dir = datadir + '/sessions/'
 const handleIoConnection = require('./sockets/index.js');
-const { blockchainInfo } = require('./scripts/blockchainInfo');
+const { getInfo } = require('./scripts/getInfo');
 const { findNewBlockTask } = require('./jobs');
 const { redisClient } = require('./redis_client');
 
@@ -68,16 +68,16 @@ app.use((req, res, next)  => {
 	next()
 })
 
-function getInfo(){
-	var command = path+'/litecoin-cli -datadir='+ datadir +' tl_getinfo'
-	return (new Promise((resolve, reject) => {
-		exec(command, function (error2, stdout2, stderr2) {
-			//console.log("ERR "+ error2)
-			if (error2) return resolve(false);
-			resolve(stdout2);
-		});
-	}));
-}
+// function getInfo(){
+// 	var command = path+'/litecoin-cli -datadir='+ datadir +' tl_getinfo'
+// 	return (new Promise((resolve, reject) => {
+// 		exec(command, function (error2, stdout2, stderr2) {
+// 			//console.log("ERR "+ error2)
+// 			if (error2) return resolve(false);
+// 			resolve(stdout2);
+// 		});
+// 	}));
+// }
 
 // function createContract(blocks){
 // 	    firstTime=false
@@ -133,15 +133,15 @@ app.get('/api/index', function(req, res) {
 configureRoutes(app);
 
 
-getInfo()
-.then(response => console.log(response))
-.catch(err => console.log(err.message))
+// getInfo()
+// .then(response => console.log(response))
+// .catch(err => console.log(err.message))
 
-// Call the redis client to cache the getblockchainInfo
-const blockchainParams = {
+// Call the redis client to cache the getInfo
+const getInfoParams = {
 	omniClient,
 }
-blockchainInfo(blockchainParams);
+getInfo(getInfoParams);
 
 // start the cron job
 findNewBlockTask.start();
