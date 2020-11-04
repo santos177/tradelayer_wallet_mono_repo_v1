@@ -18,8 +18,13 @@
                     <button @click="handleWalletBuy" class='md-raised mycolors-buy animated rubberBand delay-3s'>Buy</button>
                     <button @click="handleWalletSell" class='md-raised mycolors-sell animated rubberBand delay-3s'>Sell</button>
                   </div>
-                  <div>
+                  <br/>
+                  <div v-if='lastTXID'>
                     Last txId: <br />{{lastTXID}}
+                  </div>
+                  <div v-if='message'>
+                    Error: <br />
+                    <span style="color:red">{{message}}</span>
                   </div>
             </md-card-content>
           </md-card>
@@ -50,6 +55,7 @@ export default {
   }),
   computed: {
     ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
+    ...mapState('alert', ['message']),
     ...mapGetters("orderbook", ["selectedOrder"]),
     ...mapGetters('wallet', ['addressGetter'])
   },

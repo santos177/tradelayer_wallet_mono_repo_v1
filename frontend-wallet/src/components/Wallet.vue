@@ -175,7 +175,8 @@ export default {
       data.propsIdDesired = propsIdForSale;
       data.amountdesired = parseFloat(this.price);
     }
-      this.sendtrade(data)
+      this.sendtrade(data);
+      window.toggleWallet();
     return
     },
     handleIssueRedeemSubmit(){
