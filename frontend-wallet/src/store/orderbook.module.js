@@ -43,8 +43,9 @@ const actions = {
       const newBuyBookArray = []
       buyBook.forEach((book, i) => {
         const buyBookObj = {
-          quantity:parseFloat(book.amountremaining).toFixed(8),
-          price: (parseFloat(book.amountdesired) / parseFloat(book.amountforsale) * parseFloat(book.amountremaining)).toFixed(8),
+          propertyId : propsIdDesired,
+          quantity: parseFloat(book.amountremaining).toFixed(8),
+          price: (parseFloat(book.amounttofill) / parseFloat(book.amountremaining)).toFixed(8),
         }
         newBuyBookArray[i] = buyBookObj;
       })
@@ -52,8 +53,9 @@ const actions = {
       const newSellBookArray = []
       sellBook.forEach((book, i) => {
         const sellBookObj = {
+          propertyId: propsIdForSale,
           quantity: parseFloat(book.amountremaining).toFixed(8),
-          price: ((parseFloat(book.amountdesired) / parseFloat(book.amountforsale) * parseFloat(book.amountremaining)).toFixed(8)),
+          price: (parseFloat(book.amounttofill) / parseFloat(book.amountremaining)).toFixed(8),
         }
         newSellBookArray[i] = sellBookObj;
       })

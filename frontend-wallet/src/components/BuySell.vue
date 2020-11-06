@@ -8,7 +8,7 @@
                    <md-field>
                         <label for="quantity">Quantity</label>
                         <md-input name="quantity" id="quantity" v-model="form.quantity" />
-                        <span class="md-helper-text">Max.: <span style="font-weight: bold;">-</span></span>
+                        <span class="md-helper-text" style='cursor: pointer' v-on:click='form.quantity=max'>Max.:{{max}}</span>
                     </md-field>
                    <md-field>
                       <label for="price">Price</label>
@@ -51,7 +51,8 @@ export default {
       contractCurrency: 'Contracts',
       leverage: 1
     },
-    tooltipActive: false
+    tooltipActive: false,
+    max: 0,
   }),
   computed: {
     ...mapState('contracts', ['lastTXID', 'selectedContract', 'pendingTXIDsGetter']),
@@ -83,15 +84,29 @@ export default {
     selectedOrder: {
       immediate: true,
       handler() {
-        this.form.price = this.selectedOrder.price ? this.selectedOrder.price : 0;
-        this.form.quantity = this.selectedOrder.quantity ? this.selectedOrder.quantity : 0;
+        this.form.price = (this.selectedOrder.price && this.selectedOrder.quantity)
+        ? this.selectedOrder.quantity / (this.selectedOrder.price * this.selectedOrder.quantity)
+        : 0
+
+        this.form.quantity = (this.selectedOrder.price && this.selectedOrder.quantity)
+        ? this.selectedOrder.quantity * this.selectedOrder.price
+        : 0
+
+        this.handleMaxValue();
       }
     }
   },
   methods: {
-    ...mapActions('contracts', ['buyContracts', 'sellContracts', 'postCancelTrades', 'addPendingTXID']),
+    ...mapActions('contracts', ['buyContracts', 'sellContracts', 'postCancelTrades', 'addPendingTXID', 'asyncGetTokenAmount']),
     ...mapMutations('wallet', ['setBuyOrSellContract']),
 
+    async handleMaxValue() {
+      const balance = await this.asyncGetTokenAmount(this.selectedOrder.propertyId)
+      const quantity = this.selectedOrder.quantity * this.selectedOrder.price
+        console.log(quantity,balance)
+      const max = quantity > balance ? balance : quantity
+      this.max = max
+    },
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
 

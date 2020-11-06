@@ -166,14 +166,14 @@ export default {
       data.propsIdForSale = propsIdForSale;
       data.amountforsale = parseFloat(this.quantity);
       data.propsIdDesired = propsIdDesired;
-      data.amountdesired = parseFloat(this.price);
+      data.amountdesired = parseFloat(this.quantity) * parseFloat(this.price);
     }
     if (this.currentTxnType === BUY_CONTRACT) {
       data.address = address
       data.propsIdForSale = propsIdDesired;
       data.amountforsale = parseFloat(this.quantity);
       data.propsIdDesired = propsIdForSale;
-      data.amountdesired = parseFloat(this.price);
+      data.amountdesired = parseFloat(this.quantity) * parseFloat(this.price);
     }
       this.sendtrade(data);
       window.toggleWallet();
