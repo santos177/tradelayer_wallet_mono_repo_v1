@@ -78,13 +78,18 @@ const actions = {
       const txId = result.data.txId;
       if (result.data.err) {
         commit('alert/error', 'There is an error with the trade', {root: true})
+        alert('There is an error with the trade')
+
       } else {
       commit('lastTXID', txId)
+      commit('alert/error', '', {root: true})
+        alert('Trade made successful!! \n ' + txId)
       }
 
     })
   } catch(err) {
     commit('alert/error', 'There is an error with the trade', {root: true})
+    alert('There is an error with the trade')
   }
   },
   asyncGetTokenName(root, data){
