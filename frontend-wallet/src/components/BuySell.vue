@@ -104,8 +104,8 @@ export default {
       const balance = await this.asyncGetTokenAmount(this.selectedOrder.propertyId)
       const quantity = this.selectedOrder.quantity * this.selectedOrder.price
         console.log(quantity,balance)
-      const max = quantity > balance ? balance : quantity
-      this.max = max
+      const max = !quantity ? 0 : quantity > balance ? balance : quantity
+      this.max = max ? max : 0
     },
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
