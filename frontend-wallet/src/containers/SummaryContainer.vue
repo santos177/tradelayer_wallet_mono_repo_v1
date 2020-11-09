@@ -29,7 +29,8 @@
           <md-tab id="tab-taxes" md-label="Taxes" to="/Taxes"></md-tab>
         </md-tabs>
       </div>
-            <md-button 
+            <md-button
+            class='md-primary'
             v-for="contract of contractsList" 
             v-bind:key="contract.id"  
             v-on:click="handleSelectedContract(contract.id)">
