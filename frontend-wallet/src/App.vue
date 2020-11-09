@@ -41,7 +41,7 @@
         <label>{{this.walletCountDisplay}}</label>
       </div>
 
-      <div class="md-toolbar-section-end">
+      <div class="md-toolbar-section-end" style='margin: 0 1rem'>
         <div class="md-layout md-gutter md-alignment-center-space-between">
           <div class="md-layout-item">
             <div class="md-list-item-text">
