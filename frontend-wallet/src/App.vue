@@ -210,6 +210,7 @@ export default {
 .md-toolbar {
   border: 1px;
   border-radius: 3%/6%;
+  background-color: #367588 !important
 }
 
 .md-table {

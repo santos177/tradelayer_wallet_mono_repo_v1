@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import 'mdbvue/build/css/mdb.css'
 import App from './App'
 import { router } from './router'
@@ -10,7 +10,7 @@ import {store} from './store'
 import Vuelidate from 'vuelidate'
 import VueLodash from 'vue-lodash'
 import 'andy-vue-material/dist/andy-vue-material.min.css'
-import 'andy-vue-material/dist/theme/default.css'
+import 'andy-vue-material/dist/theme/default-dark.css'
 
 // import colors from 'vuetify/es5/util/colors'
 import { MdApp, MdElevation, MdIcon, MdButton, MdContent, MdTabs, MdCard, MdRadio, MdField, MdTable, MdMenu, MdToolbar, MdTooltip, MdDrawer, MdLayout, MdList, MdCheckbox, MdRipple } from 'andy-vue-material/dist/components'
