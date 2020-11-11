@@ -9,6 +9,7 @@ blocklistRouter.get('/', (req, res) => {
     redisClient.get(blocksInfoRedisKey, (err, blocklist) => {
 
         if(blocklist) {
+            console.log('blocklist: ', blocklist)
             res.json({
                 data: {
                     blocklist: JSON.parse(blocklist)
@@ -16,10 +17,6 @@ blocklistRouter.get('/', (req, res) => {
                 isBlocklist: true,
             })
         }
-        res.json({
-            data: 'No blocklist found',
-            isBlocklist: false,
-        })
     })
 
 })

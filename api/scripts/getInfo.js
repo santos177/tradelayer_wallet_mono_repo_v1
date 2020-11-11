@@ -1,43 +1,45 @@
 const { redisClient } = require('../redis_client');
 
-const blockchainInfo = (blockchainParams) => {
-    const { omniClient } = blockchainParams;
-    const blockchainInfoRedisKey = 'blockChainInfo';
+const getInfo = (getInfoParams) => {
+    const { omniClient } = getInfoParams;
+    const getInfoRedisKey = 'getInfo';
     const blocksInfoRedisKey = 'blocksInfo';
+    const blockTxnRedisKey = 'blockTxnRedisKey';
 
     redisClient.on('error', (err) => {
         console.log('Error', err);
     })
 
+    redisClient.del(blockTxnRedisKey);
 
     // first check if blockchainInfo and blocksInfo exist on redis
-    redisClient.get(blockchainInfoRedisKey, (err, blockchainInfo) => {
+    redisClient.get(getInfoRedisKey, (err, getInfo) => {
 
         redisClient.get(blocksInfoRedisKey, (err, blocksInfo) => {
 
-            if(blockchainInfo && blocksInfo) {
-                console.log('getBlockchainInfo', JSON.parse(blockchainInfo))
+            if(getInfo && blocksInfo) {
+                console.log('tl_getInfo', JSON.parse(getInfo))
                 console.log('getBlocksInfo', JSON.parse(blocksInfo))
                 return {
                     source: 'cache',
                     data: {
-                        blockchainInfo: JSON.parse(blockchainInfo),
+                        getInfo: JSON.parse(getInfo),
                         blocksInfo: JSON.parse(blocksInfo)
                     }
                 }
             }
     
-            omniClient.cmd('getblockchaininfo', (err, response) => {
+            omniClient.cmd('tl_getinfo', (err, response) => {
     
                 if(response) {
-                    redisClient.setex(blockchainInfoRedisKey, 3600, JSON.stringify(response));
+                    redisClient.setex(getInfoRedisKey, 3600, JSON.stringify(response));
                     redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify([]));
-                    console.log('blockchainInfo', JSON.parse(blockchainInfo))
+                    console.log('getInfo', JSON.parse(getInfo))
                     console.log('blocksInfo', JSON.parse(blocksInfo))
                     return {
                         source: 'cache',
                         data: {
-                            blockchainInfo: JSON.parse(blockchainInfo),
+                            getInfo: JSON.parse(getInfo),
                             blocksInfo: JSON.parse(blocksInfo)
                         }
                     }
@@ -48,5 +50,5 @@ const blockchainInfo = (blockchainParams) => {
 }
 
 module.exports = {
-    blockchainInfo
+    getInfo
 }

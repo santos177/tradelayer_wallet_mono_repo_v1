@@ -1,5 +1,8 @@
-var user = 'pepejandro'
-var pass = 'pepecash'
+
+const config = require('../config');
+
+var user = config.RPC_USER;
+var pass = config.RPC_PASS;
 var client = require('../ltc_client.js')
 
 /*
@@ -16,12 +19,12 @@ tl.init = function(user, pass, otherip, test){
   var host
   if(otherip == null){host = 'localhost'}else{host=otherip}
   var port
-  if(test == false || test == null){port = 9332}else{port=19336}  
+  if(test == false || test == null){port = 9332}else{port=9333}  
   var client = new litecoin.Client({
-    host: host,
-    port: port,
-    user: user,
-    pass: pass,
+    host: "localhost",
+    port: 9332,
+    user: "pepejandro",
+    pass: "pepecash",
     timeout:30000,
     ssl:false
   })
@@ -31,6 +34,11 @@ tl.init = function(user, pass, otherip, test){
  
 var client = tl.init(user, pass, null, true)
 
+<<<<<<< HEAD
+=======
+var client = tl.init(user, pass, null, true)
+
+>>>>>>> 4b5cb4d1bf0caee58f26343dc0ae26bca8b9fcdc
 tl.getnewaddress = function(account, cb){
     if(account == null|| account == undefined){
     client.cmd('getnewaddress',function(err,address,resHeaders){
@@ -100,9 +108,13 @@ tl.getreceivedbyaddress = function(address, confirmations, cb){
 }
 
 tl.getinfo =function(cb){
-    client.cmd("getinfo", function(err, data, resHeaders){
+    client.cmd("tl_getinfo", function(err, data, resHeaders){
   if (err) return console.log(err);
+<<<<<<< HEAD
   return cb(data)
+=======
+    return cb(data)
+>>>>>>> 4b5cb4d1bf0caee58f26343dc0ae26bca8b9fcdc
   })
 }
 
@@ -364,7 +376,7 @@ tl.sendchangeissuer = function(address1, address2, propertyid, cb){
 tl.sendtrade = function(options, cb){
     const { address, id1, amount1, id2, amount2 } = options;
     client.cmd('tl_sendtrade', address, id1, amount1.toString(), id2, amount2.toString(), function(err, data, resHeaders){
-        cb(data, err)
+        return cb(data, err)
     })
 }
 
