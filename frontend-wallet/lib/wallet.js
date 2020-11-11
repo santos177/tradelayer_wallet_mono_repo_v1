@@ -79,15 +79,7 @@ const signTxn = (txn, wifKey) => {
   return txn.sign(wifKey)
 }
 
-const txsJsonLink = (data) => {
-  const json = JSON.stringify(data)
-  const link = document.createElement('a');
-  const blob = new Blob([json], { type: `application/json`});
-  link.download='tradeLayerTxs.json'
-  link.href = window.URL.createObjectURL(blob)
-  return link;
-}
 
 module.exports = {
-  txsJsonLink, wifToPubKey, encryptKey, decryptKey, generateKeyPair, createTxn, signTxn, createOpReturnTxn
+  wifToPubKey, encryptKey, decryptKey, generateKeyPair, createTxn, signTxn, createOpReturnTxn
 }

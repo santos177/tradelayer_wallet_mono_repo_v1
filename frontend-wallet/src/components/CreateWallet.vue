@@ -30,7 +30,6 @@
 
 <script>
   import Password from 'vue-password-strength-meter'
-  import { txsJsonLink } from '../../lib/wallet'
   import {
     mapState,
     mapActions,
@@ -53,7 +52,7 @@
       }
     },
     computed: {
-      ...mapState('wallet', ['walletDec', 'walletEnc']),
+      ...mapState('wallet', ['walletDec']),
       ...mapGetters('wallet', ['hasEncryptedKeys'])
     },
     created() {
@@ -118,9 +117,8 @@
           password,
           next: () => {
             this.$router.push('/Summary')
-            alert('Download Your envrypted private keys')
-            txsJsonLink(this.walletEnc).click()
-
+            alert('Backup your new private key! Press okay when ready:')
+            alert(this.walletDec[this.walletDec.length -1 ].wifKey)
           },
           error: () => {
             this.loginError = true

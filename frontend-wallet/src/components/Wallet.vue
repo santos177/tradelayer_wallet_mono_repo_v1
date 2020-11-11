@@ -1,5 +1,5 @@
 <template>
-  <div v-if="walletDec[currentAddressIndex]">
+  <div>
   
     <div id='wallet-header'> 
       <span >addresses </span> 

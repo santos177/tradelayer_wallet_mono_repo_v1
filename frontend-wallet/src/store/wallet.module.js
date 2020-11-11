@@ -173,9 +173,6 @@ const getters = {
   },
   publicAddresses(state) {
     return state.walletDec.map((obj) => obj.publicAddress)
-  },
-  walletEnc(state) {
-    return state.walletEnc
   }
 
 }

@@ -33,15 +33,15 @@
           </div>
         </div>
         <div v-show="isLoggedIn" class="md-layout-item">
-          <div @click="downloadEnc">
-            <md-icon class="md-left">get_app</md-icon>
-            <md-tooltip md-direction="bottom">Download txs</md-tooltip>
+          <div @click="expireCache">
+            <md-icon class="md-left">clear</md-icon>
+            <md-tooltip md-direction="bottom">clear keys</md-tooltip>
           </div>
         </div>
         <label>{{this.walletCountDisplay}}</label>
       </div>
 
-      <div class="md-toolbar-section-end" style='margin: 0 1rem'>
+      <div class="md-toolbar-section-end">
         <div class="md-layout md-gutter md-alignment-center-space-between">
           <div class="md-layout-item">
             <div class="md-list-item-text">
@@ -129,7 +129,7 @@
 import { mapGetters, mapMutations, mapState } from "vuex";
 import Wallet from "@/components/Wallet";
 import { socketService } from "./services";
-import { txsJsonLink } from '../lib/wallet'
+
 export default {
   name: "App",
   components: {
@@ -154,8 +154,7 @@ export default {
     ...mapGetters("wallet", [
       "walletCountDisplay",
       "isLoggedIn",
-      "publicAddresses",
-      "walletEnc"
+      "publicAddresses"
     ]),
     ...mapGetters("contracts", ["equityGetter"])
   },
@@ -165,8 +164,15 @@ export default {
       this.clearDecryptedWallet();
       this.$router.push("/");
     },
-    downloadEnc() {
-      txsJsonLink(this.walletEnc).click()
+    expireCache() {
+      if (
+        confirm(
+          "Are you sure you want to clear your keys? If they are not backed up, they will be lost."
+        )
+      ) {
+        this.clearKeys();
+        this.$router.push("/");
+      }
     },
     toggleWallet(formData) {
       this.showWallet = !this.showWallet;
