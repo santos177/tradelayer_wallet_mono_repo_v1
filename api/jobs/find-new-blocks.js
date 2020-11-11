@@ -5,7 +5,7 @@ const { redisClient } = require('../redis_client');
 
 const findNewBlocks = () => {
 
-    // const blockchainInfoArr = [];
+    const getInfoArr = [];
 
     // first check if getInfo exist on redis
     const getInfoRedisKey = 'getInfo';
@@ -45,7 +45,7 @@ const findNewBlocks = () => {
                                                 value: '',
                                                 hash: blocksObj.hash,
                                             }
-                                            // blocksInfoArr.concat(blocksObj);
+
                                             redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj)));
                                         }
                                     })
@@ -56,7 +56,6 @@ const findNewBlocks = () => {
                 })
                 
                 console.log('blocksInfoArr', blocksInfoArr);
-                // return getInfoArr;
             }
         })
     })
