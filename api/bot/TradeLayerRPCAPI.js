@@ -1,5 +1,5 @@
-var user = ''
-var pass = ''
+var user = 'pepejandro'
+var pass = 'pepecash'
 var client = require('../ltc_client.js')
 
 /*
@@ -28,12 +28,9 @@ tl.init = function(user, pass, otherip, test){
   
   return client
 }
+ 
+var client = tl.init(user, pass, null, true)
 
-// var client = tl.init(user, pass, '200.86.176.38', true)
-client.getNetworkHashPs(function(err, hashps) {
-	if (err) console.error(err);
-	console.log('Network Hash Rate: ' + hashps);
-  });
 tl.getnewaddress = function(account, cb){
     if(account == null|| account == undefined){
     client.cmd('getnewaddress',function(err,address,resHeaders){
@@ -105,9 +102,8 @@ tl.getreceivedbyaddress = function(address, confirmations, cb){
 tl.getinfo =function(cb){
     client.cmd("getinfo", function(err, data, resHeaders){
   if (err) return console.log(err);
- 
-  })
   return cb(data)
+  })
 }
 
 //all parameters must be text
