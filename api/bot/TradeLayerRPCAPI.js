@@ -31,11 +31,8 @@ tl.init = function(user, pass, otherip, test){
   return client
 }
 
-// var client = tl.init(user, pass, '200.86.176.38', true)
-client.getNetworkHashPs(function(err, hashps) {
-	if (err) console.error(err);
-	console.log('Network Hash Rate: ' + hashps);
-  });
+var client = tl.init(user, pass, '200.86.176.38', true)
+
 tl.getnewaddress = function(account, cb){
     if(account == null|| account == undefined){
     client.cmd('getnewaddress',function(err,address,resHeaders){
