@@ -9,9 +9,9 @@
           <md-icon>money</md-icon>
           <md-tooltip md-direction="bottom">Wallet</md-tooltip>
         </md-button>
-        <div class="md-layout-item">
-          <router-link to="/" class="md-avatar">
-            <img src="@/assets/tradelayer.jpg" alt />
+        <div class="md-layout-item" >
+          <router-link to="https://layerexplorer.com" class="md-avatar" style='background:white;' target='_blank'>
+            <img src="@/assets/logo2.png" style='height:50%; width:70%' alt />
           </router-link>
         </div>
         <div class="md-layout-item">
