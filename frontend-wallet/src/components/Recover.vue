@@ -66,7 +66,7 @@
       submittedJson: false,
     }),
     methods: {
-      ...mapMutations('wallet', ['addKeyPairFromWif', 'addKeyPairFromWifArray']),
+      ...mapMutations('wallet', ['addKeyPairFromWif', 'addKeyPairFromEncWifArray']),
       handleSubmit() {
         this.submitted = true
         const { wifKey, password } = this
@@ -76,7 +76,7 @@
         this.submittedJson = true
 
         const { wifKeys, passwordJson } = this;
-        this.addKeyPairFromWifArray({ wifKeys, password: passwordJson })
+        this.addKeyPairFromEncWifArray({ wifKeys, password: passwordJson })
 
       },
       handleFileInputChange(event) {
