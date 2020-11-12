@@ -99,25 +99,31 @@ const mutations = {
     }
 
     // TODO: check if valid wif?
-    const publicAddress = decryptKey(wifKey, password)
-    if(publicAddress) {
-      console.log({publicAddress})
+
+    try {
+      const publicAddress = wifToPubKey(wifKey)
       addKeyPairToState(state, { wifKey, publicAddress }, password)
-    } else {
-      alert('Wrong Key or Password !')
-    }
+    } catch(err) { alert('Wrong Recovery Key') }
+    
   },
-  addKeyPairFromWifArray(state, { wifKeys, password }) {
+  addKeyPairFromEncWifArray(state, { wifKeys, password }) {
     if ((state.walletEnc.length > 0) && !decryptWalletExtracted(state, password)) {
       return false
     }
-    const decryptedWallet = wifKeys.map(wifKey => {
-      return { wifKey, publicAddress: decryptKey(wifKey, password)}
+
+    const decryptedWallet = wifKeys.map(encWifKey => {
+      const wifKey = decryptKey(encWifKey, password);
+      if(!wifKey) return false;
+      const publicAddress = wifToPubKey(wifKey);
+      return { wifKey, publicAddress}
     })
-    if (decryptedWallet.some(s => !s.publicAddress)) {
-      alert('Wrong Json/Keys or Password !')
+    if(decryptedWallet.some(e => !e)) {
+      alert('Wrong Recovery Keys/Json or password')
     } else {
-      decryptedWallet.forEach(ad => addKeyPairToState(state, { wifKey: ad.wifKey, publicAddress: ad.publicAddress }, password))
+      decryptedWallet.forEach(w => {
+        const { wifKey, publicAddress} = w;
+        addKeyPairToState(state, { wifKey, publicAddress }, password)
+      })
     }
     
   },
@@ -170,11 +176,11 @@ const getters = {
     const count = state.walletDec.length
     switch (count) {
       case 0:
-        return state.walletEnc.length ? `No addresses (${state.walletEnc.length} locked)` : `No addresses`
+        return state.walletEnc.length ? `No Addresses (${state.walletEnc.length} locked)` : `No Addresses`
       case 1:
-        return "1 adddress"
+        return "1 Address"
       default:
-        return `${count} adresses`
+        return `${count} Addresses`
     }
   },
   hasEncryptedKeys(state) {
