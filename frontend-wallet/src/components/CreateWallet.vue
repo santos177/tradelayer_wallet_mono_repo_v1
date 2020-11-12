@@ -7,13 +7,13 @@
       <Password v-model='password' name='password' :strength-meter-only='true' :secureLength=7 />
       <div v-show='submitted && !password' class='invalid-feedback'>Password is required</div>
     </div>
-    <div v-show="!hasEncryptedKeys" class='form-group'>
+    <div v-show="!isLoggedIn" class='form-group'>
       <label htmlFor='password2'>Verify Password</label>
       <input type='password' v-model='password2' name='password2' class='form-control animated jello delay-2s' />
       <div v-show='submitted && !password2' class='invalid-feedback'>Password verification is required</div>
     </div>
     <div class='form-group'>
-      <md-button @click="handleSubmit" class='md-raised md-accent animated rubberBand delay-4s'>{{hasEncryptedKeys ? "Add Wallet" : "Create"}}</md-button>
+      <md-button @click="handleSubmit" class='md-raised md-accent animated rubberBand delay-4s'>{{hasEncryptedKeys ? "Add Address" : "Create Wallet"}}</md-button>
     </div>
   
     <p v-if="loginError">
@@ -54,7 +54,7 @@
     },
     computed: {
       ...mapState('wallet', ['walletDec', 'walletEnc']),
-      ...mapGetters('wallet', ['hasEncryptedKeys'])
+      ...mapGetters('wallet', ['hasEncryptedKeys', 'isLoggedIn'])
     },
     created() {
       // reset login status

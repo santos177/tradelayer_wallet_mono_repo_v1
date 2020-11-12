@@ -20,7 +20,7 @@
             <md-tooltip md-direction="bottom">Home</md-tooltip>
           </router-link>
         </div>
-        <div class="md-layout-item">
+        <div v-show="isLoggedIn" class="md-layout-item">
           <router-link to="/Balances">
             <md-icon class="md-left">account_circle</md-icon>
             <md-tooltip md-direction="bottom">Portfolio</md-tooltip>
@@ -43,26 +43,26 @@
 
       <div class="md-toolbar-section-end" style='margin: 0 1rem'>
         <div class="md-layout md-gutter md-alignment-center-space-between">
-          <div class="md-layout-item">
+          <div class="md-layout-item" v-show="isLoggedIn">
             <div class="md-list-item-text">
               <span>Equity</span>
               <span>{{this.equityGetter}}</span>
               <md-tooltip md-direction="bottom">Balance + Reserved + PNL</md-tooltip>
             </div>
-          </div>|
-          <div class="md-layout-item">
+          </div>
+          <div class="md-layout-item" v-show="isLoggedIn">
             <div class="md-list-item-text">
               <span>Available</span>
               <span>{{this.equityGetter}}</span>
               <md-tooltip md-direction="bottom">Equity - Initial Margin</md-tooltip>
             </div>
-          </div>|
+          </div>
           <div v-show="!isLoggedIn" class="md-layout-item">
-            <router-link to="/Login">
+            <router-link to="/Recover">
               <md-tooltip md-direction="bottom">Login</md-tooltip>
               <md-icon class="md-left">fingerprint</md-icon>
             </router-link>
-          </div>|
+          </div>
           <div class="md-layout-item">
             <router-link to="/CreateWallet">
               <md-tooltip md-direction="bottom">Create New Wallet</md-tooltip>
@@ -162,7 +162,9 @@ export default {
   methods: {
     ...mapMutations("wallet", ["clearDecryptedWallet", "clearKeys"]),
     logout() {
-      this.clearDecryptedWallet();
+      alert('Downloading the wallet before logout ...')
+      this.downloadEnc();
+      this.clearKeys();
       this.$router.push("/");
     },
     downloadEnc() {

@@ -99,8 +99,27 @@ const mutations = {
     }
 
     // TODO: check if valid wif?
-    const publicAddress = wifToPubKey(wifKey)
-    addKeyPairToState(state, { wifKey, publicAddress }, password)
+    const publicAddress = decryptKey(wifKey, password)
+    if(publicAddress) {
+      console.log({publicAddress})
+      addKeyPairToState(state, { wifKey, publicAddress }, password)
+    } else {
+      alert('Wrong Key or Password !')
+    }
+  },
+  addKeyPairFromWifArray(state, { wifKeys, password }) {
+    if ((state.walletEnc.length > 0) && !decryptWalletExtracted(state, password)) {
+      return false
+    }
+    const decryptedWallet = wifKeys.map(wifKey => {
+      return { wifKey, publicAddress: decryptKey(wifKey, password)}
+    })
+    if (decryptedWallet.some(s => !s.publicAddress)) {
+      alert('Wrong Json/Keys or Password !')
+    } else {
+      decryptedWallet.forEach(ad => addKeyPairToState(state, { wifKey: ad.wifKey, publicAddress: ad.publicAddress }, password))
+    }
+    
   },
   decryptWallet(state, password) {
     return decryptWalletExtracted(state, password)
