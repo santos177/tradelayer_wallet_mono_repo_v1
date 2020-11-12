@@ -170,11 +170,11 @@ const getters = {
     const count = state.walletDec.length
     switch (count) {
       case 0:
-        return state.walletEnc.length ? `No addresses (${state.walletEnc.length} locked)` : `No addresses`
+        return state.walletEnc.length ? `No Addresses (${state.walletEnc.length} locked)` : `No Addresses`
       case 1:
-        return "1 adddress"
+        return "1 Address"
       default:
-        return `${count} adresses`
+        return `${count} Addresses`
     }
   },
   hasEncryptedKeys(state) {
