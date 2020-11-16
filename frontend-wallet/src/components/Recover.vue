@@ -13,7 +13,7 @@
       </div>
     </form> -->
   <div style="display:flex; flex-direction: column">
-    <form @submit.prevent="handleSubmit" class='form-container'>
+    <form @submit.prevent="handleSubmit" class='form-container' ref='keyForm'>
       <label>Recover from KEY</label>
       <div class='inputs-container'>
         <div class='input-form'>
@@ -29,7 +29,7 @@
         <md-button @click="handleSubmit" class="md-raised md-accent animated rubberBand">RECOVER FROM KEY</md-button>
     </form>
 
-        <form @submit.prevent="handleSubmitJson" class='form-container'>
+        <form @submit.prevent="handleSubmitJson" ref="jsonForm" class='form-container'>
       <label>Recover from JSON</label>
       <div class='inputs-container'>
         <div class='input-form'>
@@ -71,13 +71,13 @@
         this.submitted = true
         const { wifKey, password } = this
         this.addKeyPairFromWif({ wifKey, password })
+        this.$refs.keyForm.reset() 
       },
       handleSubmitJson(){
         this.submittedJson = true
-
         const { wifKeys, passwordJson } = this;
         this.addKeyPairFromEncWifArray({ wifKeys, password: passwordJson })
-
+        this.$refs.jsonForm.reset() 
       },
       handleFileInputChange(event) {
         const json = event.target.files[0];

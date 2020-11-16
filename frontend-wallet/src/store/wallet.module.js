@@ -46,8 +46,11 @@ const addKeyPairToState = (state, keyPair, password) => {
   const ecriptedWif = encryptKey(keyPair.wifKey, password)
   const walletEnc = [...state.walletEnc];
   const walletDec = [...state.walletDec];
-  walletEnc.push(ecriptedWif)
-  walletDec.push(keyPair);
+
+  if (!walletDec.some(e => e.publicAddress === keyPair.publicAddress)) {
+    walletEnc.push(ecriptedWif)
+    walletDec.push(keyPair);
+  }
 
   state.walletEnc = walletEnc;
   state.walletDec = walletDec;
@@ -60,10 +63,9 @@ const actions = {
   // todo: call after new address is added
   setCurrentAddress({ commit, state }, index) {
     const newAddress = state.walletDec[index].publicAddress;
-
+    commit('setCurrentAddressIndex', index)
     walletService.getUTXOs(newAddress, (utxoArray) => {
       commit('setUTXOArray', utxoArray)
-      commit('setCurrentAddressIndex', index)
     })
   },
   updateCurrentUTXOs({ dispatch, state }) {
