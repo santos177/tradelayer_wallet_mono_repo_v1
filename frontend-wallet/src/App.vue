@@ -102,24 +102,7 @@
     </md-drawer>
 
     <md-drawer class="md-left" :md-active.sync="showNavigation">
-      <md-toolbar class="md-transparent" md-elevation="1">
-        <span class="md-title">TradeLayer</span>
-      </md-toolbar>
-
-      <md-list>
-        <router-link class="md-list-item" to="/Summary">
-          <span class="md-label">Trading</span>
-        </router-link>
-        <router-link class="md-list-item" to="/dCurrency">
-          <span class="md-label">dCurrency</span>
-        </router-link>
-        <router-link class="md-list-item" to="/Portfolio">
-          <span class="md-label">Portfolio</span>
-        </router-link>
-        <router-link class="md-list-item" to="/Taxes">
-          <span class="md-label">Taxes</span>
-        </router-link>
-      </md-list>
+      <Navigation />
     </md-drawer>
     <router-view />
   </div>
@@ -130,10 +113,12 @@ import { mapGetters, mapMutations, mapState } from "vuex";
 import Wallet from "@/components/Wallet";
 import { socketService } from "./services";
 import { txsJsonLink } from '../lib/wallet'
+import Navigation from "@/components/Navigation"
 export default {
   name: "App",
   components: {
-    Wallet
+    Wallet,
+    Navigation
   },
   data: () => ({
     showNavigation: false,
@@ -184,7 +169,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 15px;
+  padding-top:15px;
+  min-height: 100vh;
 }
 
 .md-primary {
