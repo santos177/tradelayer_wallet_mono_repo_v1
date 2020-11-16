@@ -18,7 +18,7 @@ tl.init = function(user, pass, otherip, test){
   var host
   if(otherip == null){host = 'localhost'}else{host=otherip}
   var port
-  if(test == false || test == null){port = 9332}else{port=19336}  
+  if(test == false || test == null){port = 9332}else{port=9332}  
   var client = new litecoin.Client({
     host: host,
     port: port,
@@ -31,7 +31,7 @@ tl.init = function(user, pass, otherip, test){
   return client
 }
 
-var client = tl.init(user, pass, '200.86.176.38', true)
+var client = tl.init(user, pass, 'localhost', true)
 
 tl.getnewaddress = function(account, cb){
     if(account == null|| account == undefined){

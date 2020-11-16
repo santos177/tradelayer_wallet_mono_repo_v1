@@ -63,10 +63,9 @@ const actions = {
   // todo: call after new address is added
   setCurrentAddress({ commit, state }, index) {
     const newAddress = state.walletDec[index].publicAddress;
-
+    commit('setCurrentAddressIndex', index)
     walletService.getUTXOs(newAddress, (utxoArray) => {
       commit('setUTXOArray', utxoArray)
-      commit('setCurrentAddressIndex', index)
     })
   },
   updateCurrentUTXOs({ dispatch, state }) {
