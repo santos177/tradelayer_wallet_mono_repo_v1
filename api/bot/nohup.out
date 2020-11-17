@@ -1,0 +1,1472 @@
+loop number: 1
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0001 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 2
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0044 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 3
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0019 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 4
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0023 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 5
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0171 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 6
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0077 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 7
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0111 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 8
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0079 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 9
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0129 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 10
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0071 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 11
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0101 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 12
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0126 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 13
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0131 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 14
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.001 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 15
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0062 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 16
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0109 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 17
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0183 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 18
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0173 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 19
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0128 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 20
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0117 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 21
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0069 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 22
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0063 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 23
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0152 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 24
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0159 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 25
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0135 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 26
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0105 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 27
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0092 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 28
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0019 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 29
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0043 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 30
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0193 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 31
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0117 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 32
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0191 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 33
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0094 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 34
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0015 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 35
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0107 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 36
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0004 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 37
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0141 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 38
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0051 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 39
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0003 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 40
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0102 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 41
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0172 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 42
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0047 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 43
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0004 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 44
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0026 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 45
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0097 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 46
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0136 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 47
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0178 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 48
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0193 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 49
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.003 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 50
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0158 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+There is an error with trade cancelation !!!
+ { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 51
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0027 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 52
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0064 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 53
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0179 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 54
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0008 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 55
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0146 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 56
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0139 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 57
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0014 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 58
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0047 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 59
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0153 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 60
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0072 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 61
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0185 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 62
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0066 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 63
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0148 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 64
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0067 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 65
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0071 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 66
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0037 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 67
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0152 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 68
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0042 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 69
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0081 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 70
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0145 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 71
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0152 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 72
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0005 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 73
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0105 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 74
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0099 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 75
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0002 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 76
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0151 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 77
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0122 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 78
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0168 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 79
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0137 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 80
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0011 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 81
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0017 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 82
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0087 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 83
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0068 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 84
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0099 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 85
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.016 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 86
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0098 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 87
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0165 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 88
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0125 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 89
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0176 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 90
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0187 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 91
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0114 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 92
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0098 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 93
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0021 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 94
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.015 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 95
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0086 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 96
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0181 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 97
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0119 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 98
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0025 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 99
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0155 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 100
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0086 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+There is an error with trade cancelation !!!
+ { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 101
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.007 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 102
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0128 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 103
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0063 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 104
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.012 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 105
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0109 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 106
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0146 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 107
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0086 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 108
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0006 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 109
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0158 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 110
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0168 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }
+loop number: 111
+There is an error with Trade!!!
+ { address: 'mzyu2YT3hQoqZcYin72EB9CUGkR1888ARH',
+  id1: 16,
+  amount1: 0.025,
+  id2: 17,
+  amount2: 0.0084 } { Error: Error with selected inputs for the send transaction
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -206 }
+loop number: 112
+There is an error with Trade!!!
+ { address: 'mnF2UZodmhj1bfFRxJDgUnaLNEL1C66vZd',
+  id1: 16,
+  amount1: 0.01,
+  id2: 17,
+  amount2: 0.0049 } { Error: Sender has insufficient balance
+    at /root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:130:19
+    at Array.forEach (<anonymous>)
+    at IncomingMessage.<anonymous> (/root/tradelayer_wallet_mono_repo_v1/api/node_modules/litecoin/lib/jsonrpc.js:127:15)
+    at IncomingMessage.emit (events.js:187:15)
+    at endReadableNT (_stream_readable.js:1094:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19) code: -3 }

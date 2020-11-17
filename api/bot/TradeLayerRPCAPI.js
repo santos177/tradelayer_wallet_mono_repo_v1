@@ -22,7 +22,7 @@ tl.init = function(user, pass, otherip, test){
   if(test == false || test == null){port = 9332}else{port=9333}  
   var client = new litecoin.Client({
     host: "localhost",
-    port: 9332,
+    port: 19332,
     user: "pepejandro",
     pass: "pepecash",
     timeout:30000,
@@ -34,11 +34,6 @@ tl.init = function(user, pass, otherip, test){
  
 var client = tl.init(user, pass, null, true)
 
-<<<<<<< HEAD
-=======
-var client = tl.init(user, pass, null, true)
-
->>>>>>> 4b5cb4d1bf0caee58f26343dc0ae26bca8b9fcdc
 tl.getnewaddress = function(account, cb){
     if(account == null|| account == undefined){
     client.cmd('getnewaddress',function(err,address,resHeaders){
@@ -110,11 +105,7 @@ tl.getreceivedbyaddress = function(address, confirmations, cb){
 tl.getinfo =function(cb){
     client.cmd("tl_getinfo", function(err, data, resHeaders){
   if (err) return console.log(err);
-<<<<<<< HEAD
   return cb(data)
-=======
-    return cb(data)
->>>>>>> 4b5cb4d1bf0caee58f26343dc0ae26bca8b9fcdc
   })
 }
 

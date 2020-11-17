@@ -1,5 +1,5 @@
-const config = require('./config')
-const helpers = require('./helpers')
+const config = require('./config');
+const helpers = require('./helpers');
 const { base64encode, base64decode } = require('nodejs-base64')
 
 var omniClient = require('./ltc_client.js')

@@ -28,6 +28,7 @@
     "express": "^4.16.3",
     "express-queue": "^0.0.12",
     "forever": "^3.0.2",
+    "forever-monitor": "^3.0.1",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
     "jsonwebtoken": "^8.3.0",
