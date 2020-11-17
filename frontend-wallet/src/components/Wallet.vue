@@ -5,16 +5,27 @@
       <span >addresses </span> 
       <span  id='wallet-balance' v-on:click='updateCurrentUTXOs'> <md-tooltip md-direction='bottom'>click to update balance </md-tooltip>  balance: {{currentAddressLTCBalance}}</span>
     </div>
-    <md-table id='address-table'>
+    <!-- <md-table id='address-table'>
       <div v-bind:key="item.publicAddress" v-for="(item, index) in walletDec">
       <md-table-row  v-if="currentAddressIndex == index">
         <md-table-cell class='selected-address' > <div > {{ item.publicAddress }} </div> </md-table-cell>
       </md-table-row>
       <md-table-row v-on:click='setCurrentAddress(index)' v-else>
-        <md-table-cell  > <div >{{ item.publicAddress }} </div> </md-table-cell>
+        <md-table-cell > <div >{{ item.publicAddress }} </div> </md-table-cell>
         </md-table-row>
         </div>
-    </md-table>
+    </md-table> -->
+
+    <div class='addresses-container'>
+      <div 
+      class='address' 
+      v-bind:class="{ active: currentAddressIndex == index }"
+      v-bind:key="item.publicAddress" v-for="(item, index) in walletDec"
+      v-on:click='setCurrentAddress(index)'>
+         {{ item.publicAddress }} 
+      </div>
+    </div>
+  
     <br/>   
     <div class='divider'></div>
     <div id='txn-container'>
@@ -240,16 +251,9 @@ export default {
 <style scoped>
 .update-button, .submit-button{
   border: 1px solid grey;
-  border-radius: 40%;
+  border-radius: 20%;
 }
-.selected-address{
-  font-weight: bold
-}
-#address-table td{
-  cursor: pointer;
-    align: left;
 
-}
 #header{
   text-align: left;
   padding-left: 35px;
@@ -260,10 +264,6 @@ export default {
   border-top: 1px solid lightgrey;
   width: 100%;
   margin: 10px 0px 10px 0;
-}
-#address-table{
-  max-height: 200px;
-  overflow: scroll;
 }
 
 .form-wrapper {
@@ -278,9 +278,28 @@ export default {
 #wallet-header{
   display: flex;
   justify-content: space-between;
-  padding: 0 20px 0 20px;
-  margin: 15px 0 15px 0;
+  padding: 1rem;
   font-weight: bold;
   font-size: 17px;
+  background-color: rgb(32, 32, 32);
+  box-shadow: 0 1px 5px black;
+}
+
+.addresses-container {
+  max-height: 200px;
+  display:flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+  overflow: auto;
+}
+.address {
+  margin: 0.5rem 0;
+  cursor: pointer;
+}
+.address:hover {
+  color: yellowgreen;
+}
+.active{ 
+  color: skyblue
 }
 </style>

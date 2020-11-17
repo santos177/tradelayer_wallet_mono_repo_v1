@@ -9,9 +9,9 @@
           <md-icon>money</md-icon>
           <md-tooltip md-direction="bottom">Wallet</md-tooltip>
         </md-button>
-        <div class="md-layout-item">
-          <router-link to="/" class="md-avatar">
-            <img src="@/assets/tradelayer.jpg" alt />
+        <div class="md-layout-item" >
+          <router-link to="https://layerexplorer.com" class="md-avatar" style='background:white;' target='_blank'>
+            <img src="@/assets/logo3.png" alt />
           </router-link>
         </div>
         <div class="md-layout-item">
@@ -20,7 +20,7 @@
             <md-tooltip md-direction="bottom">Home</md-tooltip>
           </router-link>
         </div>
-        <div class="md-layout-item">
+        <div v-show="isLoggedIn" class="md-layout-item">
           <router-link to="/Balances">
             <md-icon class="md-left">account_circle</md-icon>
             <md-tooltip md-direction="bottom">Portfolio</md-tooltip>
@@ -43,26 +43,26 @@
 
       <div class="md-toolbar-section-end" style='margin: 0 1rem'>
         <div class="md-layout md-gutter md-alignment-center-space-between">
-          <div class="md-layout-item">
+          <div class="md-layout-item" v-show="isLoggedIn">
             <div class="md-list-item-text">
               <span>Equity</span>
               <span>{{this.equityGetter}}</span>
               <md-tooltip md-direction="bottom">Balance + Reserved + PNL</md-tooltip>
             </div>
-          </div>|
-          <div class="md-layout-item">
+          </div>
+          <div class="md-layout-item" v-show="isLoggedIn">
             <div class="md-list-item-text">
               <span>Available</span>
               <span>{{this.equityGetter}}</span>
               <md-tooltip md-direction="bottom">Equity - Initial Margin</md-tooltip>
             </div>
-          </div>|
+          </div>
           <div v-show="!isLoggedIn" class="md-layout-item">
-            <router-link to="/Login">
+            <router-link to="/Recover">
               <md-tooltip md-direction="bottom">Login</md-tooltip>
               <md-icon class="md-left">fingerprint</md-icon>
             </router-link>
-          </div>|
+          </div>
           <div class="md-layout-item">
             <router-link to="/CreateWallet">
               <md-tooltip md-direction="bottom">Create New Wallet</md-tooltip>
@@ -102,24 +102,7 @@
     </md-drawer>
 
     <md-drawer class="md-left" :md-active.sync="showNavigation">
-      <md-toolbar class="md-transparent" md-elevation="1">
-        <span class="md-title">TradeLayer</span>
-      </md-toolbar>
-
-      <md-list>
-        <router-link class="md-list-item" to="/Summary">
-          <span class="md-label">Trading</span>
-        </router-link>
-        <router-link class="md-list-item" to="/dCurrency">
-          <span class="md-label">dCurrency</span>
-        </router-link>
-        <router-link class="md-list-item" to="/Portfolio">
-          <span class="md-label">Portfolio</span>
-        </router-link>
-        <router-link class="md-list-item" to="/Taxes">
-          <span class="md-label">Taxes</span>
-        </router-link>
-      </md-list>
+      <Navigation />
     </md-drawer>
     <router-view />
   </div>
@@ -130,10 +113,12 @@ import { mapGetters, mapMutations, mapState } from "vuex";
 import Wallet from "@/components/Wallet";
 import { socketService } from "./services";
 import { txsJsonLink } from '../lib/wallet'
+import Navigation from "@/components/Navigation"
 export default {
   name: "App",
   components: {
-    Wallet
+    Wallet,
+    Navigation
   },
   data: () => ({
     showNavigation: false,
@@ -162,7 +147,9 @@ export default {
   methods: {
     ...mapMutations("wallet", ["clearDecryptedWallet", "clearKeys"]),
     logout() {
-      this.clearDecryptedWallet();
+      alert('Downloading the wallet before logout ...')
+      this.downloadEnc();
+      this.clearKeys();
       this.$router.push("/");
     },
     downloadEnc() {
@@ -182,7 +169,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 15px;
+  padding-top:15px;
+  min-height: 100vh;
 }
 
 .md-primary {

@@ -46,8 +46,11 @@ const addKeyPairToState = (state, keyPair, password) => {
   const ecriptedWif = encryptKey(keyPair.wifKey, password)
   const walletEnc = [...state.walletEnc];
   const walletDec = [...state.walletDec];
-  walletEnc.push(ecriptedWif)
-  walletDec.push(keyPair);
+
+  if (!walletDec.some(e => e.publicAddress === keyPair.publicAddress)) {
+    walletEnc.push(ecriptedWif)
+    walletDec.push(keyPair);
+  }
 
   state.walletEnc = walletEnc;
   state.walletDec = walletDec;
@@ -60,10 +63,9 @@ const actions = {
   // todo: call after new address is added
   setCurrentAddress({ commit, state }, index) {
     const newAddress = state.walletDec[index].publicAddress;
-
+    commit('setCurrentAddressIndex', index)
     walletService.getUTXOs(newAddress, (utxoArray) => {
       commit('setUTXOArray', utxoArray)
-      commit('setCurrentAddressIndex', index)
     })
   },
   updateCurrentUTXOs({ dispatch, state }) {
@@ -99,8 +101,33 @@ const mutations = {
     }
 
     // TODO: check if valid wif?
-    const publicAddress = wifToPubKey(wifKey)
-    addKeyPairToState(state, { wifKey, publicAddress }, password)
+
+    try {
+      const publicAddress = wifToPubKey(wifKey)
+      addKeyPairToState(state, { wifKey, publicAddress }, password)
+    } catch(err) { alert('Wrong Recovery Key') }
+    
+  },
+  addKeyPairFromEncWifArray(state, { wifKeys, password }) {
+    if ((state.walletEnc.length > 0) && !decryptWalletExtracted(state, password)) {
+      return false
+    }
+
+    const decryptedWallet = wifKeys.map(encWifKey => {
+      const wifKey = decryptKey(encWifKey, password);
+      if(!wifKey) return false;
+      const publicAddress = wifToPubKey(wifKey);
+      return { wifKey, publicAddress}
+    })
+    if(decryptedWallet.some(e => !e)) {
+      alert('Wrong Recovery Keys/Json or password')
+    } else {
+      decryptedWallet.forEach(w => {
+        const { wifKey, publicAddress} = w;
+        addKeyPairToState(state, { wifKey, publicAddress }, password)
+      })
+    }
+    
   },
   decryptWallet(state, password) {
     return decryptWalletExtracted(state, password)
@@ -151,11 +178,11 @@ const getters = {
     const count = state.walletDec.length
     switch (count) {
       case 0:
-        return state.walletEnc.length ? `No addresses (${state.walletEnc.length} locked)` : `No addresses`
+        return state.walletEnc.length ? `No Addresses (${state.walletEnc.length} locked)` : `No Addresses`
       case 1:
-        return "1 adddress"
+        return "1 Address"
       default:
-        return `${count} adresses`
+        return `${count} Addresses`
     }
   },
   hasEncryptedKeys(state) {

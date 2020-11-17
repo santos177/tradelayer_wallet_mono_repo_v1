@@ -52,7 +52,8 @@ const encryptKey = (wifKey, password) => {
 const decryptKey = (encryptedKey, password) => {
   const cryptr = new Cryptr(password);
   const decrypted = cryptr.decrypt(encryptedKey);
-  return decrypted.length == 52 ? decrypted : false;
+  const rePattern = /[^A-Za-z0-9]+/g
+  return decrypted.length === 52 && !rePattern.test(decrypted) ? decrypted : false;
 
 }
 
