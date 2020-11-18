@@ -90,9 +90,6 @@
               </router-link>
             </circle-menu>
           </div>
-          <!-- <md-button @click="showNavigation = true">
-                          <md-icon>menu</md-icon>
-          </md-button>-->
         </div>
       </div>
     </md-toolbar>
@@ -102,7 +99,7 @@
     </md-drawer>
 
     <md-drawer class="md-left" :md-active.sync="showNavigation">
-      <Navigation />
+      <Navigation @close-navigation='showNavigation = false;' />
     </md-drawer>
     <router-view />
   </div>

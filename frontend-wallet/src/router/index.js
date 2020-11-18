@@ -15,6 +15,9 @@ import OrderbookSell from '@/components/OrderbookSell'
 import TaxesContainer from '@/containers/TaxesContainer'
 import HistoricalTradesbyAddressContainer from '@/containers/HistoricalTradesbyAddressContainer'
 import Recover from '@/components/Recover'
+import WhitelistsContainer from '@/containers/WhitelistsContainer'
+import TradeChannelManager from '@/containers/TradeChannelManager'
+import TranasctionsLogContainer from '@/containers/TransactionsLogContainer'
 
 import { store } from '../store'
 
@@ -95,6 +98,21 @@ export const router = new Router({
       path: '/HistoricalTradesbyAddress',
       name: 'Historical Trades by Address',
       component: HistoricalTradesbyAddressContainer
+    },
+    {
+      path: '/TransactionsLog',
+      name: 'Transactions Log',
+      component: TranasctionsLogContainer
+    },
+    {
+      path: '/WhiteLists',
+      name: 'Whitelists',
+      component: WhitelistsContainer
+    },
+    {
+      path: '/TradeChannelManager',
+      name: 'Trade Channel Manager',
+      component: TradeChannelManager
     },
     // otherwise redirect to home
     { path: '*', redirect: '/' }

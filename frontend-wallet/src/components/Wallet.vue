@@ -19,7 +19,7 @@
     <div class='addresses-container'>
       <div 
       class='address' 
-      v-bind:class="{ active: currentAddressIndex == index }"
+      v-bind:class="{ 'active-address': currentAddressIndex == index }"
       v-bind:key="item.publicAddress" v-for="(item, index) in walletDec"
       v-on:click='setCurrentAddress(index)'>
          {{ item.publicAddress }} 
@@ -299,7 +299,7 @@ export default {
 .address:hover {
   color: yellowgreen;
 }
-.active{ 
+.active-address{ 
   color: skyblue
 }
 </style>
