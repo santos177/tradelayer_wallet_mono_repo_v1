@@ -4,14 +4,14 @@
         <span class="md-title">TradeLayer</span>
       </div>
       <div class='links-container'>
-        <router-link class='link' to="/Summary">
-          <span class="md-label">Transactions log</span>
+        <router-link class='link' to="/TransactionsLog" >
+          <span class="md-label" @click='$emit("close-navigation")'>Transactions log</span>
         </router-link>
-        <router-link class="link" to="/Summary">
-          <span class="md-label">Whitelists </span>
+        <router-link class="link" to="/WhiteLists">
+          <span class="md-label" @click='$emit("close-navigation")'>Whitelists </span>
         </router-link>
-        <router-link class="link" to="/Summary">
-          <span class="md-label">Trade Channel Manager </span>
+        <router-link class="link" to="/TradeChannelManager">
+          <span class="md-label" @click='$emit("close-navigation")'>Trade Channel Manager </span>
         </router-link>
       </div>
 
