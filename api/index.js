@@ -3,6 +3,7 @@ const helpers = require('./helpers')
 const { base64encode, base64decode } = require('nodejs-base64')
 
 var omniClient = require('./ltc_client.js')
+var tl = require('./bot/TradeLayerRPCAPI')
 
 omniClient.getNetworkHashPs(function(err, hashps) {
 	if (err) console.error(err);
@@ -65,6 +66,7 @@ var firstTime = true;
 app.use((req, res, next)  => {
 	// give routes access to omniClient
 	req.omniClient = omniClient;
+	req.tlClient = tl
 	next()
 })
 
