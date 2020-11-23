@@ -1,4 +1,4 @@
-var { dbconnect } = require('../dbconnect')
+// var { dbconnect } = require('../dbconnect')
 const config = require('../config')
 var path= config.TLPATH
 var datadir = config.TLDATADIR
