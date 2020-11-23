@@ -2,7 +2,7 @@ const express = require('express')
 const txnRouter = express.Router()
 const request = require('request')
 
-const {Txn} = require('../models/index.js') 
+// const {Txn} = require('../models/index.js') 
 
 txnRouter.post('/', (req,res)=>{
     const {rawTxn} = req.body
@@ -29,13 +29,14 @@ txnRouter.post('/utxos', (req, res)=>{
 
 })
 
-txnRouter.get('/', (req,res)=>{
-    Txn.findAll({raw:true}).then((data)=>{
-        res.send(data)
+// --> commented out models
+// txnRouter.get('/', (req,res)=>{
+//     Txn.findAll({raw:true}).then((data)=>{
+//         res.send(data)
 
-    })
+//     })
     
-})
+// })
 
 txnRouter.get('/getinfo/', (req,res)=>{
     req.omniClient.cmd('tl_getinfo', (err, data)=>{
@@ -65,74 +66,76 @@ txnRouter.get('/gettx/:txid', (req,res)=>{
     })
 })
 
-const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
-    let allUTXOs = []
-    const dbTxnsArray = await Txn.findAll({
-                where: {
-                txid: txnDataArray.map((txObj)=>txObj.txid),
-                allSpent: true
-            }})
-    const dbTxnsMapping = {}
-    dbTxnsArray.forEach((txn)=>{dbTxnsMapping[txn.dataValues.txid] = true})
+// --> commented out models
+// const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
+//     let allUTXOs = []
+//     const dbTxnsArray = await Txn.findAll({
+//                 where: {
+//                 txid: txnDataArray.map((txObj)=>txObj.txid),
+//                 allSpent: true
+//             }})
+//     const dbTxnsMapping = {}
+//     dbTxnsArray.forEach((txn)=>{dbTxnsMapping[txn.dataValues.txid] = true})
             
-    const txnsToQuery = txnDataArray.filter((txn)=> !dbTxnsMapping[txn.txid])
-    if (txnsToQuery.length === 0){
-        return next([])
-    }
+//     const txnsToQuery = txnDataArray.filter((txn)=> !dbTxnsMapping[txn.txid])
+//     if (txnsToQuery.length === 0){
+//         return next([])
+//     }
     
-    const getUTXOsForManyTxnsRecur = (index = 0)=>{
-        if(index >= txnsToQuery.length){
-            return next(allUTXOs)
-        }
-        const {txid, outsCount} = txnsToQuery[index]
-        getAllUTXOs(txid, outsCount, omniClient, (utxoData)=>{
-            allUTXOs = [...allUTXOs, ...utxoData]
-            getUTXOsForManyTxnsRecur(index + 1 )
-        })
+//     const getUTXOsForManyTxnsRecur = (index = 0)=>{
+//         if(index >= txnsToQuery.length){
+//             return next(allUTXOs)
+//         }
+//         const {txid, outsCount} = txnsToQuery[index]
+//         getAllUTXOs(txid, outsCount, omniClient, (utxoData)=>{
+//             allUTXOs = [...allUTXOs, ...utxoData]
+//             getUTXOsForManyTxnsRecur(index + 1 )
+//         })
 
-    }
-    getUTXOsForManyTxnsRecur()
-}
+//     }
+//     getUTXOsForManyTxnsRecur()
+// }
 
 /**
 */
 
-const getAllUTXOs = async (txid, vOutCount, omniClient, next, options={})=>{
-    const allUTXOs = []
+// --> commented out models
+// const getAllUTXOs = async (txid, vOutCount, omniClient, next, options={})=>{
+//     const allUTXOs = []
 
-    // check if txn is already flagged as spent only if option is given)
-    if (options.checkDB){
-       const res = await Txn.findOne({
-           where:{
-               txid, allSpend:true
-           }
-       })
-       if(res){
-           next([])
-       } 
-    }
+//     // check if txn is already flagged as spent only if option is given)
+//     if (options.checkDB){
+//        const res = await Txn.findOne({
+//            where:{
+//                txid, allSpend:true
+//            }
+//        })
+//        if(res){
+//            next([])
+//        } 
+//     }
 
 
-    const getAllUTXOsRecur = async  (txid, vOutIndex) =>{
-        if(vOutIndex < 0){
+//     const getAllUTXOsRecur = async  (txid, vOutIndex) =>{
+//         if(vOutIndex < 0){
 
-            if(allUTXOs.length === 0){
-                return Txn.markAsSpent(txid, ()=>{
-                    next(allUTXOs)
-                })
-            }
+//             if(allUTXOs.length === 0){
+//                 return Txn.markAsSpent(txid, ()=>{
+//                     next(allUTXOs)
+//                 })
+//             }
 
-            return next(allUTXOs)
-        }
-        getUTXO(txid, vOutIndex, omniClient, (data)=>{
-            if(data){
-                allUTXOs.push(data)
-            }
-            getAllUTXOsRecur(txid, vOutIndex- 1)
-        })
-    }
-    getAllUTXOsRecur(txid, vOutCount)
-}
+//             return next(allUTXOs)
+//         }
+//         getUTXO(txid, vOutIndex, omniClient, (data)=>{
+//             if(data){
+//                 allUTXOs.push(data)
+//             }
+//             getAllUTXOsRecur(txid, vOutIndex- 1)
+//         })
+//     }
+//     getAllUTXOsRecur(txid, vOutCount)
+// }
 
 /** 
 * get one utxo; queries node 

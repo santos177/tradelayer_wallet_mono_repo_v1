@@ -1,7 +1,7 @@
-var { dbconnect } = require('../dbconnect')
-const client = dbconnect
+// var { dbconnect } = require('../dbconnect')
+// const client = dbconnect
 const jwt  = require('jsonwebtoken');
-const helpers = require('../helpers')
+// const helpers = require('../helpers')
 const config = require('../config')
 const uuidv4 = require('uuid/v4');
 const uuid_validate = require('uuid-validate')
@@ -20,9 +20,9 @@ var fs = require('fs')
 
 var path= config.TLPATH
 var datadir = config.TLDATADIR
-const {Wallet} = require('../models/index.js') 
+// const {Wallet} = require('../models/index.js') 
 
-const Sequelize = require("sequelize");
+// const Sequelize = require("sequelize");
 
 const userApi = ({omniClient, ...app}) => {
 
@@ -98,27 +98,28 @@ const userApi = ({omniClient, ...app}) => {
 					// 	}
 					// })
 
-					Wallet.findAll({
-						where: {
-							[Sequelize.Op.or]: [{email: uuid}, {walletid:uuid}]
-						},
-						limit: 1
-					})
-  				// var query1 = client.query({
-  				// 	text: 'select email, passhash, walletblob from wallets where walletid=$1',
-  				// 	values: [uuid],
-					// 	rowMode: 'array' })
+					// --> commented out models
+					// Wallet.findAll({
+					// 	where: {
+					// 		[Sequelize.Op.or]: [{email: uuid}, {walletid:uuid}]
+					// 	},
+					// 	limit: 1
+					// })
+					// 		// var query1 = client.query({
+					// 		// 	text: 'select email, passhash, walletblob from wallets where walletid=$1',
+					// 		// 	values: [uuid],
+					// 			// 	rowMode: 'array' })
 						
 
-  					.then((result) => {
-  						// return walletblob
-  						console.log('result of read wallet result.rows[0] ', result)
-  						resolve(result[0])
-  					})
-  					.catch((err) => {
-  							console.log('error in read wallet')
-  							reject(err)
-  					})
+  					// .then((result) => {
+  					// 	// return walletblob
+  					// 	console.log('result of read wallet result.rows[0] ', result)
+  					// 	resolve(result[0])
+  					// })
+  					// .catch((err) => {
+  					// 		console.log('error in read wallet')
+  					// 		reject(err)
+  					// })
   				}) //end of promiseWalletEncrypted
   				.then((data) => {
   					//	console.log('begin helpers.updateLogin')
