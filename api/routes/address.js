@@ -2,7 +2,7 @@ const addressRouter = require('express').Router();
 const omniClient = require('../ltc_client');
 
 
-Router.get('/search/:address', (req, res) => {
+addressRouter.get('/search/:address', (req, res) => {
 
     const { address } = req.params;
 
