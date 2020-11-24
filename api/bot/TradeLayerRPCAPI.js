@@ -31,7 +31,6 @@ tl.init = function(user, pass, otherip, test){
   
   return client
 }
- 
 var client = tl.init(user, pass, null, true)
 
 tl.getnewaddress = function(account, cb){
@@ -453,7 +452,7 @@ var rawPubScripts = []
 
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
 	var txstring = ""
-	client.cmd('tl_createrawtx_input', txstring, inputs, vouts, function(err, data, resHeaders){
+	client.cmd('tl_createrawtx_input', txstring, inputs[0], vouts[0], function(err, data, resHeaders){
 		if(err==null){
 			txstring = data
 		}else{return err}
@@ -465,7 +464,7 @@ tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
 				if(err==null){
 				txstring = data
 				}else{return err}
-				    rest.get('https://blockchain.info/rawtx/'+inputs[0]).on('complete', function(data){
+				    rest.get('https://sochain.com/api/v2/get_tx_outputs/LTCTEST/'+inputs[0]).on('complete', function(data){
 			    	/*
 			    	{
 				    "hash":"b6f6991d03df0e2e04dafffcd6bc418aac66049e2cd74b80f14ac86db1e3f0da",
