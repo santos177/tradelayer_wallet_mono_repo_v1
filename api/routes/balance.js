@@ -5,7 +5,7 @@ var datadir = config.TLDATADIR
 var exec = require('child_process').exec;
 const express = require('express')
 const balanceRouter = express.Router()
-const {Address, Balance} = require('../models/index.js') 
+//const {Address, Balance} = require('../models/index.js') 
 
 balanceRouter.get('/address/:address', (req, res)=>{
   let {address} = req.params;
