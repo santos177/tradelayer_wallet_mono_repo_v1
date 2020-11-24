@@ -21,9 +21,9 @@
           </router-link>
         </div>
         <div v-show="isLoggedIn" class="md-layout-item">
-          <router-link to="/Balances">
+          <router-link to="/Profile">
             <md-icon class="md-left">account_circle</md-icon>
-            <md-tooltip md-direction="bottom">Portfolio</md-tooltip>
+            <md-tooltip md-direction="bottom">Profile</md-tooltip>
           </router-link>
         </div>
         <div v-show="isLoggedIn" class="md-layout-item">
