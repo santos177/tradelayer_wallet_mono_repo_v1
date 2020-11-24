@@ -10,13 +10,14 @@ blockTransactionsRouter.get('/:block', (req, res) => {
     const { block } = req.params;
 
     const blockTransactionArr = [];
+    console.log('req block: ', block)
 
-    omniClient.cmd('tl_listblocktransactions', block, (err, blockTransactions) => {
+    omniClient.cmd('tl_listblocktransactions', parseInt(block), (err, blockTransactions) => {
 
         if(blockTransactions) {
             console.log('block transactions: ', blockTransactions)
             blockTransactions.map((blockTransaction, index) => {
-                omniClient.cmd('tl_listtransactions', blockTransaction, true, (err, blockTransaction) => {
+                omniClient.cmd('tl_gettransaction', blockTransaction, (err, blockTransaction) => {
 
                     if(blockTransaction) {
                         const blockTransactionObj = {

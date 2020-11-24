@@ -12,7 +12,7 @@ const jwt  = require('jsonwebtoken');
 var litecoin = require('litecoin');
 var omniClient = new litecoin.Client({
   host: 'localhost',
-  port: 9332,
+  port: 19332,
   user: "pepejandro",
   pass: "pepecash",
   ssl: false/* true, */

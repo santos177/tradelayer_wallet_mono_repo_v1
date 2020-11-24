@@ -1,4 +1,4 @@
-var { dbconnect } = require('../dbconnect')
+// var { dbconnect } = require('../dbconnect')
 const config = require('../config')
 var exec = require('child_process').exec;
 var path= config.TLPATH
