@@ -26,71 +26,8 @@
       </div>
     </div>
   
-    <br/>   
     <div class='divider'></div>
     <div id='txn-container'>
-      <form @submit.prevent='handleSubmit'>
-        <div class='form-group'>
-          <div> From: {{walletDec[currentAddressIndex].publicAddress}} </div>
-        </div>
-
-        <div v-if="txnType === txnTypeEnum.LTC_SEND" >
-          <div class='form-group form-wrapper'>
-              <div> 
-                <label for='toAddress'>to </label>
-                <input :value="toAddress" @input="txnFormUpdate" type='text' placeholder='address' name='toAddress' />
-              </div>
-            <div>
-              <label>sats</label>
-              <input :value="sats" @input="txnFormUpdate" type='number' name='sats' /></div>
-            </div>
-        </div>
-
-        <div v-else-if="txnType === txnTypeEnum.BUY_CONTRACT || txnType === txnTypeEnum.SELL_CONTRACT" >
-            <div class='form-group form-wrapper' >
-              <div>
-                <label for='quantity'>quant</label>
-                <input :value="quantity" @input="txnFormUpdate" type='number' step='any' placeholder='quantity' name='quantity' />
-              </div>
-              <div> 
-                <label for="price">price</label>
-                <input :value="price" @input="txnFormUpdate" type='number' step='any' placeholder='price' name='price' /> 
-              </div>
-            </div>
-        </div>
-        
-      <div v-else-if="txnType === txnTypeEnum.ISSUE_CURRENCY || txnType === txnTypeEnum.REDEEM_CURRENCY" >
-            <div class='form-group form-wrapper'>
-              <div>
-                <label for="contract">contract</label>
-                <input :value="contract" @input="txnFormUpdate" type='text' placeholder='contract' name='contract' /> 
-              </div>
-              <div>
-                <label for="name">name</label>
-               <input :value="name" @input="txnFormUpdate" type='text' placeholder='name' name='name' /> 
-              </div>
-              <div>
-                <label for="quantity">quant</label>
-              <input :value="quantity" @input="txnFormUpdate" type='number' placeholder='quantity' name='quantity' /> 
-              </div>
-            </div>
-        </div>
-         <div v-else-if="txnType === txnTypeEnum.PROPOSE_CHANNEL" >
-            <div class='form-group form-wrapper'>
-              <div>
-                <label for="contract">margin balance</label>
-                <input :value="channelBalance" @input="txnFormUpdate" type='text' placeholder='balance' name='channelBalance' /> 
-              </div>
-               <div>
-                <label for="contract">price</label>
-                <input :value="channelPrice" @input="txnFormUpdate" type='text' placeholder='price' name='channelPrice' /> 
-              </div>
-               <div>
-                <label for="contract">trade size</label>
-                <input :value="quantity" @input="quantity" type='text' placeholder='trade size' name='quantity' /> 
-              </div>
-            </div>
-        </div>
         <div class='form-group'>
           <md-field>
             <md-select v-model='txnType'>
@@ -100,11 +37,73 @@
               <md-option :value="this.txnTypeEnum.ISSUE_CURRENCY">Issue Currency</md-option>
               <md-option :value="this.txnTypeEnum.REDEEM_CURRENCY">Redeem Currency</md-option>
               <md-option :value="this.txnTypeEnum.PROPOSE_CHANNEL">Propose Channel</md-option>
-
             </md-select>
           </md-field>
         </div>
-        <md-button md-button class='md-button-content submit-button' type='submit'> submit</md-button>
+    <div class='divider'></div>
+
+      <form @submit.prevent='handleSubmit'>
+        <div v-if="txnType === txnTypeEnum.LTC_SEND">
+          <div class='form-group'>
+            <md-field >
+              <label>Send To: </label>
+              <md-input v-model="toAddress" @input="txnFormUpdate" name='toAddress'></md-input>
+            </md-field>
+            <md-field >
+              <label>Sats: </label>
+              <md-input v-model="sats" type='number' name='sats' @input="txnFormUpdate"></md-input>
+            </md-field>
+            </div>
+          </div>
+
+          <div v-else-if="txnType === txnTypeEnum.BUY_CONTRACT || txnType === txnTypeEnum.SELL_CONTRACT" >
+              <div class='form-group form-wrapper' >
+            <md-field >
+              <label>Quantity: </label>
+              <md-input v-model="quantity" @input="txnFormUpdate" type='number' step='any' name='quantity'></md-input>
+            </md-field>
+            <md-field >
+              <label>Price: </label>
+              <md-input v-model="price" @input="txnFormUpdate" type='number' step='any'  name='price'></md-input>
+            </md-field>
+              </div>
+          </div>
+        
+      <div v-else-if="txnType === txnTypeEnum.ISSUE_CURRENCY || txnType === txnTypeEnum.REDEEM_CURRENCY" >
+            <div class='form-group form-wrapper'>
+            <md-field >
+              <label>Contract: </label>
+              <md-input v-model="contract" @input="txnFormUpdate"  type='text' name='contract'></md-input>
+            </md-field>
+            <md-field >
+              <label>Name: </label>
+              <md-input v-model="name" @input="txnFormUpdate" type='text' name='name'></md-input>
+            </md-field>
+            <md-field >
+              <label>Quantity: </label>
+              <md-input v-model="quantity" @input="txnFormUpdate" type='number' name='quantity'></md-input>
+            </md-field>
+            </div>
+        </div>
+         <div v-else-if="txnType === txnTypeEnum.PROPOSE_CHANNEL" >
+            <div class='form-group form-wrapper'>
+            <md-field >
+              <label>Margin Balance: </label>
+              <md-input v-model="channelBalance" @input="txnFormUpdate" type='text' name='channelBalance' ></md-input>
+            </md-field>
+            <md-field >
+              <label>Price: </label>
+              <md-input v-model="channelPrice" @input="txnFormUpdate" type='text' name='channelPrice'></md-input>
+            </md-field>
+            <md-field >
+              <label>Trade Size: </label>
+              <md-input v-model="quantity" @input="quantity"  type='text'  name='quantity'></md-input>
+            </md-field>
+            </div>
+        </div>
+        <md-button md-button class='md-accent md-raised' disabled>Build Raw</md-button>
+        <md-button md-button class='md-primary md-raised'>Sign</md-button>
+
       </form>
     </div>
   </div>
@@ -261,11 +260,14 @@ export default {
 
 }
 .divider{
-  border-top: 1px solid lightgrey;
+  border-top: 1px solid rgb(32, 32, 32);
+  box-shadow: 0 0 2px 1px rgb(32, 32, 32);
   width: 100%;
-  margin: 10px 0px 10px 0;
+  margin: 0.5rem 0;
 }
-
+.form-group {
+  padding: 0 2rem
+}
 .form-wrapper {
   display: flex;
   flex-direction: column
@@ -293,7 +295,7 @@ export default {
   overflow: auto;
 }
 .address {
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
   cursor: pointer;
 }
 .address:hover {
