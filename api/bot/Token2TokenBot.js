@@ -2,8 +2,8 @@ var tl = require('./TradeLayerRPCAPI.js').tl
 
 var loops = 0
 
-var property1 = 19 // add property 1
-var property2 = 20 // add property 2
+var property1 = 6 // add property 1
+var property2 = 7 // add property 2
 var address1 = "mfZ5Jj6xVRqdZn6tP3JQ8y955ARqy6NZc5" // add address 1
 var address2 = "miqMP7s1AA3C2dh1hSN9he5LjksJkuhMuE" // add address 2 
 var deleteCount = 50
