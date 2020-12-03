@@ -4,6 +4,7 @@ const orderbookRouter= require('./orderbook');
 const txnRouter = require('./txn');
 const positionRouter = require('./position');
 const blocklistRouter = require('./blocklists');
+const addressRouter = require('./address');
 const blockTransactionsRouter = require('./block-transactions');
 const {dcurrencyApi, dcurrencyRouter} = require('./dcurrency')
 const orderbookApi =require('./orderbook')
@@ -23,6 +24,7 @@ const configureRoutes = app => {
   app.use('/api/dcurrency', dcurrencyApi)
   app.use('/api/blocklist', blocklistRouter);
   app.use('/api/block-transactions', blockTransactionsRouter);
+  app.use('/api/address', addressRouter);
   // balanceApi(app)
   dcurrencyApi(app)
   priceApi(app)

@@ -3,6 +3,7 @@ const config = require('./config');
 const { base64encode, base64decode } = require('nodejs-base64')
 
 var omniClient = require('./ltc_client.js')
+var tl = require('./bot/TradeLayerRPCAPI')
 
 omniClient.getNetworkHashPs(function(err, hashps) {
 	if (err) console.error(err);
@@ -21,7 +22,7 @@ var dgram = require('dgram');
 var udpserver= dgram.createSocket('udp4');
 var fs = require('fs')
 var http = require('http').Server(app);
-// var io = require('socket.io')(75);
+var io = require('socket.io')(75);
 var path= config.TLPATH
 var datadir = config.TLDATADIR
 var morgan = require('morgan')
@@ -33,7 +34,7 @@ const { redisClient } = require('./redis_client');
 
 app.use(cors())
 //SOCKET IO
-// io.on('connection', handleIoConnection)
+io.on('connection', handleIoConnection)
 
 //UDP server
 udpserver.on('error', (err) => {
@@ -65,6 +66,7 @@ var firstTime = true;
 app.use((req, res, next)  => {
 	// give routes access to omniClient
 	req.omniClient = omniClient;
+	req.tlClient = tl
 	next()
 })
 
