@@ -12,7 +12,7 @@ console.log('is production = ', isProduction)
 module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: sourceMapEnabled,
-    extract: isProduction
+    extract: false
   }),
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,

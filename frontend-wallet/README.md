@@ -1,3 +1,27 @@
+
+# env
+You need to add/change the .evn file
+
+env example: 
+
+```
+# PRODUCTION API URL/PORT AND SOCKET PORT
+PROD_BASE_URL=http://localhost  
+PROD_BASE_PORT=3002
+PROD_SOCKET_PORT=75
+
+# DEVELOPMENT API URL/PORT AND SOCKET PORT
+DEV_BASE_URL=http://localhost
+DEV_BASE_PORT=3002
+DEV_SOCKET_PORT=75
+
+# HOST AND PORT for running tha app (npm run dev)
+HOST=localhost
+PORT=8080
+```
+
+Also these are the default values (If .env file or current value is not found)
+
 # vue-wallet
 
 > A Vue.js project

@@ -1,7 +1,12 @@
 'use strict'
-const baseUrl = "http://192.155.93.12";  
+require('dotenv').config()
+
+const baseUrl = process.env.PROD_BASE_URL || "http://localhost"; 
+const basePort = process.env.PROD_BASE_PORT || 3002;
+const socketPort = process.env.PROD_SOCKET_PORT || 75
+
 module.exports = {
   NODE_ENV: '"production"',
-  API_URL: `"${baseUrl}:76/api"`,
-  SOCKET_URL:`"${baseUrl}:76"`
+  API_URL: `"${baseUrl}:${basePort}/api"`,
+  SOCKET_URL:`"${baseUrl}:${socketPort}"`
 }

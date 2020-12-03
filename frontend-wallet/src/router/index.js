@@ -18,7 +18,7 @@ import Recover from '@/components/Recover'
 import WhitelistsContainer from '@/containers/WhitelistsContainer'
 import TradeChannelManager from '@/containers/TradeChannelManager'
 import TranasctionsLogContainer from '@/containers/TransactionsLogContainer'
-
+import ProfileContainer from "@/containers/ProfileContainer"
 import { store } from '../store'
 
 Vue.use(Router)
@@ -113,6 +113,11 @@ export const router = new Router({
       path: '/TradeChannelManager',
       name: 'Trade Channel Manager',
       component: TradeChannelManager
+    },
+    {
+      path: '/Profile',
+      name: 'Profile',
+      component: ProfileContainer
     },
     // otherwise redirect to home
     { path: '*', redirect: '/' }
