@@ -21,10 +21,10 @@ tl.init = function(user, pass, otherip, test){
   var port
   if(test == false || test == null){port = 9332}else{port=9333}  
   var client = new litecoin.Client({
-    host: "localhost",
-    port: 19332,
-    user: "pepejandro",
-    pass: "pepecash",
+    host: host,
+    port: 9332,
+    user: user,
+    pass: pass,
     timeout:30000,
     ssl:false
   })
@@ -449,6 +449,41 @@ tl.cancelAllContractsByAddress = function(address, ecosystem, contractid, cb){
 }
 
 var rawPubScripts = []
+
+tl.buildRaw2 = async function(payload, input, vout, refAddresses) {
+
+    // Create Raw TX Input 
+    const createRawTxInput = await new Promise((resolve, reject) => {
+        client.cmd('tl_createrawtx_input', '' , input, vout, (err, data) => {
+            if (err) reject(err)
+            resolve(data)
+        });
+    });
+
+    // Create Raw TX OPreturn
+    const createRawTxOpreturn = await new Promise((resolve, reject) => {
+        client.cmd('tl_createrawtx_opreturn', createRawTxInput, payload, function(err, data,){
+            if (err) reject(err)
+            resolve(data)
+        });
+    });
+    
+    // Create Raw TX Referance
+    const createRawTxReferance = await new Promise((resolve, reject) => {
+        client.cmd('tl_createrawtx_reference', createRawTxOpreturn, refAddresses, function(err, data,){
+            if (err) reject(err)
+            resolve(data)
+        });
+    });
+
+
+
+    // Console Logs
+    console.log(`tl_createrawtx_input: \n${createRawTxInput}`)
+    console.log(`tl_createrawtx_opreturn: \n${createRawTxOpreturn}`)
+    console.log(`tl_createrawtx_reference: \n${createRawTxReferance}`)
+
+}
 
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
 	var txstring = ""
