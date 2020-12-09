@@ -450,39 +450,46 @@ tl.cancelAllContractsByAddress = function(address, ecosystem, contractid, cb){
 
 var rawPubScripts = []
 
-tl.buildRaw2 = async function(payload, input, vout, refAddresses) {
 
-    // Create Raw TX Input 
-    const createRawTxInput = await new Promise((resolve, reject) => {
-        client.cmd('tl_createrawtx_input', '' , input, vout, (err, data) => {
-            if (err) reject(err)
-            resolve(data)
-        });
-    });
+const clientCMDwithResult = async (...args) => 
+(await new Promise((res, rej) => {
+    client.cmd(...args, (err,data) => {
+        if (err) rej(err)
+        res(data)
+    })
+}));
 
-    // Create Raw TX OPreturn
-    const createRawTxOpreturn = await new Promise((resolve, reject) => {
-        client.cmd('tl_createrawtx_opreturn', createRawTxInput, payload, function(err, data,){
-            if (err) reject(err)
-            resolve(data)
-        });
-    });
-    
-    // Create Raw TX Referance
-    const createRawTxReferance = await new Promise((resolve, reject) => {
-        client.cmd('tl_createrawtx_reference', createRawTxOpreturn, refAddresses, function(err, data,){
-            if (err) reject(err)
-            resolve(data)
-        });
-    });
+tl.buildRawFromUnspent = async function(buildRawOptions) {
 
+    // const buildRawOptions = {
+    //     unspent: {
+    //         input: '2e49d42033bb91678c860e51684b10a2727c098e6a42abd7bda3797040db2eea',
+    //         vOut: 2,
+    //         value: 0.00003600,
+    //         scriptPubKey: 'a914a4830c9b47e9a7b90ce4b00eb1e5286d922daf7187',
+    //         changeAddress: 'QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh'
+    //     },
+    //     payload: '0000058094ebdc03', //5 10
+    //     refAddress: 'QNQGyQs75G2wrdkVhQAVztoU9Ma6EQe1a8',
+    // }
 
+    const { unspent, payload, refAddress} = buildRawOptions
+    const { input, vOut, value, scriptPubKey, changeAddress } = unspent
+    const fee = 0.00001*(input.length*0.11+0.04+0.038*3)
+    const changeData = [
+        {
+            txid: input,
+            vout: vOut,
+            scriptPubKey: scriptPubKey,
+            value: value - fee
+        }
+    ];
 
-    // Console Logs
-    console.log(`tl_createrawtx_input: \n${createRawTxInput}`)
-    console.log(`tl_createrawtx_opreturn: \n${createRawTxOpreturn}`)
-    console.log(`tl_createrawtx_reference: \n${createRawTxReferance}`)
-
+    const createRawTxInput = await clientCMDwithResult('tl_createrawtx_input', '' , input, vOut);
+    const createRawTxOpreturn = await clientCMDwithResult('tl_createrawtx_opreturn', createRawTxInput, payload);
+    const createRawTxReferance = await clientCMDwithResult('tl_createrawtx_reference', createRawTxOpreturn, refAddress);
+    const creataRawTxChangeAdress = await clientCMDwithResult('tl_createrawtx_change', createRawTxReferance, changeData, changeAddress, fee);
+    console.log({creataRawTxChangeAdress});
 }
 
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
