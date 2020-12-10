@@ -472,24 +472,29 @@ tl.buildRawFromUnspent = async function(buildRawOptions) {
     //     payload: '0000058094ebdc03', //5 10
     //     refAddress: 'QNQGyQs75G2wrdkVhQAVztoU9Ma6EQe1a8',
     // }
-
+    const fee = 0.00001*(0.11+0.04+0.038*3)
     const { unspent, payload, refAddress} = buildRawOptions
-    const { input, vOut, value, scriptPubKey, changeAddress } = unspent
-    const fee = 0.00001*(input.length*0.11+0.04+0.038*3)
+    const { txid, vout, amount, scriptPubKey, address } = unspent
     const changeData = [
         {
-            txid: input,
-            vout: vOut,
+            txid: txid,
+            vout: vout,
             scriptPubKey: scriptPubKey,
-            value: value - fee
+            value: Number((amount - fee).toFixed(6))
         }
     ];
 
-    const createRawTxInput = await clientCMDwithResult('tl_createrawtx_input', '' , input, vOut);
+    if (fee > amount ) {
+        console.error('ERROR: Not enough amount inside this input');
+        return;
+    }
+
+    const createRawTxInput = await clientCMDwithResult('tl_createrawtx_input', '' , txid, vout);
     const createRawTxOpreturn = await clientCMDwithResult('tl_createrawtx_opreturn', createRawTxInput, payload);
     const createRawTxReferance = await clientCMDwithResult('tl_createrawtx_reference', createRawTxOpreturn, refAddress);
-    const creataRawTxChangeAdress = await clientCMDwithResult('tl_createrawtx_change', createRawTxReferance, changeData, changeAddress, fee);
-    console.log({creataRawTxChangeAdress});
+    const creataRawTxChangeAdress = await clientCMDwithResult('tl_createrawtx_change', createRawTxReferance, changeData, address, fee);
+
+    return creataRawTxChangeAdress;
 }
 
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses){

@@ -84,8 +84,8 @@ const findNewBlocks = () => {
                                                 omni_tx_count: blocksObj.tx.length,
                                                 value: {
                                                     ...valueArr[0],
-                                                    [details.value_usd_rounded]: Math.ceil((valueArr[1] * rate_usd)),
-                                                    [details.volume]: valueArr[1],
+                                                    'details.value_usd_rounded': Math.ceil((valueArr[1] * rate_usd)),
+                                                    'details.volume': valueArr[1],
                                                     total_usd: Math.ceil((valueArr[1] * rate_usd)),
                                                 }
                                             }
