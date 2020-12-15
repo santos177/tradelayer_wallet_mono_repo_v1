@@ -124,7 +124,7 @@ export default {
 
   mounted() {
     // TODO: run this whenever addresses change
-    socketService.registerAddresses(this.publicAddresses);
+    // socketService.registerAddresses(this.publicAddresses);
     socketService.ping();
 
     socketService.socket.on("requestAddresses", () => {

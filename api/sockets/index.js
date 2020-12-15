@@ -1,11 +1,11 @@
 const SocketManager = new (require("./manager.js"))();
-
+const useListener = require('./listen');
 /**
      * Bind event listeners on initial socket connection
      * note that client object is bound and references in some of the callbacks
      */
 const handleIoConnection = client => {
-
+  useListener(client);
   SocketManager.handleNewConnection(client)
 
   SocketManager.sendAllChannelsToClient(client)
