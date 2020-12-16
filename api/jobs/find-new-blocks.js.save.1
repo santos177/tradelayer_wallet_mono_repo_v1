@@ -1,4 +1,3 @@
-
 const omniClient = require('../ltc_client');
 const { redisClient } = require('../redis_client');
 // const { blockchainInfo } = require('../scripts/blockchainInfo');
@@ -53,7 +52,7 @@ console.log('hashBlock: ', hashBlock)
                                             
                                                 console.log('oldBlocks: ', hashBlock)
                                                 console.log('blockTransactions: ', blockTransactions)
-                                                if(blockTransactions.length > 0) {
+                                                if(blockTransactions.length !== 0) {
 
                                                     blockTransactions.map((blockTransaction, index) => {
 console.log('blockTransaction: ', blockTransaction)
@@ -111,11 +110,10 @@ console.log('property id: ', valueArr[2]);
                                                         total_usd: Math.ceil((valueArr[1] * parseFloat(rate_usd))),
                                                       }
                                                     }: '',
-                                                  total_usd: Math.ceil(valueArr[1] * valueArr[0]['details'][valueArr[2]]['rate_usd'])
                                                 }
                                                        }
 //blocksInfoArr.concat(blocksInfoObj);
-                                                       redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj).sort((a, b) => { return a.block - b.block}).filter((blocksInfoFilObj, index, self) => index === self.findIndex(t => t.block === blocksInfoFilObj.block))
+                                                       redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj).sort((a, b) => return )
 
 ));
 
