@@ -33,39 +33,39 @@ const findNewBlocks = () => {
     
                         // get block hash using the loop
                         for(i = 0; i < blocksDiff; i++) {
-                            console.log('blocksDiff: ', blocksDiff)
-                            console.log('i: ', i)
+console.log('blocksDiff: ', blocksDiff)
+console.log('i: ', i)
                             var hashBlock = (oldBlocks + i);
-                            console.log('hashBlock: ', hashBlock)
+console.log('hashBlock: ', hashBlock)
     
-                            omniClient.cmd('tl_listblocktransactions', hashBlock, (err, blockTransactions) => {
-
-                                console.log('oldBlocks: ', hashBlock)
-                                console.log('blockTransactions: ', blockTransactions)
-                                if(blockTransactions.length >= 1) {
-
-
-                                    omniClient.cmd('getblockhash', hashBlock, (err, getBlockHash) => {
+                            omniClient.cmd('getblockhash', hashBlock, (err, getBlockHash) => {
     
-                                        if(getBlockHash) {
-        
-                                            omniClient.cmd('getblock', getBlockHash, (err, blocksObj) => {
-        
-                                                if(blocksObj) {
-                                                    console.log('blocksObj', blocksObj)
-        
+                                if(getBlockHash) {
+
+                                    omniClient.cmd('getblock', getBlockHash, (err, blocksObj) => {
+
+                                        if(blocksObj) {
+                                            console.log('blocksObj', blocksObj)
+
+                                           if(hashBlock !== oldBlocks) {
+                                            omniClient.cmd('tl_listblocktransactions', hashBlock, (err, blockTransactions) => {
+
+                                                console.log('oldBlocks: ', hashBlock)
+                                                console.log('blockTransactions: ', blockTransactions)
+                                                if(blockTransactions.length > 0) {
+
                                                     blockTransactions.map((blockTransaction, index) => {
                                                         console.log('blockTransaction: ', blockTransaction)
-                
+
                                                         omniClient.cmd('tl_gettransaction', blockTransaction, (err, transaction) => {
                                                             console.log('transaction: ', transaction)
                                                             if(transaction) {
-                
+
                                                                 omniClient.cmd('tl_getproperty', transaction.propertyId, (err, propertyData) => {
-                
+
                                                                     if(propertyData) {
-                
-                
+
+
                                                                         var value = {
                                                                             details: {
                                                                                 [transaction.propertyId]: {
@@ -91,35 +91,39 @@ const findNewBlocks = () => {
                                                             }
                                                         })
                                                     })
+                                                   // setTimeout(() => {
+                                                        console.log('value array: ', {...valueArr[0]});
+console.log('property id: ', valueArr[2]);
+ // }, 600)
+                                                      const blocksInfoObj = {
+                                                          block: blocksObj.height,
+                                                          block_hash: blocksObj.hash,
+                                                          timestamp: blocksObj.time,
+                                                          omni_tx_count: valueArr[2] !== ''? valueArr[0]['details'][valueArr[2]].tx_count : '',
+                                                value: {
+                                                    ...valueArr[0],
+                                                    details: valueArr[2] !== ''?  {
+                                                    [valueArr[2]]: {
+                                                        ...valueArr[0]['details'][valueArr[2]],
+                                                        value_usd_rounded: Math.ceil((valueArr[1] * parseFloat(rate_usd))),
+                                                        volume: valueArr[1],
+                                                        total_usd: Math.ceil((valueArr[1] * parseFloat(rate_usd))),
+                                                      }
+                                                    }: '',
+                                                  total_usd: Math.ceil(valueArr[1] * valueArr[0]['details'][valueArr[2]]['rate_usd'])
+                                                }
+                                                       }
+//blocksInfoArr.concat(blocksInfoObj);
+                                                       redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj).sort((a, b) => { return a.block - b.block}).filter((blocksInfoFilObj, index, self) => index === self.findIndex(t => t.block === blocksInfoFilObj.block))
 
+));
 
-                                                    console.log('value array: ', {...valueArr[0]});
-                                                    console.log('property id: ', valueArr[2]);
-                                                    const blocksInfoObj = {
-                                                        block: blocksObj.height,
-                                                        block_hash: blocksObj.hash,
-                                                        timestamp: blocksObj.time,
-                                                        omni_tx_count: valueArr[2] !== ''? valueArr[0]['details'][valueArr[2]].tx_count : '',
-                                                        value: {
-                                                            ...valueArr[0],
-                                                            details: valueArr[2] !== ''?  {
-                                                                [valueArr[2]]: {
-                                                                    ...valueArr[0]['details'][valueArr[2]],
-                                                                    value_usd_rounded: Math.ceil((valueArr[1] * parseFloat(rate_usd))),
-                                                                    volume: valueArr[1],
-                                                                    total_usd: Math.ceil((valueArr[1] * parseFloat(rate_usd))),
-                                                                }
-                                                            }: '',
-                                                            total_usd: Math.ceil(valueArr[1] * valueArr[0]['details'][valueArr[2]]['rate_usd'])
-                                                        }
-                                                    }
-                                                    //blocksInfoArr.concat(blocksInfoObj);
-                                                    redisClient.setex(blocksInfoRedisKey, 3600, JSON.stringify(blocksInfoArr.concat(blocksInfoObj).sort((a, b) => { return a.block - b.block}).filter((blocksInfoFilObj, index, self) => index === self.findIndex(t => t.block === blocksInfoFilObj.block))));
                                                 }
                                             })
+                                           }
+                                           // something redis was here
                                         }
                                     })
-                                    
                                 }
                             })
                         }
@@ -133,4 +137,3 @@ const findNewBlocks = () => {
 
 module.exports = {
     findNewBlocks,
-}
