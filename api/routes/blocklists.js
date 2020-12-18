@@ -20,7 +20,7 @@ blocklistRouter.get('/', (req, res) => {
         getInfo(omniClient);
         findNewBlockTask.start();
 
-        setTimeout(() => {
+/*        setTimeout(() => {
             redisClient.get(blocksInfoRedisKey, (err, blocklist) => {
 
                 if(blocklist) {
@@ -30,7 +30,7 @@ blocklistRouter.get('/', (req, res) => {
                     })
                 }
             })
-        }, 1000)
+        }, 1000)*/
     })
 
 })

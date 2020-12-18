@@ -8,34 +8,39 @@ const omniClient = require('../ltc_client');
 blockTransactionsRouter.get('/:block', (req, res) => {
 
     const { block } = req.params;
+    const transactionBlock = block;
 
     const blockTransactionArr = [];
     console.log('req block: ', block)
 
     omniClient.cmd('tl_listblocktransactions', parseInt(block), (err, blockTransactions) => {
 
-        if(blockTransactions) {
-            console.log('block transactions: ', blockTransactions)
-            blockTransactions.map((blockTransaction, index) => {
-                omniClient.cmd('tl_gettransaction', blockTransaction, (err, blockTransaction) => {
+        omniClient.cmd('getblockhash', parseInt(block), (err, blockHash) => {
 
-                    if(blockTransaction) {
-                        const blockTransactionObj = {
-                            blockTransaction
+            if(blockTransactions && blockHash) {
+                console.log('block transactions: ', blockTransactions)
+                blockTransactions.map((blockTransaction, index) => {
+                    omniClient.cmd('tl_gettransaction', blockTransaction, (err, blockTransaction) => {
+
+                        if(blockTransaction) {
+
+                            blockTransactionArr.push(blockTransaction)
                         }
-
-                        blockTransactionArr.push(blockTransactionObj)
-                    }
+                    })
                 })
-            })
 
-            setTimeout(() => {
-                res.json({
-                    isResult: true,
-                    data: blockTransactionArr
-                })
-            }, 600)
-        }
+                setTimeout(() => {
+                    res.json({
+                        block: parseInt(transactionBlock),
+                        blockhash: blockHash,
+                        count: blockTransactions.length,
+                        transactions: blockTransactionArr,
+                        isResult: true,
+                    })
+                }, 600)
+            }
+
+        })
     })
 })
 

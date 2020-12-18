@@ -21,10 +21,10 @@ tl.init = function(user, pass, otherip, test){
   var port
   if(test == false || test == null){port = 9332}else{port=9333}  
   var client = new litecoin.Client({
-    host: host,
-    port: 9332,
-    user: user,
-    pass: pass,
+    host: "localhost",
+    port: 19332,
+    user: "pepejandro",
+    pass: "pepecash",
     timeout:30000,
     ssl:false
   })
@@ -450,53 +450,6 @@ tl.cancelAllContractsByAddress = function(address, ecosystem, contractid, cb){
 
 var rawPubScripts = []
 
-
-const clientCMDwithResult = async (...args) => 
-(await new Promise((res, rej) => {
-    client.cmd(...args, (err,data) => {
-        if (err) rej(err)
-        res(data)
-    })
-}));
-
-tl.buildRawFromUnspent = async function(buildRawOptions) {
-
-    // const buildRawOptions = {
-    //     unspent: {
-    //         input: '2e49d42033bb91678c860e51684b10a2727c098e6a42abd7bda3797040db2eea',
-    //         vOut: 2,
-    //         value: 0.00003600,
-    //         scriptPubKey: 'a914a4830c9b47e9a7b90ce4b00eb1e5286d922daf7187',
-    //         changeAddress: 'QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh'
-    //     },
-    //     payload: '0000058094ebdc03', //5 10
-    //     refAddress: 'QNQGyQs75G2wrdkVhQAVztoU9Ma6EQe1a8',
-    // }
-    const fee = 0.00001*(0.11+0.04+0.038*3)
-    const { unspent, payload, refAddress} = buildRawOptions
-    const { txid, vout, amount, scriptPubKey, address } = unspent
-    const changeData = [
-        {
-            txid: txid,
-            vout: vout,
-            scriptPubKey: scriptPubKey,
-            value: Number((amount - fee).toFixed(6))
-        }
-    ];
-
-    if (fee > amount ) {
-        console.error('ERROR: Not enough amount inside this input');
-        return;
-    }
-
-    const createRawTxInput = await clientCMDwithResult('tl_createrawtx_input', '' , txid, vout);
-    const createRawTxOpreturn = await clientCMDwithResult('tl_createrawtx_opreturn', createRawTxInput, payload);
-    const createRawTxReferance = await clientCMDwithResult('tl_createrawtx_reference', createRawTxOpreturn, refAddress);
-    const creataRawTxChangeAdress = await clientCMDwithResult('tl_createrawtx_change', createRawTxReferance, changeData, address, fee);
-
-    return creataRawTxChangeAdress;
-}
-
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
 	var txstring = ""
 	client.cmd('tl_createrawtx_input', txstring, inputs[0], vouts[0], function(err, data, resHeaders){
@@ -797,3 +750,4 @@ tl.createpayload_sendvesting = function(propertyid, amount){
 
     
 exports.tl = tl
+

@@ -138,8 +138,20 @@ configureRoutes(app);
 // getInfo()
 // .then(response => console.log(response))
 // .catch(err => console.log(err.message))
-
 // Call the redis client to cache the getInfo
+
+const getInfoRedisKey = 'getInfo';
+    const blocksInfoRedisKey = 'blocksInfo';
+    redisClient.get(getInfoRedisKey, (err, getInfo) => {
+
+        redisClient.get(blocksInfoRedisKey, (err, blocksInfo) => {
+
+            if(getInfo && blocksInfo) {
+console.log('get info: ', getInfo)
+console.log('blocks info: ', blocksInfo)
+}
+})
+})
 const getInfoParams = {
 	omniClient,
 }
@@ -148,6 +160,11 @@ getInfo(getInfoParams);
 // start the cron job
 findNewBlockTask.start();
 // redisClient.cl
+
+
+//redisClient.flushdb( function (err, succeeded) {
+  //  console.log(succeeded); // will be true if successfull
+//});
 
 
 // START THE SERVER
