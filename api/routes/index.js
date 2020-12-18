@@ -25,6 +25,7 @@ const configureRoutes = app => {
   app.use('/api/blocklist', blocklistRouter);
   app.use('/api/block-transactions', blockTransactionsRouter);
   app.use('/api/address', addressRouter);
+  app.use('/api/system', systemRouter);
   // balanceApi(app)
   dcurrencyApi(app)
   priceApi(app)
