@@ -19,7 +19,8 @@ const state = {
   contract: "",
   quantity: 0,
   channelPrice: 0,
-  channelBalance: 0
+  channelBalance: 0,
+  buildRawTxMessage: '',
 }
 
 // reusable helpers
@@ -60,13 +61,17 @@ const addKeyPairToState = (state, keyPair, password) => {
 }
 
 const actions = {
+  async buildRawTx({ commit, state }, buildOptions) {
+    const tx = await walletService.buildRawTx(buildOptions)
+    return tx.message
+  },
   // todo: call after new address is added
   setCurrentAddress({ commit, state }, index) {
-    const newAddress = state.walletDec[index].publicAddress;
     commit('setCurrentAddressIndex', index)
-    walletService.getUTXOs(newAddress, (utxoArray) => {
-      commit('setUTXOArray', utxoArray)
-    })
+    // const newAddress = state.walletDec[index].publicAddress;
+    // walletService.getUTXOs(newAddress, (utxoArray) => {
+    //   commit('setUTXOArray', utxoArray)
+    // })
   },
   updateCurrentUTXOs({ dispatch, state }) {
     // run this in a setInterval
@@ -85,6 +90,9 @@ const actions = {
   }
 }
 const mutations = {
+  setRawTxMessage(state,message) {
+    state.buildRawTxMessage = message
+  },
   // creates random wifkey (could be better named)
   addKeyPair(state, { password, next, error }) {
     if (decryptWalletExtracted(state, password)) {
@@ -174,6 +182,10 @@ const mutations = {
 }
 
 const getters = {
+  getBuildRawTxMessage(state) {
+    console.log(state.buildRawTxMessage)
+    return state.buildRawTxMessage;
+  },
   walletCountDisplay(state) {
     const count = state.walletDec.length
     switch (count) {

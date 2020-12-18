@@ -10,8 +10,11 @@ addressRouter.post('/search', (req, res) => {
     const searchBalanceArr = [];
 
     omniClient.cmd('tl_getallbalancesforaddress', address, (err, addressData) => {
+console.log('addressData: ', addressData);
         
         if(addressData && addressData.length > 0) {
+            console.log('addressData: ', addressData);
+            console.log('addressDataLength: ', addressData.length);
 
             addressData.map((addressDataProp, index) => {
 
@@ -21,7 +24,7 @@ addressRouter.post('/search', (req, res) => {
 
                     if(propertyData) {
 
-                        const creationTxId = propertyData.creationtxid;
+                        var creationTxId = propertyData.creationtxid;
 
                         omniClient.cmd('tl_gettransaction', creationTxId, (err, transaction) => {
 
@@ -54,15 +57,16 @@ addressRouter.post('/search', (req, res) => {
                                     symbol: `LC${propertyId}`,
                                     value: addressDataProp.balance
                                 }
+                                console.log('balance: ', balance);
 
-                                searchBalanceArr.push(balance);
+                               searchBalanceArr.push(balance);
                             }
                         })
                     }
                 })
             })
 
-            setTimeout(() => {
+           setTimeout(() => {
                 res.json({
                     data: {
                         address: {
@@ -76,9 +80,9 @@ addressRouter.post('/search', (req, res) => {
                 })
             }, 600)
         }
-        res.json({
+       /* res.json({
             isData: false,
-        })
+        })*/
     })
 })
 

@@ -47,7 +47,7 @@
           <div class='form-group'>
             <md-field >
               <label>Send To: </label>
-              <md-input v-model="toAddress" @input="txnFormUpdate" name='toAddress'></md-input>
+              <md-input v-model="toAddress" name='toAddress'></md-input>
             </md-field>
             <md-field >
               <label>Sats: </label>
@@ -101,9 +101,16 @@
             </md-field>
             </div>
         </div>
-        <md-button md-button class='md-accent md-raised' disabled>Build Raw</md-button>
-        <md-button md-button class='md-primary md-raised'>Sign</md-button>
+        <br />
+        -------------------------------------------------<br />
+        !! Hardcoded !! <br />
+        payload: "tl_send 5 1" !!
+        <br />!! Hardcoded !! <br />        -------------------------------------------------<br />
+         <br/><br/>
 
+        <md-button md-button class='md-accent md-raised' v-on:click="buildRaw()" :disabled='!toAddress'>Build Raw</md-button>
+        <md-button md-button class='md-primary md-raised' disabled>Sign</md-button>
+        <textarea class='nice-textarea' type='text-area' v-model='txMessage'></textarea>
       </form>
     </div>
   </div>
@@ -119,13 +126,15 @@ export default {
   name: "Wallet",
   data: () => ({
     showDialog: true,
-    txnTypeEnum
+    txnTypeEnum,
+    txMessage: '',
+    toAddress: '',
+
   }),
   computed: {
     ...mapState("wallet", [
       "walletDec",
       "currentAddressIndex",
-      "toAddress",
       "sats",
       "utxoArray",
       "currentTxnType",
@@ -151,7 +160,17 @@ export default {
   methods: {
     ...mapActions("contracts", ["sendtrade"]),
     ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
-    ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs"]),
+    ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs", "buildRawTx"]),
+    async buildRaw() {
+      const address = this.addressGetter
+      const opt = {
+        fromAddress: address,
+        toAddress: this.toAddress,
+        payload: '0000058094ebdc03',
+      }
+      const txMessage = await this.buildRawTx(opt)
+      this.txMessage = txMessage;
+    },
     handleLTCSubmit() {
       if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
       if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
@@ -248,6 +267,17 @@ export default {
 </script>
 
 <style scoped>
+.nice-textarea {
+    background-color: black;
+    padding: 0.5rem 1rem;
+    border:unset;
+    overflow:auto;
+    color:green;
+    width: 90%;
+    max-width: 90%;
+    min-width:40%;
+    margin: 1rem 0;
+}
 .update-button, .submit-button{
   border: 1px solid grey;
   border-radius: 20%;

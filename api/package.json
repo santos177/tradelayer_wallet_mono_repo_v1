@@ -10,7 +10,9 @@
     "syncChain": "node scripts/syncToChain.js",
     "seed": "node scripts/seed.js",
     "bot": "node bot/TradeLayerBot.js",
-    "bot-t2t": "node bot/Token2TokenBot.js"
+    "bot-t2t": "node bot/Token2TokenBot.js",
+    "listener": "node bot/bot_listener.js",
+    "receiver": "node bot/bot_receiver.js"
   },
   "author": "",
   "license": "ISC",
@@ -45,7 +47,8 @@
     "redis": "^3.0.2",
     "right-align": "^0.1.3",
     "sequelize": "^5.22.3",
-    "socket.io": "^2.1.1",
+    "socket.io": "^3.0.4",
+    "socket.io-client": "^3.0.4",
     "utf8": "^3.0.0",
     "uuid": "^3.3.2",
     "uuid-validate": "^0.0.3",

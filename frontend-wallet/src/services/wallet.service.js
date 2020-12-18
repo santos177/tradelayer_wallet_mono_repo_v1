@@ -106,7 +106,17 @@ const txnTypeEnum = {
   PROPOSE_CHANNEL: 5
 }
 
+const buildRawTx = async (buildOptions) => {
+  const tx = await axiosInstance.get('/txn/buildRawTx', {params: buildOptions})
+  return tx.data
+}
 
 export const walletService = {
-  getUTXOs, sendRawTxn, txnTypeEnum, getSendIssuancePeggedPayload, getRedeemPeggedPayload, getSendIssuancePeggedPayload
+  getUTXOs, 
+  sendRawTxn, 
+  txnTypeEnum, 
+  getSendIssuancePeggedPayload,
+  getRedeemPeggedPayload, 
+  getSendIssuancePeggedPayload,
+  buildRawTx
 };
