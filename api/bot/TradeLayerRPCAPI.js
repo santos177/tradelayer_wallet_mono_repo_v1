@@ -521,9 +521,6 @@ tl.createOracleContract = function( numeratorid, title, durationInBlocks, notion
   })
 }
 
-<<<<<<< HEAD
-tl.buildRaw= function(payload, inputs, vOuts, refaddresses){
-=======
 tl.changeOracleRef = function(fromaddress, refaddress, contractTitle,cb){
      client.cmd('tl_change_oracleref',fromaddress,refaddress,contractTitle,function(err,data,resHeaders){
         return cb(data)
@@ -551,7 +548,6 @@ tl.withdrawalFromChannel = function(originalSender,channelAddress,propertyid,amo
 var rawPubScripts = []
 
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses,inputAmount, UTXOAmount, cb){
->>>>>>> 3aa455bc0de7085403ac71200ab2fb1479183eb3
 	var txstring = ""
   //the vOuts are meant to be which outputs were the selected inputs in their respective tx?
   //e.g. if the first input was the 3rd output, it should have the txid it was in as 0 in inputs and 2 as the 0 position value in vOuts
@@ -1061,9 +1057,4 @@ tl.getAllTxForABlock = function(height,cb){
   })
 }
     
-<<<<<<< HEAD
 exports.tl = tl
-
-=======
-exports.tl = tl
->>>>>>> 3aa455bc0de7085403ac71200ab2fb1479183eb3
