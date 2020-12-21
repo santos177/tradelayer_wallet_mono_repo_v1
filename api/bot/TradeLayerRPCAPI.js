@@ -547,6 +547,38 @@ tl.withdrawalFromChannel = function(originalSender,channelAddress,propertyid,amo
 
 var rawPubScripts = []
 
+tl.buildRawAsync = async function(inputsArray, payload, refAddress, UTXOAmount) {
+const { input, vOut, inputAmount } = inputsArray[0]
+
+const asyncClient = async (...args) => 
+(await new Promise((res, rej) => {
+    client.cmd(...args, (err,data) => {
+        if (err) rej(err)
+        res(data)
+    })
+}));
+
+const changeData = [{
+    txid: input,
+    vout: vOut,
+    scriptPubKey: rawPubScript,
+    value: amount
+  }];
+
+const createRawTxInputResult = await asyncClient('tl_createrawtx_input', '', input, vOut)
+const createRawTxOpreturnResult = await asyncClient('tl_createrawtx_opreturn', createRawTxInputResult, payload)
+const createRawTxRefaddressResult = await asyncClient('tl_createrawtx_reference', createRawTxOpreturnResult, refAddress)
+const createRawTxChangeResult = await asyncClient('tl_createrawtx_change', createRawTxRefaddressResult, changeData, changeAddress, fee)
+
+
+console.log({
+    createRawTxInputResult, 
+    createRawTxOpreturnResult,
+    createRawTxRefaddressResult,
+    createRawTxChangeResult
+  })
+}
+
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses,inputAmount, UTXOAmount, cb){
 	var txstring = ""
   //the vOuts are meant to be which outputs were the selected inputs in their respective tx?
