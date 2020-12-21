@@ -67,38 +67,38 @@ txnRouter.get('/gettx/:txid', (req,res)=>{
 })
 
 txnRouter.get('/buildRawTx', async (req,res) => {
-    const { fromAddress, toAddress, payload} = req.query
-    const { omniClient, tlClient } = req;
-    const validateAddress = await new Promise ((res,rej) => {
-        omniClient.cmd("validateaddress", toAddress, (err, result) => {
-            if (err) {
-                rej(err)
-                return;
-            }
-            res(result)
-        });
-    });
-    if(!validateAddress.isvalid) {
-        res.send({message: 'Invalid "Send to" Address'})
-        return;
-    }
-    omniClient.cmd("listunspent", 1, 9999999, [fromAddress], false, {minimumAmount:0.0002}, async (err, result) => {
-        if (err) {
-            console.log(err)
-            return;
-        }
-        if (result.length < 1) {
-            res.send({message:'Not Enaught Litecoins For this transaction or you dont have access to this address'})
-            return
-        }
-        const buildRawOptions = {
-            unspent: result[0],
-            payload: payload,
-            refAddress: toAddress,
-        }
-        const finalTX = await tlClient.tl.buildRawFromUnspent(buildRawOptions)
-        res.send({message: finalTX})
-    })
+    // const { fromAddress, toAddress, payload} = req.query
+    // const { omniClient, tlClient } = req;
+    // const validateAddress = await new Promise ((res,rej) => {
+    //     omniClient.cmd("validateaddress", toAddress, (err, result) => {
+    //         if (err) {
+    //             rej(err)
+    //             return;
+    //         }
+    //         res(result)
+    //     });
+    // });
+    // if(!validateAddress.isvalid) {
+    //     res.send({message: 'Invalid "Send to" Address'})
+    //     return;
+    // }
+    // omniClient.cmd("listunspent", 1, 9999999, [fromAddress], false, {minimumAmount:0.0002}, async (err, result) => {
+    //     if (err) {
+    //         console.log(err)
+    //         return;
+    //     }
+    //     if (result.length < 1) {
+    //         res.send({message:'Not Enaught Litecoins For this transaction or you dont have access to this address'})
+    //         return
+    //     }
+    //     const buildRawOptions = {
+    //         unspent: result[0],
+    //         payload: payload,
+    //         refAddress: toAddress,
+    //     }
+    //     const finalTX = await tlClient.tl.buildRawFromUnspent(buildRawOptions)
+    //     res.send({message: finalTX})
+    // })
 })
 // --> commented out models
 // const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{

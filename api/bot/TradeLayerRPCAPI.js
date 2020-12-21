@@ -22,9 +22,9 @@ tl.init = function(user, pass, otherip, test){
   if(test == false || test == null){port = 9332}else{port=19336}  
   var client = new litecoin.Client({
     host: "localhost",
-    port: 19332,
-    user: "pepejandro",
-    pass: "pepecash",
+    port: port,
+    user: user,
+    pass: pass,
     timeout:30000,
     ssl:false
   })
