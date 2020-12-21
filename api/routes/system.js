@@ -27,3 +27,5 @@ systemRouter.get('/status', (req, res) => {
         ]
     })
 })
+
+module.exports = systemRouter

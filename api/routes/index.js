@@ -13,7 +13,7 @@ const tradeApi = require('./trade')
 const userApi = require('./user')
 const express = require('express');
 const apiRoutes = express();
-
+const systemRouter = require('./system')
 const configureRoutes = app => {
   // app.use gives the prefix to all routes; all routes should probably use this syntax eventually
   app.use('/api/balances', balanceRouter)
