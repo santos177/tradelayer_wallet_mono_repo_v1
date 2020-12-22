@@ -30,13 +30,12 @@ io.on('channelPubKey', (channelPubKey) => {
 });
 
 io.on('multisig', (multySigData) => {
-
     legitMultisig(multySigData, (legit) => {
         if (legit == true) {
             channelMultisig = multySigData
             const multiSigAddress = multySigData.multisig.address
             tl.commitToChannel(tokenAddress, multiSigAddress, propertyId, amount, function(data){
-                console.log({data})
+                console.log({commitToChannel: data})
                 return
              })
         } else { 
@@ -45,9 +44,33 @@ io.on('multisig', (multySigData) => {
     })
 })
 
+io.on('buildRawTx', (unspentArray) => {
+    buildTokenToTokenTrade(unspentArray, 4, "10", 5, "20", true, (rawTx) => {
+        tl.simpleSign(rawTx, (signedTx) => {
+            if (!signedTx.complete) return console.error("Fail with signing the rawTX")
+            const { hex } = signedTx
+            console.log({hex})
+            io.emit('signedRawTx', hex)
+        })
+    })
+})
+
 function legitMultisig(e, cb){
     tl.addMultisigAddress(2, [channelPubKeyListen, channelPubKeyReceive], function(data){
         const legit = data.reedemScript == e.multisig.reedemScript ? true : false
             return cb(legit)
+    })
+}
+
+
+
+function buildTokenToTokenTrade(inputs, id1, amount1, id2, amount2, secondSigner = true, cb) {
+    tl.getBlock(null, (block) => {
+        const height = block.height + 3
+        tl.createpayload_instant_trade(id1, amount1, id2, amount2, height, (payload) => {
+            tl.buildRawAsync(inputs, payload, tokenAddress, '0.00000546', (rawTx) => {
+                cb(rawTx)
+            })
+        })
     })
 }

@@ -9,14 +9,12 @@ const propertyId2 = 5
 const amount = "10";
 
 var channelPubkeyListen = ""
-var channelPubKeyReceive = ""
 var channelAddressListen = ""
+var channelPubKeyReceive = ""
 var channelMultisig = ""
 
 listener.on('connection', (io) => {
     console.log(`New Connection! ID: ${io.id}`)
-
-    let channelComponent = ''
 
     tl.getNewAddress(null, (data) => {
         channelAddressListen = data
@@ -34,30 +32,22 @@ listener.on('connection', (io) => {
                 'multisig': data,
                 'pubKeyUsed': channelPubkeyListen
             }
-
             io.emit('multisig', multySigData)
-
-            legitMultisig(multySigData, (legit) => {
-                if (legit == true) {
-                    channelMultisig = multySigData
-                    const multiSigAddress = multySigData.multisig.address
-                    tl.commitToChannel(tokenAddress, multiSigAddress, propertyId2, amount, function(data){
-                        console.log({data})
-                        return
-                     })
-                } else { 
-                    return console.log('The client tried to scam with a bad multisig')
-                }
-            })
+            tl.commitToChannel(tokenAddress, multiSigAddress, propertyId2, amount, function(data){
+                console.log({commitToChannel: data})
+                // tl.listunspent(0, 9999999, [multiSigAddress], (listunspnet) => {
+                //     io.emit('buildRawTx', listunspnet)
+                // })
+                return
+             })
         })
-        
+    });
 
+    io.on('signedRawTx', (hex) => {
+        tl.simpleSign(hex, (signedTx) => {
+            if (!signedTx.complete) return console.error("Fail with signing the rawTX")
+            const { hex } = signedTx
+            console.log({hex})
+        })
     })
 });
-
-function legitMultisig(e, cb){
-    tl.addMultisigAddress(2, [channelPubKeyListen, channelPubKeyReceive], function(data){
-        const legit = data.reedemScript == e.multisig.reedemScript ? true : false
-            return cb(legit)
-    })
-}
