@@ -1,14 +1,13 @@
-var tl = require('./TradeLayerRPCAPI.js').tl
-
+var tl = require('./TradeLayerRPCAPI').tl
 var loops = 0
 
-var property1 = 6 // add property 1
-var property2 = 7 // add property 2
-var address1 = "mfZ5Jj6xVRqdZn6tP3JQ8y955ARqy6NZc5" // add address 1
-var address2 = "miqMP7s1AA3C2dh1hSN9he5LjksJkuhMuE" // add address 2 
+var property1 = 4 // add property 1
+var property2 = 5 // add property 2
+var address1 = "QNQGyQs75G2wrdkVhQAVztoU9Ma6EQe1a8" // add address 1
+var address2 = "QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh" // add address 2 
 var deleteCount = 50
 
-var intervalMs = 2000
+var intervalMs = 10000
 
 function tradeBot(){
     setInterval(function(){
@@ -24,7 +23,7 @@ function tradeBot(){
                 amount2: amount2,
             };
             console.log(`loop number: ${loops}`);
-            tl.sendtrade(params,function(data, err){
+            tl.sendTrade(address, property1,amount1,property2,amount2 ,function(data, err){
                 if(err) {
                     console.log("There is an error with Trade!!!\n", params, err)
                 } else {
@@ -32,15 +31,22 @@ function tradeBot(){
                 }
 
             })
-            if(loops%deleteCount==0){tl.sendcancelalltrades(address, function(data, err){
+            if(loops%deleteCount==0){
+                tl.sendCancelAllTrades(address1, function(data, err){
                 if (err) {
                     console.log("There is an error with trade cancelation !!!\n", err)
-
                 } else {
                     console.log("Successful Trade Cancelation: \n", data)
-
                 }
-            })}
+            })
+            tl.sendCancelAllTrades(address2, function(data, err){
+                if (err) {
+                    console.log("There is an error with trade cancelation !!!\n", err)
+                } else {
+                    console.log("Successful Trade Cancelation: \n", data)
+                }
+            })
+        }
         }, intervalMs);
 }
 
