@@ -42,7 +42,7 @@ const findNewBlocks = () => {
 
                                 console.log('oldBlocks: ', hashBlock)
                                 console.log('blockTransactions: ', blockTransactions)
-                                if(blockTransactions.length >= 1) {
+                                if((blockTransactions) && (blockTransactions.length >= 1)) {
 
                                     console.log('block transaction length: ', blockTransactions.length)
 

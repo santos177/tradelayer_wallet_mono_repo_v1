@@ -22,9 +22,9 @@ tl.init = function(user, pass, otherip, test){
   if(test == false || test == null){port = 9332}else{port=19336}  
   var client = new litecoin.Client({
     host: "localhost",
-    port: port,
-    user: user,
-    pass: pass,
+    port: 9332,
+    user: "pepejandro",
+    pass: "pepecash",
     timeout:30000,
     ssl:false
   })
@@ -157,26 +157,27 @@ tl.getBlockhash = function(block, cb){
 }
  
 tl.getBlock = function(hash, cb){
-  if (hash == null) {
-    client.cmd('getbestblockhash', (err, bestblockhash) => {
-      client.cmd('getblock', bestblockhash, (err2, block) => {
-        if (err2) return console.error(err2)
-        cb(block)
+      if(hash==null){
+      client.cmd('getBestBlockhash',function(data){
+          hash=data
       })
-    })
-  } else {
-    client.cmd('getblock', hash, (err2, block) => {
-      if (err2) return console.error(err2)
-      cb(block)
-    })
-  }
+     client.cmd("getblock", hash,function(err, data, resHeaders){
+  if (err) return console.log(err);
+ 
+  return cb(data)
+  }) 
 }
-
+}
 tl.sendRawTransaction = function(tx, cb){
-  client.cmd("sendrawtransaction", tx,function(err, data, resHeaders){
-    if (err) return console.err(err)
-    cb(data)
+    try{
+       client.cmd("sendrawtransaction", tx,function(err, data, resHeaders){
+  if (err) return console.log(err);
+ 
   })
+    }catch(e){
+      return cb(e)
+    }
+    return cb(data)
 }
 
 tl.validateAddress = function(addr, cb){
@@ -396,8 +397,8 @@ tl.sendDexAccept = function(address, address2, id, amount, cb){  //action = (1 f
     })
 }
     
-tl.sendCancelAllTrades = function(address, cb){
-    client.cmd('tl_sendcancelalltrades', address ,function(err, data, resHeaders){
+tl.sendCancelAllTrades = function(address, ecosystem, cb){
+    client.cmd('tl_sendcancelalltrades', address, ecosystem,function(err, data, resHeaders){
         return cb(data)
     })
 }
@@ -420,8 +421,8 @@ tl.sendChangeIssuer = function(address1, address2, propertyid, cb){
     })
 }
 
-tl.sendTrade = function(address, id1, amount, id2, amount2, cb){
-    client.cmd('tl_sendtrade', address, id1, amount.toString(), id2, amount2.toString(), function(err, data, resHeaders){
+tl.sendTrade = function(address, id1, amount1, id2, amount2, cb){
+    client.cmd('tl_sendtrade', address, id1, amount1.toString(), id2, amount2.toString(), function(err, data, resHeaders){
         if(err){data=err}
         return cb(data)
     })
@@ -534,7 +535,6 @@ tl.publishOracleData = function(fromaddress, title, high, low, close, cb){
 
 tl.commitToChannel = function(sendingAddress,channelAddress,propertyid,amount, cb){
       client.cmd('tl_commit_tochannel',sendingAddress,channelAddress,propertyid,amount,function(err, data, resHeaders){
-        if (err) return console.error(err)
         return cb(data)
       })
 }
@@ -546,41 +546,6 @@ tl.withdrawalFromChannel = function(originalSender,channelAddress,propertyid,amo
 }
 
 var rawPubScripts = []
-
-tl.buildRawAsync = async function(inputsArray, payload, refAddress = null, cb) {
-  if (!inputsArray || !inputsArray.length || !payload ) {
-    console.error("BuildRawAsync RPC API function arguments error")
-    return
-  }
-  const { txid, vout, amount, scriptPubKey } = inputsArray[0]
-  console.log({ txid, vout, amount, scriptPubKey })
-  const asyncClient = async (...args) => 
-    (await new Promise((res, rej) => {
-      client.cmd(...args, (err,data) => {
-        if (err) rej(err)
-        res(data)
-      })
-  }));
-  const changeData = [{
-    txid,
-    vout,
-    scriptPubKey,
-    value: amount/4,
-  }];
-  
-  const createRawTxInputResult = await asyncClient('tl_createrawtx_input', '', txid, vout)
-
-  const createRawTxOpreturnResult = await asyncClient('tl_createrawtx_opreturn', createRawTxInputResult, payload)
-
-  const createRawTxRefaddressResult = refAddress 
-  ? await asyncClient('tl_createrawtx_reference', createRawTxOpreturnResult, refAddress,  0.0000546)
-  : createRawTxOpreturnResult
-
-  const createRawTxChangeResult = await asyncClient('tl_createrawtx_change', createRawTxRefaddressResult, changeData, 'QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh', amount/4)
-  
-  cb(createRawTxChangeResult)
-
-}
 
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses,inputAmount, UTXOAmount, cb){
 	var txstring = ""
@@ -741,9 +706,10 @@ tl.createOracleContract = function(thisAddress, numeratorid, title, durationInBl
 
 tl.simpleSign = function(txstring, cb){
   //will not work if the local wallet can't find the relevant key(s)
-  client.cmd('signrawtransaction', txstring, function(err, data, resHeaders){
-        if(err) return console.error(err)
-        cb(data)
+  client.cmd('signrawtransaction', null, null, function(err, data, resHeaders){
+        if(err == null){
+          return cb(data)
+        }else{return err}
       })
 }
 
@@ -1011,10 +977,11 @@ tl.createpayload_closeOracle =  function(contractTitle){
     { "trade layer (payload creation)", "tl_createpayload_dexaccept",                     &tl_createpayload_dexaccept,                       {}   },
 */
 
-tl.createpayload_instant_trade = function(propertyid, amount1, propertyiddesired, amount2, blockheight_expiry, cb) {
-  client.cmd('tl_createpayload_instant_trade', propertyid, amount1, propertyiddesired, amount2, blockheight_expiry, function(err,data,resHeaders){
-    if(err) return console.error(err)
-    cb(data)
+tl.createpayload_instant_trade = function(propertyid, amount1,blockheight_expiry,propertyiddesired,amount2,cb){
+  client.cmd('tl_createpayload_instant_trade',propertyid, amount1,blockheight_expiry,propertyiddesired,amount2, function(err,data,resHeaders){
+    if(err == null){
+      return cb(data)
+    }else{return err}
   })
 }
 
@@ -1089,12 +1056,6 @@ tl.getAllTxForABlock = function(height,cb){
     if(err){return err}else{return cb(data)}
   })
 }
-
-tl.listunspent = function(min = 0, max = 9999999, addressFilter, cb) {
-  client.cmd('listunspent', min, max, addressFilter, (err, listunspent) => {
-    if (err) return console.error(err)
-    cb(listunspent)
-  })
-}
     
 exports.tl = tl
+

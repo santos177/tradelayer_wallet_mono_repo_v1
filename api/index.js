@@ -22,7 +22,7 @@ var dgram = require('dgram');
 var udpserver= dgram.createSocket('udp4');
 var fs = require('fs')
 var http = require('http').Server(app);
-var io = require('socket.io')(75);
+//var io = require('socket.io')(75);
 var path= config.TLPATH
 var datadir = config.TLDATADIR
 var morgan = require('morgan')
@@ -34,7 +34,7 @@ const { redisClient } = require('./redis_client');
 
 app.use(cors())
 //SOCKET IO
-io.on('connection', handleIoConnection)
+//io.on('connection', handleIoConnection)
 
 //UDP server
 udpserver.on('error', (err) => {
@@ -170,7 +170,7 @@ findNewBlockTask.start();
 // START THE SERVER
 // =============================================================================
 // app.listen();
-var port = process.env.PORT || 3002;        // set our port
+var port = process.env.PORT || 3003;        // set our port
 var socketPort =process.env.SOCKET_PORT || 75; 
 
 app.listen(port, function(){
