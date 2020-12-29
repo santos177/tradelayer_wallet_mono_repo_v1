@@ -7,7 +7,7 @@ var address1 = "QNQGyQs75G2wrdkVhQAVztoU9Ma6EQe1a8" // add address 1
 var address2 = "QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh" // add address 2 
 var deleteCount = 50
 
-var intervalMs = 10000
+var intervalMs = 100000
 
 function tradeBot(){
     setInterval(function(){

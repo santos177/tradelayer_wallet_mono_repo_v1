@@ -19,10 +19,10 @@ tl.init = function(user, pass, otherip, test){
   var host
   if(otherip == null){host = 'localhost'}else{host=otherip}
   var port
-  if(test == false || test == null){port = 9332}else{port=19336}  
+  if(test == false || test == null){port = 19332}else{port=19336}  
   var client = new litecoin.Client({
     host: "localhost",
-    port: 9332,
+    port: 19332,
     user: "pepejandro",
     pass: "pepecash",
     timeout:30000,
