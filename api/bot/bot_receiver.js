@@ -6,8 +6,8 @@ const PORT = 9876
 
 const options = {
     address: 'QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh', // string
-    propertyId: 7, // number
-    amount: '10' // string
+    propertyId: 8, // number
+    amount: '0.1' // string
 }
 
 class Receiver {
@@ -40,17 +40,20 @@ class Receiver {
             })
         })
 
-        this.io.on('buildRawTx', (unspentArray) => {
+        this.io.on('buildRawTx', (buildRawTxData) => {
+            const { listenerParams } = buildRawTxData
+            const unspentArray = buildRawTxData.listunspent
             console.log(`Start Building rawTx from unspents: ${unspentArray.length}`)
-            // buildTokenToTokenTrade(unspentArray, propertyId1, amount1, propertyId2, amount2, true, (rawTx) => {
-            //     console.log(`Builded rawTx: ${rawTx}`)
-            //     tl.simpleSign(rawTx, (signedTx) => {
-            //         if (!signedTx.complete) return console.error("Fail with signing the rawTX")
-            //         const { hex } = signedTx
-            //         console.log(`Signed RawTX: ${ hex }`)
-            //         io.emit('signedRawTx', hex)
-            //     })
-            // })
+            this.buildTokenToTokenTrade(unspentArray, this.propertyId, this.amount, listenerParams.propertyId, listenerParams.amount, true, (rawTx) => {
+                console.log(`Builded rawTx: ${rawTx}`)
+                if (!rawTx) return console.error('Can not Build RawTX')
+                this.signRawTx(rawTx)
+            })
+        })
+
+        this.io.on('success', (data) => {
+            console.log(`Successfull!`)
+            console.log(`Transaction created: ${data}`)
         })
     }
 
@@ -66,7 +69,9 @@ class Receiver {
         tl.validateAddress(address, (d) => {
             this.receiverChannelPubKey = d.pubkey
             console.log(`Address Validation:`, d)
-            this.io.emit('channelPubKey', this.receiverChannelPubKey)
+            if (d) {
+                this.io.emit('channelPubKey', this.receiverChannelPubKey)
+            }
         })
     }
 
@@ -74,16 +79,46 @@ class Receiver {
         console.log(`Commit toChannel!`)
         tl.commitToChannel(this.address, multiSigAddress, this.propertyId, this.amount, (data) => {
             console.log(`Commited to The multisig Address, result: ${data}`)
-            this.io.emit('multisig')
+            if (data) {
+                this.io.emit('multisig')
+            }
          })
     }
 
     legitMultisig(multySigData, cb) {
         console.log('work')
-        console.log(2, [multySigData.pubKeyUsed, this.channelPubKey])
         tl.addMultisigAddress(2, [multySigData.pubKeyUsed, this.receiverChannelPubKey], (data) => {
             const legit = data.reedemScript == multySigData.multisig.reedemScript ? true : false
                 return cb(legit)
+        })
+    }
+
+    buildTokenToTokenTrade(inputs, id1, amount1, id2, amount2, secondSigner = true, cb) {
+
+        tl.getBlock(null, (block) => {
+            if (!block) return console.error('Can not get block')
+            const height = block.height + 3
+            console.log(`block Height: ${height}`)
+            tl.createpayload_instant_trade(id1, amount1, id2, amount2, height, (payload) => {
+                if (!payload) return console.error('Cant create Payload!')
+                //set refAddress to null to skip adding reffaddress
+                tl.buildRawAsync(inputs, payload, null, (rawTx) => {
+                    if (!rawTx) return console.error('Cant build RawTx')
+                    cb(rawTx)
+                })
+            })
+        })
+    }
+
+    signRawTx(rawTx) {
+        console.log(`Start Signing rawTx`)
+        tl.simpleSign(rawTx, (signedTx) => {
+            if (!signedTx.complete) return console.error("Fail with signing the rawTX")
+            const { hex } = signedTx
+            console.log(`Signed RawTX: ${ hex }`)
+            if (hex) {
+                this.io.emit('signedRawTx', hex)
+            }
         })
     }
 }

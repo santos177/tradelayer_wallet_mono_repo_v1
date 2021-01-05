@@ -4,8 +4,8 @@ const tl = require('./TradeLayerRPCAPI').tl
 
 const options = {
     address: 'QNQGyQs75G2wrdkVhQAVztoU9Ma6EQe1a8', // string
-    propertyId: 8, // number
-    amount: '10' // string
+    propertyId: 7, // number
+    amount: '0.1' // string
 }
 
 class Listener {
@@ -20,7 +20,7 @@ class Listener {
             console.log(`New Connection! ID: ${io.id}`)
             this.io = io;
             this.getNewAddress()
-
+            
             this.io.on('channelPubKey', (channelPubKey) => {
                 console.log('Receive second channelPubKey!')
                 this.receiverChannelPubKey = channelPubKey
@@ -28,11 +28,12 @@ class Listener {
             })
 
             this.io.on('multisig', () => {
-                this.listUnspent()
+                this.listUnspent(this.channelMultisig.address)
             })
 
             this.io.on('signedRawTx', (signedRawTx) => {
-                console.log('signedRawTx!')
+                console.log(`Receiving signedRawTx`)
+                this.signRawTx(signedRawTx)
             })
 
         })
@@ -50,7 +51,9 @@ class Listener {
         tl.validateAddress(address, (d) => {
             this.listenerChannelPubKey = d.pubkey
             console.log(`Address Validation:`, d)
-            this.io.emit('channelPubKey', this.listenerChannelPubKey)
+            if (d) {
+                this.io.emit('channelPubKey', this.listenerChannelPubKey)
+            }
         })
     }
 
@@ -58,7 +61,9 @@ class Listener {
         tl.addMultisigAddress(2, [channelPubkeyListen, channelPubKeyReceive], (data) => {
             this.channelMultisig = data
             console.log(`Created MultisigAddress`, data)
-            this.commitToChannel(data)
+            if (data) {
+                this.commitToChannel(data)
+            }
         })
     }
     commitToChannel(multiSig) {
@@ -69,14 +74,46 @@ class Listener {
                  'multisig': multiSig,
                  'pubKeyUsed': this.listenerChannelPubKey
             }
-            this.io.emit('multisig', multySigData)
+            if (data) {
+                this.io.emit('multisig', multySigData)
+            }
         })
     }
 
-    listUnspent() {
-        tl.listunspent(0, 9999999, [this.channelMultisig.address], (listunspent) => {
+    listUnspent(channelAddress) {
+        tl.listunspent(0, 9999999, [channelAddress], (listunspent) => {
             console.log(`Sending listunspent to the Receiver for building rawTx: ${listunspent.length} `)
-            this.io.emit('buildRawTx', listunspent)
+            if (listunspent) {
+                this.io.emit('buildRawTx', {
+                    listunspent,
+                    listenerParams: {
+                        propertyId: this.propertyId,
+                        amount: this.amount,
+                    }
+                })
+            }
+        })
+    }
+
+    signRawTx(rawTx) {
+        console.log(`Start co Signing rawTx`)
+        tl.simpleSign(rawTx, (signedTx) => {
+            if (!signedTx.complete) return console.error("Fail with signing the rawTX")
+            const { hex } = signedTx
+            if (!hex) return console.erreor("Fail with signing the rawTX")
+            console.log(`coSigned RawTX: ${ hex }`)
+            this.sendRawTx(hex)
+        })
+    }
+
+    sendRawTx(hex) {
+        tl.sendRawTransaction(hex, (data) => {
+            if(!data) return console.erreor("Fail with sending the rawTX")
+            console.log(`Successfull!`)
+            console.log(`Transaction created: ${data}`)
+            if (data) {
+                this.io.emit('success', data)
+            }
         })
     }
 }

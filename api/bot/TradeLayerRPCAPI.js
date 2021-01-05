@@ -163,27 +163,25 @@ tl.getBlockhash = function(block, cb){
 }
  
 tl.getBlock = function(hash, cb){
-      if(hash==null){
-      client.cmd('getBestBlockhash',function(data){
-          hash=data
+  if (hash == null) {
+    client.cmd('getbestblockhash', (err, bestblockhash) => {
+      client.cmd('getblock', bestblockhash, (err2, block) => {
+        if (err2) return console.error(err2)
+        cb(block)
       })
-     client.cmd("getblock", hash,function(err, data, resHeaders){
-  if (err) return console.log(err);
- 
-  return cb(data)
-  }) 
-}
+    })
+  } else {
+    client.cmd('getblock', hash, (err2, block) => {
+      if (err2) return console.error(err2)
+      cb(block)
+    })
+  }
 }
 tl.sendRawTransaction = function(tx, cb){
-    try{
-       client.cmd("sendrawtransaction", tx,function(err, data, resHeaders){
-  if (err) return console.log(err);
- 
+  client.cmd("sendrawtransaction", tx,function(err, data, resHeaders){
+    if (err) return console.err(err)
+    cb(data)
   })
-    }catch(e){
-      return cb(e)
-    }
-    return cb(data)
 }
 
 tl.validateAddress = function(addr, cb){
@@ -553,6 +551,47 @@ tl.withdrawalFromChannel = function(originalSender,channelAddress,propertyid,amo
 
 var rawPubScripts = []
 
+tl.buildRawAsync = async function(inputsArray, payload, refAddress = null, cb) {
+  if (!inputsArray || !inputsArray.length || !payload ) {
+    console.error("BuildRawAsync RPC API function arguments error")
+    return
+  }
+  const { txid, vout, amount, scriptPubKey } = inputsArray[0]
+  console.log({ txid, vout, amount, scriptPubKey })
+  const asyncClient = async (...args) => 
+    (await new Promise((res, rej) => {
+      client.cmd(...args, (err,data) => {
+        if (err) rej(err)
+        res(data)
+      })
+  }));
+  const changeData = [{
+    txid,
+    vout,
+    scriptPubKey,
+    value: amount/4,
+  }];
+
+  const createRawTxInputResult = await asyncClient('tl_createrawtx_input', '', txid, vout)
+
+  const createRawTxOpreturnResult = await asyncClient('tl_createrawtx_opreturn', createRawTxInputResult, payload)
+
+  const createRawTxRefaddressResult = refAddress 
+  ? await asyncClient('tl_createrawtx_reference', createRawTxOpreturnResult, refAddress,  0.0000546)
+  : createRawTxOpreturnResult
+
+  const createRawTxChangeResult = await asyncClient('tl_createrawtx_change', createRawTxRefaddressResult, changeData, 'QbbqvDj2bJkeZAu4yWBuQejDd86bWHtbXh', amount/4)
+  // console.log({
+  //   createRawTxInputResult,
+  //   createRawTxOpreturnResult,
+  //   createRawTxRefaddressResult,
+  //   createRawTxChangeResult
+  // })
+  
+  cb(createRawTxChangeResult)
+
+}
+
 tl.buildRaw= function(payload, inputs, vOuts, refaddresses,inputAmount, UTXOAmount, cb){
 	var txstring = ""
   //the vOuts are meant to be which outputs were the selected inputs in their respective tx?
@@ -712,10 +751,9 @@ tl.createOracleContract = function(thisAddress, numeratorid, title, durationInBl
 
 tl.simpleSign = function(txstring, cb){
   //will not work if the local wallet can't find the relevant key(s)
-  client.cmd('signrawtransaction', null, null, function(err, data, resHeaders){
-        if(err == null){
-          return cb(data)
-        }else{return err}
+    client.cmd('signrawtransaction', txstring, function(err, data, resHeaders){
+      if(err) return console.error(err)
+      cb(data)
       })
 }
 
