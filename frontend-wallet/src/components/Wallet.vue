@@ -37,6 +37,7 @@
               <md-option :value="this.txnTypeEnum.ISSUE_CURRENCY">Issue Currency</md-option>
               <md-option :value="this.txnTypeEnum.REDEEM_CURRENCY">Redeem Currency</md-option>
               <md-option :value="this.txnTypeEnum.PROPOSE_CHANNEL">Propose Channel</md-option>
+              <md-option :value="this.txnTypeEnum.SIMPLE_SEND">Simple Send</md-option>
             </md-select>
           </md-field>
         </div>
@@ -101,17 +102,29 @@
             </md-field>
             </div>
         </div>
-        <br />
-        -------------------------------------------------<br />
-        !! Hardcoded !! <br />
-        payload: "tl_send 5 1" !!
-        <br />!! Hardcoded !! <br />        -------------------------------------------------<br />
-         <br/><br/>
-
-        <md-button md-button class='md-accent md-raised' v-on:click="buildRaw()" :disabled='!toAddress'>Build Raw</md-button>
+          <div v-else-if="txnType === txnTypeEnum.SIMPLE_SEND" >
+            <div class='form-group form-wrapper'>
+            <md-field >
+              <label>Send To: </label>
+              <md-input v-model="toAddress" name='toAddress' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
+            <md-field >
+              <label>Property ID: </label>
+              <md-input v-model="propertyId" type='text' name='Property Id' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
+            <md-field >
+              <label>Quantity: </label>
+              <md-input v-model="quantity" type='number'  name='Quantity' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
+            </div>
+        <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.SIMPLE_SEND)" :disabled='!toAddress || !propertyId || !quantity'>Build Raw</md-button>
         <md-button md-button class='md-primary md-raised' disabled>Sign</md-button>
         <textarea class='nice-textarea' type='text-area' v-model='txMessage'></textarea>
-      </form>
+        </div>
+       </form>
     </div>
   </div>
 </template>
@@ -121,7 +134,7 @@ import { mapGetters, mapMutations, mapState, mapActions } from "vuex";
 import { createTxn, signTxn } from "../../lib/wallet.js";
 import { walletService, socketService } from "../services";
 
-const {txnTypeEnum} = walletService
+const { txnTypeEnum } = walletService
 export default {
   name: "Wallet",
   data: () => ({
@@ -129,6 +142,8 @@ export default {
     txnTypeEnum,
     txMessage: '',
     toAddress: '',
+    propertyId: null,
+    quantity: null,
 
   }),
   computed: {
@@ -141,7 +156,6 @@ export default {
       "name",
       "price",
       "contract",
-      "quantity",
       "channelPrice",
       "channelBalance"
     ]),
@@ -161,15 +175,17 @@ export default {
     ...mapActions("contracts", ["sendtrade"]),
     ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs", "buildRawTx"]),
-    async buildRaw() {
-      const address = this.addressGetter
-      const opt = {
-        fromAddress: address,
-        toAddress: this.toAddress,
-        payload: '0000058094ebdc03',
-      }
-      const txMessage = await this.buildRawTx(opt)
-      this.txMessage = txMessage;
+    async buildRaw(txType) {
+      if (txType === txnTypeEnum.SIMPLE_SEND) {
+      // const address = this.addressGetter
+      // const opt = {
+      //   fromAddress: address,
+      //   toAddress: this.toAddress,
+      //   payload: '0000058094ebdc03',
+      // }
+      // const txMessage = await this.buildRawTx(opt)
+      // this.txMessage = txMessage;
+    }
     },
     handleLTCSubmit() {
       if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return

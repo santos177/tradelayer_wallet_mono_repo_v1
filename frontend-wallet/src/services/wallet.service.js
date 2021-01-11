@@ -103,7 +103,8 @@ const txnTypeEnum = {
   SELL_CONTRACT: 2,
   ISSUE_CURRENCY: 3,
   REDEEM_CURRENCY: 4,
-  PROPOSE_CHANNEL: 5
+  PROPOSE_CHANNEL: 5,
+  SIMPLE_SEND: 6,
 }
 
 const buildRawTx = async (buildOptions) => {

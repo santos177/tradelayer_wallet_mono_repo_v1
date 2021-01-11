@@ -11,7 +11,7 @@ const state = {
   walletDec: localWalletDec ? JSON.parse(localWalletDec) : [],
   currentAddressIndex: 0,
   utxoArray: [],
-  currentTxnType: txnTypeEnum.LTC_SEND,
+  currentTxnType: txnTypeEnum.SIMPLE_SEND,
   price: 0,
   sats: 0,
   toAddress: "",
