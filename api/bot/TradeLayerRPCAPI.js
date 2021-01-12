@@ -918,8 +918,9 @@ tl.createpayload_sendVesting = function(propertyid, amount,cb){
 }
 
 tl.createpayload_simpleSend = function(propertyid, amount,cb){
-    client.cmd('tl_createpayload_simplesend', propertyid, amount, function(err,data, resHeaders){
-    if(err){return err}else{return cb(data)}
+    client.cmd('tl_createpayload_simplesend', propertyid, amount, function(err, data, resHeaders){
+    if (err) return console.error(err);
+    cb(data);
   })
 }
 

@@ -104,6 +104,11 @@
         </div>
           <div v-else-if="txnType === txnTypeEnum.SIMPLE_SEND" >
             <div class='form-group form-wrapper'>
+             <md-field >
+              <label>Send From: </label>
+              <md-input v-model="fromAddress" name='fromAddress' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
             <md-field >
               <label>Send To: </label>
               <md-input v-model="toAddress" name='toAddress' required></md-input>
@@ -121,8 +126,8 @@
             </md-field>
             </div>
         <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.SIMPLE_SEND)" :disabled='!toAddress || !propertyId || !quantity'>Build Raw</md-button>
-        <md-button md-button class='md-primary md-raised' disabled>Sign</md-button>
-        <textarea class='nice-textarea' type='text-area' v-model='txMessage'></textarea>
+        <md-button md-button class='md-primary md-raised' :disabled="!valiTXForSign" v-on:click="handleSignRawTx()">Sign</md-button>
+        <textarea class='nice-textarea' type='text-area' :value='buildRawTxMessage' ></textarea>
         </div>
        </form>
     </div>
@@ -142,9 +147,10 @@ export default {
     txnTypeEnum,
     txMessage: '',
     toAddress: '',
+    fromAddress: '',
     propertyId: null,
     quantity: null,
-
+    valiTXForSign: null,
   }),
   computed: {
     ...mapState("wallet", [
@@ -157,7 +163,8 @@ export default {
       "price",
       "contract",
       "channelPrice",
-      "channelBalance"
+      "channelBalance",
+      "buildRawTxMessage",
     ]),
     ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"]),
     ...mapState('contracts', ['selectedContract']),
@@ -174,19 +181,18 @@ export default {
   methods: {
     ...mapActions("contracts", ["sendtrade"]),
     ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
-    ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs", "buildRawTx"]),
+    ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs", "buildRawTx", "signRawTx"]),
     async buildRaw(txType) {
       if (txType === txnTypeEnum.SIMPLE_SEND) {
-      
       const opt = {
         txType: txnTypeEnum.SIMPLE_SEND,
-        fromAddress: this.addressGetter,
+        fromAddress: this.fromAddress,
         toAddress: this.toAddress,
         quantity: this.quantity,
         propertyId: this.propertyId,
       }
-      const txMessage = await this.buildRawTx(opt)
-      this.txMessage = txMessage;
+      await this.buildRawTx(opt)
+      this.valiTXForSign = this.txMessage
     }
     },
     handleLTCSubmit() {
@@ -279,6 +285,9 @@ export default {
         key: name,
         value
       });
+    },
+    handleSignRawTx() {
+      this.signRawTx(this.valiTXForSign)
     }
   }
 };

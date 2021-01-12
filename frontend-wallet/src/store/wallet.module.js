@@ -61,6 +61,10 @@ const addKeyPairToState = (state, keyPair, password) => {
 }
 
 const actions = {
+  async signRawTx({ commit, state }, tx) {
+    const fullTx = await walletService.signRawTx(tx);
+    commit('setRawTxMessage', fullTx);
+  },
   async buildRawTx({ commit, state }, buildOptions) {
     switch (buildOptions.txType) {
       case txnTypeEnum.SIMPLE_SEND:
@@ -69,8 +73,9 @@ const actions = {
           commit('setCurrentAddressIndex', 'Invalid Params !')
           return;
         }
-        const tx = await walletService.buildRawSimpleSendTx(buildOptions)
-        commit('setCurrentAddressIndex', tx)
+        const message = await walletService.buildRawSimpleSendTx(buildOptions)
+        console.log(message)
+        commit('setRawTxMessage', message)
         break;
     
       default:

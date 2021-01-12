@@ -101,6 +101,9 @@ txnRouter.get('/buildRawTx', async (req,res) => {
     // })
 })
 
+txnRouter.get('/signRawTx', async (req,res) => {
+    console.log(request.query)
+})
 txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
     const { fromAddress, toAddress, quantity, propertyId} = request.query
     const { omniClient, tlClient } = request;
@@ -120,10 +123,10 @@ txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
             response.send({ message:'Not Enaught Litecoins For this transaction or you dont have access to this address' });
             return;
         }
+
         const payload = await new Promise ((res,rej) => {
-            tlClient.tl.createpayload_simpleSend(propertyId, quantity, (err, data) => {
-                if (err) return rej(err);
-                return res(data);
+            tlClient.tl.createpayload_simpleSend(parseInt(propertyId), quantity, (data) => {
+                res(data);
             })
         })
         tlClient.tl.buildRawAsync(result, payload, toAddress, (finalTX) => {

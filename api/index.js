@@ -170,7 +170,7 @@ findNewBlockTask.start();
 // START THE SERVER
 // =============================================================================
 // app.listen();
-var port = process.env.PORT || 3003;        // set our port
+var port = process.env.PORT || 3002;        // set our port
 var socketPort =process.env.SOCKET_PORT || 75; 
 
 app.listen(port, function(){
