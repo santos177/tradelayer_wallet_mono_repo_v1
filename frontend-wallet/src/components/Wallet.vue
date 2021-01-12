@@ -177,14 +177,16 @@ export default {
     ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs", "buildRawTx"]),
     async buildRaw(txType) {
       if (txType === txnTypeEnum.SIMPLE_SEND) {
-      // const address = this.addressGetter
-      // const opt = {
-      //   fromAddress: address,
-      //   toAddress: this.toAddress,
-      //   payload: '0000058094ebdc03',
-      // }
-      // const txMessage = await this.buildRawTx(opt)
-      // this.txMessage = txMessage;
+      
+      const opt = {
+        txType: txnTypeEnum.SIMPLE_SEND,
+        fromAddress: this.addressGetter,
+        toAddress: this.toAddress,
+        quantity: this.quantity,
+        propertyId: this.propertyId,
+      }
+      const txMessage = await this.buildRawTx(opt)
+      this.txMessage = txMessage;
     }
     },
     handleLTCSubmit() {

@@ -100,6 +100,37 @@ txnRouter.get('/buildRawTx', async (req,res) => {
     //     res.send({message: finalTX})
     // })
 })
+
+txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
+    const { fromAddress, toAddress, quantity, propertyId} = request.query
+    const { omniClient, tlClient } = request;
+    const validateAddress = await new Promise ((res,rej) => {
+        omniClient.cmd("validateaddress", toAddress, (err, result) => {
+            if (err) return rej(err);
+            return res(result)
+        });
+    });
+    if (!validateAddress.isvalid) {
+        response.send({message: 'Invalid "Send to" Address'})
+        return;
+    }
+    omniClient.cmd("listunspent", 1, 9999999, [fromAddress], false, {minimumAmount:0.0002}, async (err, result) => {
+        if (err) return console.log(err);
+        if (result.length < 1) {
+            response.send({ message:'Not Enaught Litecoins For this transaction or you dont have access to this address' });
+            return;
+        }
+        const payload = await new Promise ((res,rej) => {
+            tlClient.tl.createpayload_simpleSend(propertyId, quantity, (err, data) => {
+                if (err) return rej(err);
+                return res(data);
+            })
+        })
+        tlClient.tl.buildRawAsync(result, payload, toAddress, (finalTX) => {
+            response.send({ message: finalTX })
+        })
+    })
+})
 // --> commented out models
 // const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
 //     let allUTXOs = []

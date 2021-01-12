@@ -112,6 +112,10 @@ const buildRawTx = async (buildOptions) => {
   return tx.data
 }
 
+const buildRawSimpleSendTx = async (buildOptions) => {
+  const tx = await axiosInstance.get('/tnx/buildRawSimpleSendTx', { params: buildOptions });
+  return tx;
+}
 export const walletService = {
   getUTXOs, 
   sendRawTxn, 
@@ -119,5 +123,6 @@ export const walletService = {
   getSendIssuancePeggedPayload,
   getRedeemPeggedPayload, 
   getSendIssuancePeggedPayload,
-  buildRawTx
+  buildRawTx,
+  buildRawSimpleSendTx,
 };

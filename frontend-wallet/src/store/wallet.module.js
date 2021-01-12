@@ -62,8 +62,20 @@ const addKeyPairToState = (state, keyPair, password) => {
 
 const actions = {
   async buildRawTx({ commit, state }, buildOptions) {
-    const tx = await walletService.buildRawTx(buildOptions)
-    return tx.message
+    switch (buildOptions.txType) {
+      case txnTypeEnum.SIMPLE_SEND:
+        const { fromAddress, toAddress, quantity, propertyId } = buildOptions;
+        if (!fromAddress || !toAddress || !quantity || !propertyId ) {
+          commit('setCurrentAddressIndex', 'Invalid Params !')
+          return;
+        }
+        const tx = await walletService.buildRawSimpleSendTx(buildOptions)
+        commit('setCurrentAddressIndex', tx)
+        break;
+    
+      default:
+        break;
+    }
   },
   // todo: call after new address is added
   setCurrentAddress({ commit, state }, index) {
