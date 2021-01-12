@@ -66,18 +66,25 @@ const actions = {
     commit('setRawTxMessage', fullTx);
   },
   async buildRawTx({ commit, state }, buildOptions) {
+    const { fromAddress, toAddress, quantity, propertyId, payload } = buildOptions;
+
     switch (buildOptions.txType) {
       case txnTypeEnum.SIMPLE_SEND:
-        const { fromAddress, toAddress, quantity, propertyId } = buildOptions;
         if (!fromAddress || !toAddress || !quantity || !propertyId ) {
           commit('setCurrentAddressIndex', 'Invalid Params !')
           return;
         }
         const message = await walletService.buildRawSimpleSendTx(buildOptions)
-        console.log(message)
         commit('setRawTxMessage', message)
-        break;
-    
+        return message;
+      case txnTypeEnum.CUSTOM_PAYLOAD:
+        if (!fromAddress || !toAddress || !payload ) {
+          commit('setCurrentAddressIndex', 'Invalid Params !')
+          return;
+        }
+        const tx = await walletService.buildRawCustomPayloadTx(buildOptions)
+        commit('setRawTxMessage', tx)
+        return tx
       default:
         break;
     }

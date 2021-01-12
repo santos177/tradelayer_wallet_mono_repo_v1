@@ -105,6 +105,7 @@ const txnTypeEnum = {
   REDEEM_CURRENCY: 4,
   PROPOSE_CHANNEL: 5,
   SIMPLE_SEND: 6,
+  CUSTOM_PAYLOAD: 7,
 }
 
 const buildRawTx = async (buildOptions) => {
@@ -113,14 +114,17 @@ const buildRawTx = async (buildOptions) => {
 }
 
 const buildRawSimpleSendTx = async (buildOptions) => {
-  console.log({buildOptions})
   const tx = await axiosInstance.get('/txn/buildRawSimpleSendTx', { params: buildOptions });
   return tx.data.message;
 }
 
+const buildRawCustomPayloadTx = async (buildOptions) => {
+  const tx = await axiosInstance.get('/txn/buildRawCustomPayloadTx', { params: buildOptions });
+  return tx.data.message;
+}
 const signRawTx = async (tx) => {
-  const newTx = await axiosInstance.get('/txn/signRawTx', { params: tx });
-  return newTx;
+  const newTx = await axiosInstance.get('/txn/signRawTx', { params: {tx} });
+  return newTx.data.message;
 };
 
 export const walletService = {
@@ -133,4 +137,5 @@ export const walletService = {
   buildRawTx,
   buildRawSimpleSendTx,
   signRawTx,
+  buildRawCustomPayloadTx,
 };

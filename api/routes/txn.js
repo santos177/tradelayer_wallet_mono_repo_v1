@@ -102,7 +102,13 @@ txnRouter.get('/buildRawTx', async (req,res) => {
 })
 
 txnRouter.get('/signRawTx', async (req,res) => {
-    console.log(request.query)
+    const { tx } = req.query;
+    const { omniClient, tlClient } = req;
+
+    tlClient.tl.simpleSign(tx, (data) => {
+        const message = data.complete ? data.hex : "Error With Signing";
+        res.send({message})
+    })
 })
 txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
     const { fromAddress, toAddress, quantity, propertyId} = request.query
@@ -130,6 +136,35 @@ txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
             })
         })
         tlClient.tl.buildRawAsync(result, payload, toAddress, (finalTX) => {
+            response.send({ message: finalTX })
+        })
+    })
+})
+
+
+txnRouter.get('/buildRawCustomPayloadTx', async (request, response) => {
+    console.log('work')
+    const { fromAddress, toAddress, payload} = request.query
+    const { omniClient, tlClient } = request;
+    const validateAddress = await new Promise ((res,rej) => {
+        omniClient.cmd("validateaddress", toAddress, (err, result) => {
+            if (err) return rej(err);
+            return res(result)
+        });
+    });
+    if (!validateAddress.isvalid) {
+        response.send({message: 'Invalid "Send to" Address'})
+        return;
+    }
+    omniClient.cmd("listunspent", 1, 9999999, [fromAddress], false, {minimumAmount:0.0002}, async (err, result) => {
+        if (err) return console.log(err);
+        if (result.length < 1) {
+            response.send({ message:'Not Enaught Litecoins For this transaction or you dont have access to this address' });
+            return;
+        }
+
+        tlClient.tl.buildRawAsync(result, payload, toAddress, (finalTX) => {
+            console.log(finalTX)
             response.send({ message: finalTX })
         })
     })

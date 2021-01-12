@@ -31,13 +31,14 @@
         <div class='form-group'>
           <md-field>
             <md-select v-model='txnType'>
-              <md-option :value="this.txnTypeEnum.LTC_SEND">Send LTC</md-option>
+              <!-- <md-option :value="this.txnTypeEnum.LTC_SEND">Send LTC</md-option>
               <md-option :value="this.txnTypeEnum.BUY_CONTRACT">Buy Contract</md-option>
               <md-option :value="this.txnTypeEnum.SELL_CONTRACT">Sell Contract</md-option>
               <md-option :value="this.txnTypeEnum.ISSUE_CURRENCY">Issue Currency</md-option>
               <md-option :value="this.txnTypeEnum.REDEEM_CURRENCY">Redeem Currency</md-option>
-              <md-option :value="this.txnTypeEnum.PROPOSE_CHANNEL">Propose Channel</md-option>
+              <md-option :value="this.txnTypeEnum.PROPOSE_CHANNEL">Propose Channel</md-option> -->
               <md-option :value="this.txnTypeEnum.SIMPLE_SEND">Simple Send</md-option>
+              <md-option :value="this.txnTypeEnum.CUSTOM_PAYLOAD">Custom Payload</md-option>
             </md-select>
           </md-field>
         </div>
@@ -125,9 +126,32 @@
               <span class="md-error">There is an error</span>
             </md-field>
             </div>
-        <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.SIMPLE_SEND)" :disabled='!toAddress || !propertyId || !quantity'>Build Raw</md-button>
-        <md-button md-button class='md-primary md-raised' :disabled="!valiTXForSign" v-on:click="handleSignRawTx()">Sign</md-button>
-        <textarea class='nice-textarea' type='text-area' :value='buildRawTxMessage' ></textarea>
+            <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.SIMPLE_SEND)" :disabled='!fromAddress || !toAddress || !propertyId || !quantity'>Build Raw</md-button>
+             <md-button md-button class='md-primary md-raised' :disabled="!valideTx" v-on:click="handleSignRawTx()">Sign</md-button>
+            <textarea class='nice-textarea' type='text-area' :value='buildRawTxMessage' ></textarea>
+        </div>
+           <div v-else-if="txnType === txnTypeEnum.CUSTOM_PAYLOAD" >
+            <div class='form-group form-wrapper'>
+             <md-field >
+              <label>Send From: </label>
+              <md-input v-model="fromAddress" name='fromAddress' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
+            <md-field >
+              <label>Reff. Address </label>
+              <md-input v-model="toAddress" name='toAddress' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
+            <md-field >
+              <label>Payload: </label>
+              <md-input v-model="payload" type='text' name='payload' required></md-input>
+              <span class="md-error">There is an error</span>
+            </md-field>
+
+            </div>
+            <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.CUSTOM_PAYLOAD)" :disabled='!toAddress || !fromAddress || !payload'>Build Raw</md-button>
+             <md-button md-button class='md-primary md-raised' :disabled="!valideTx" v-on:click="handleSignRawTx()">Sign</md-button>
+            <textarea class='nice-textarea' type='text-area' :value='buildRawTxMessage' ></textarea>
         </div>
        </form>
     </div>
@@ -150,7 +174,8 @@ export default {
     fromAddress: '',
     propertyId: null,
     quantity: null,
-    valiTXForSign: null,
+    valideTx: '',
+    payload: '',
   }),
   computed: {
     ...mapState("wallet", [
@@ -191,8 +216,19 @@ export default {
         quantity: this.quantity,
         propertyId: this.propertyId,
       }
-      await this.buildRawTx(opt)
-      this.valiTXForSign = this.txMessage
+      const message = await this.buildRawTx(opt)
+      this.valideTx = message
+    }
+
+    if (txType === txnTypeEnum.CUSTOM_PAYLOAD) {
+      const opt = {
+        txType: txnTypeEnum.CUSTOM_PAYLOAD,
+        fromAddress: this.fromAddress,
+        toAddress: this.toAddress,
+        payload: this.payload,
+      }
+     const message = await this.buildRawTx(opt);
+    this.valideTx = message
     }
     },
     handleLTCSubmit() {
@@ -287,7 +323,7 @@ export default {
       });
     },
     handleSignRawTx() {
-      this.signRawTx(this.valiTXForSign)
+      this.signRawTx(this.valideTx)
     }
   }
 };
