@@ -109,24 +109,22 @@ const txnTypeEnum = {
 }
 
 const buildRawTx = async (buildOptions) => {
-  const tx = await axiosInstance.get('/txn/buildRawTx', {params: buildOptions})
-  return tx.data
+  const resultBuildTx = await axiosInstance.get('/txn/buildRawTx', { params: buildOptions })
+  return resultBuildTx.data;
 }
 
-const buildRawSimpleSendTx = async (buildOptions) => {
-  const tx = await axiosInstance.get('/txn/buildRawSimpleSendTx', { params: buildOptions });
-  return tx.data.message;
-}
-
-const buildRawCustomPayloadTx = async (buildOptions) => {
-  const tx = await axiosInstance.get('/txn/buildRawCustomPayloadTx', { params: buildOptions });
-  return tx.data.message;
-}
-const signRawTx = async (tx) => {
-  const newTx = await axiosInstance.get('/txn/signRawTx', { params: {tx} });
-  return newTx.data.message;
+const signRawTx = async (rawTx) => {
+  const signedRawTxResult = await axiosInstance.get('/txn/signRawTx', { params: { rawTx } });
+  return signedRawTxResult.data;
 };
-
+const sendRawTx = async (rawTx) => {
+  const signedRawTxResult = await axiosInstance.get('/txn/sendRawTx', { params: { rawTx } });
+  return signedRawTxResult.data;
+}
+const decodeRawTx = async (rawTx) => {
+  const decodedRawTxJson = await axiosInstance.get('/txn/decodeRawTx', { params: { rawTx } });
+  return decodedRawTxJson.data
+}
 export const walletService = {
   getUTXOs, 
   sendRawTxn, 
@@ -135,7 +133,7 @@ export const walletService = {
   getRedeemPeggedPayload, 
   getSendIssuancePeggedPayload,
   buildRawTx,
-  buildRawSimpleSendTx,
   signRawTx,
-  buildRawCustomPayloadTx,
+  decodeRawTx,
+  sendRawTx,
 };

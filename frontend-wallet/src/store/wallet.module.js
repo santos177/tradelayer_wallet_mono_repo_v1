@@ -11,7 +11,7 @@ const state = {
   walletDec: localWalletDec ? JSON.parse(localWalletDec) : [],
   currentAddressIndex: 0,
   utxoArray: [],
-  currentTxnType: txnTypeEnum.SIMPLE_SEND,
+  currentTxnType: txnTypeEnum.CUSTOM_PAYLOAD,
   price: 0,
   sats: 0,
   toAddress: "",
@@ -21,6 +21,8 @@ const state = {
   channelPrice: 0,
   channelBalance: 0,
   buildRawTxMessage: '',
+  unSignedRawTx: '',
+  signedRawTx:'',
 }
 
 // reusable helpers
@@ -61,34 +63,48 @@ const addKeyPairToState = (state, keyPair, password) => {
 }
 
 const actions = {
-  async signRawTx({ commit, state }, tx) {
-    const fullTx = await walletService.signRawTx(tx);
-    commit('setRawTxMessage', fullTx);
-  },
-  async buildRawTx({ commit, state }, buildOptions) {
-    const { fromAddress, toAddress, quantity, propertyId, payload } = buildOptions;
-
-    switch (buildOptions.txType) {
-      case txnTypeEnum.SIMPLE_SEND:
-        if (!fromAddress || !toAddress || !quantity || !propertyId ) {
-          commit('setCurrentAddressIndex', 'Invalid Params !')
-          return;
-        }
-        const message = await walletService.buildRawSimpleSendTx(buildOptions)
-        commit('setRawTxMessage', message)
-        return message;
-      case txnTypeEnum.CUSTOM_PAYLOAD:
-        if (!fromAddress || !toAddress || !payload ) {
-          commit('setCurrentAddressIndex', 'Invalid Params !')
-          return;
-        }
-        const tx = await walletService.buildRawCustomPayloadTx(buildOptions)
-        commit('setRawTxMessage', tx)
-        return tx
-      default:
-        break;
+  async createCustomRawTx({ commit, state }, txBuildOptions){
+    const buildRawTxResult = await walletService.buildRawTx(txBuildOptions);
+    const { data, error } = buildRawTxResult;
+    if (error) commit('setRawTxMessage', `Error: ${error}`)
+    if (data) {
+      commit('setRawTxMessage', data);
+      const decodedRawTx = await walletService.decodeRawTx(data);
+      const { decodedRawTxData, decodedRawTxError } = decodedRawTx;
+      if (!decodedRawTxError) {
+        commit('setUnsignedRawTx', data);
+      }
     }
+    return buildRawTxResult;
   },
+
+  async signRawTx({ commit, state }, unsignedRawTx) {
+    const signRawTxResult = await walletService.signRawTx(unsignedRawTx);
+    const { data, error } = signRawTxResult;
+    if (error) commit('setRawTxMessage', `Error: ${error}`)
+    if (data) {
+      if (!data.complete) {
+        commit('setRawTxMessage', `Error: Undefined Error with signing tx`)
+      } else {
+        commit('setRawTxMessage', data.hex)
+        commit('setSignedRawTx', data.hex)
+      }
+    }
+    return signRawTxResult;
+  },
+
+  async sendRawTx({commit, state }, signedRawTx) {
+    const sendRawTxResult = await walletService.sendRawTx(signedRawTx);
+    const { data, error } = sendRawTxResult;
+    if (error) commit('setRawTxMessage', `Error: ${error}`);
+    if (data) commit('setRawTxMessage', data);
+    return sendRawTxResult;
+  },
+
+  createSimpleSendRawTx(){
+    console.log('createSimpleSendRawTx')
+  },
+  
   // todo: call after new address is added
   setCurrentAddress({ commit, state }, index) {
     commit('setCurrentAddressIndex', index)
@@ -114,6 +130,14 @@ const actions = {
   }
 }
 const mutations = {
+  setSignedRawTx(state, tx) {
+    state.signedRawTx = tx;
+  },
+
+  setUnsignedRawTx(state, tx) {
+    state.unSignedRawTx = tx;
+  },
+
   setRawTxMessage(state,message) {
     state.buildRawTxMessage = message
   },

@@ -2,19 +2,14 @@
   <div v-if="walletDec[currentAddressIndex]">
   
     <div id='wallet-header'> 
-      <span >addresses </span> 
-      <span  id='wallet-balance' v-on:click='updateCurrentUTXOs'> <md-tooltip md-direction='bottom'>click to update balance </md-tooltip>  balance: {{currentAddressLTCBalance}}</span>
+      <span>addresses </span> 
+      <span id='wallet-balance' v-on:click='updateCurrentUTXOs'> 
+        <md-tooltip md-direction='bottom'>
+          click to update balance 
+        </md-tooltip>
+        balance: {{currentAddressLTCBalance}}
+      </span>
     </div>
-    <!-- <md-table id='address-table'>
-      <div v-bind:key="item.publicAddress" v-for="(item, index) in walletDec">
-      <md-table-row  v-if="currentAddressIndex == index">
-        <md-table-cell class='selected-address' > <div > {{ item.publicAddress }} </div> </md-table-cell>
-      </md-table-row>
-      <md-table-row v-on:click='setCurrentAddress(index)' v-else>
-        <md-table-cell > <div >{{ item.publicAddress }} </div> </md-table-cell>
-        </md-table-row>
-        </div>
-    </md-table> -->
 
     <div class='addresses-container'>
       <div 
@@ -26,134 +21,100 @@
       </div>
     </div>
   
-    <div class='divider'></div>
+    <div class='divider' />
+
     <div id='txn-container'>
+      
         <div class='form-group'>
           <md-field>
             <md-select v-model='txnType'>
-              <!-- <md-option :value="this.txnTypeEnum.LTC_SEND">Send LTC</md-option>
-              <md-option :value="this.txnTypeEnum.BUY_CONTRACT">Buy Contract</md-option>
-              <md-option :value="this.txnTypeEnum.SELL_CONTRACT">Sell Contract</md-option>
-              <md-option :value="this.txnTypeEnum.ISSUE_CURRENCY">Issue Currency</md-option>
-              <md-option :value="this.txnTypeEnum.REDEEM_CURRENCY">Redeem Currency</md-option>
-              <md-option :value="this.txnTypeEnum.PROPOSE_CHANNEL">Propose Channel</md-option> -->
               <md-option :value="this.txnTypeEnum.SIMPLE_SEND">Simple Send</md-option>
               <md-option :value="this.txnTypeEnum.CUSTOM_PAYLOAD">Custom Payload</md-option>
             </md-select>
           </md-field>
         </div>
-    <div class='divider'></div>
+  
+      <div class='divider' />
 
-      <form @submit.prevent='handleSubmit'>
-        <div v-if="txnType === txnTypeEnum.LTC_SEND">
-          <div class='form-group'>
-            <md-field >
-              <label>Send To: </label>
-              <md-input v-model="toAddress" name='toAddress'></md-input>
-            </md-field>
-            <md-field >
-              <label>Sats: </label>
-              <md-input v-model="sats" type='number' name='sats' @input="txnFormUpdate"></md-input>
-            </md-field>
-            </div>
+      <div v-if="txnType === txnTypeEnum.SIMPLE_SEND">
+        <div class='form-group'>
+          <div class='check-boxes'>
+              <md-checkbox v-model='useCustomTXO'>Use Custom Transaction Input</md-checkbox>
           </div>
+          <md-field v-if='!useCustomTXO'>
+            <label>Sender Address:</label>
+            <md-input required v-model='fromAddress'></md-input>
+            <span class="md-helper-text pointer" v-on:click='copyWalletAddress()'>(Use wallet address)</span>
+          </md-field>
+          <md-field v-if='useCustomTXO'>
+            <label>Transaction Input:</label>
+            <md-input required v-model='customTxInput'></md-input>
+          </md-field>
+          <md-field v-if='useCustomTXO'>
+            <label>Input's vOut:</label>
+            <md-input required v-model='vOut' type='number'></md-input>
+          </md-field>
+          <md-field >
+            <label>Receiver Address:</label>
+            <md-input required v-model='toAddress'></md-input>
+          </md-field>
+          <md-field >
+            <label>Property ID: </label>
+            <md-input v-model='propertyId' required type='number'></md-input>
+          </md-field>
+          <md-field >
+            <label>Quantity: </label>
+            <md-input v-model='quantity' required type='number'></md-input>
+          </md-field>
+        </div>
+      </div>
 
-          <div v-else-if="txnType === txnTypeEnum.BUY_CONTRACT || txnType === txnTypeEnum.SELL_CONTRACT" >
-              <div class='form-group form-wrapper' >
-            <md-field >
-              <label>Quantity: </label>
-              <md-input v-model="quantity" @input="txnFormUpdate" type='number' step='any' name='quantity'></md-input>
-            </md-field>
-            <md-field >
-              <label>Price: </label>
-              <md-input v-model="price" @input="txnFormUpdate" type='number' step='any'  name='price'></md-input>
-            </md-field>
-              </div>
-          </div>
-        
-      <div v-else-if="txnType === txnTypeEnum.ISSUE_CURRENCY || txnType === txnTypeEnum.REDEEM_CURRENCY" >
-            <div class='form-group form-wrapper'>
-            <md-field >
-              <label>Contract: </label>
-              <md-input v-model="contract" @input="txnFormUpdate"  type='text' name='contract'></md-input>
-            </md-field>
-            <md-field >
-              <label>Name: </label>
-              <md-input v-model="name" @input="txnFormUpdate" type='text' name='name'></md-input>
-            </md-field>
-            <md-field >
-              <label>Quantity: </label>
-              <md-input v-model="quantity" @input="txnFormUpdate" type='number' name='quantity'></md-input>
-            </md-field>
-            </div>
+      <div v-if="txnType === txnTypeEnum.CUSTOM_PAYLOAD">
+        <div class='form-group'>
+          <md-field >
+            <label>Transaction Input:</label>
+            <md-input v-model='customTxInput' required></md-input>
+          </md-field>
+          <md-field >
+            <label>Input's vOut:</label>
+            <md-input v-model='vOut' required type='number'></md-input>
+          </md-field>
+          <md-field >
+            <label>Refferance Address:</label>
+            <md-input v-model='toAddress' required></md-input>
+          </md-field>
+          <md-field >
+            <label>payload:</label>
+            <md-input v-model='payload' required></md-input>
+          </md-field>
         </div>
-         <div v-else-if="txnType === txnTypeEnum.PROPOSE_CHANNEL" >
-            <div class='form-group form-wrapper'>
-            <md-field >
-              <label>Margin Balance: </label>
-              <md-input v-model="channelBalance" @input="txnFormUpdate" type='text' name='channelBalance' ></md-input>
-            </md-field>
-            <md-field >
-              <label>Price: </label>
-              <md-input v-model="channelPrice" @input="txnFormUpdate" type='text' name='channelPrice'></md-input>
-            </md-field>
-            <md-field >
-              <label>Trade Size: </label>
-              <md-input v-model="quantity" @input="quantity"  type='text'  name='quantity'></md-input>
-            </md-field>
-            </div>
-        </div>
-          <div v-else-if="txnType === txnTypeEnum.SIMPLE_SEND" >
-            <div class='form-group form-wrapper'>
-             <md-field >
-              <label>Send From: </label>
-              <md-input v-model="fromAddress" name='fromAddress' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
-            <md-field >
-              <label>Send To: </label>
-              <md-input v-model="toAddress" name='toAddress' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
-            <md-field >
-              <label>Property ID: </label>
-              <md-input v-model="propertyId" type='text' name='Property Id' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
-            <md-field >
-              <label>Quantity: </label>
-              <md-input v-model="quantity" type='number'  name='Quantity' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
-            </div>
-            <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.SIMPLE_SEND)" :disabled='!fromAddress || !toAddress || !propertyId || !quantity'>Build Raw</md-button>
-             <md-button md-button class='md-primary md-raised' :disabled="!valideTx" v-on:click="handleSignRawTx()">Sign</md-button>
-            <textarea class='nice-textarea' type='text-area' :value='buildRawTxMessage' ></textarea>
-        </div>
-           <div v-else-if="txnType === txnTypeEnum.CUSTOM_PAYLOAD" >
-            <div class='form-group form-wrapper'>
-             <md-field >
-              <label>Send From: </label>
-              <md-input v-model="fromAddress" name='fromAddress' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
-            <md-field >
-              <label>Reff. Address </label>
-              <md-input v-model="toAddress" name='toAddress' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
-            <md-field >
-              <label>Payload: </label>
-              <md-input v-model="payload" type='text' name='payload' required></md-input>
-              <span class="md-error">There is an error</span>
-            </md-field>
+      </div>
 
-            </div>
-            <md-button md-button class='md-accent md-raised' v-on:click="buildRaw(txnTypeEnum.CUSTOM_PAYLOAD)" :disabled='!toAddress || !fromAddress || !payload'>Build Raw</md-button>
-             <md-button md-button class='md-primary md-raised' :disabled="!valideTx" v-on:click="handleSignRawTx()">Sign</md-button>
-            <textarea class='nice-textarea' type='text-area' :value='buildRawTxMessage' ></textarea>
-        </div>
-       </form>
+      <div class='divider' />
+
+      <div>
+          <md-button 
+            md-button 
+            class='md-accent md-raised' 
+            v-on:click="handleBuildRawTx()" 
+            :disabled='isDisabled()'
+          > 
+            Build Raw 
+          </md-button>
+          <md-button 
+            md-button 
+            class='md-primary md-raised'
+            v-on:click="!signedRawTx ? handleSignRawTx(unSignedRawTx) : handleSendRawTx(signedRawTx)" 
+            :disabled="!signedRawTx ? !unSignedRawTx : !signedRawTx" 
+          >
+            {{ !signedRawTx ? 'SIGN' : 'SEND' }}
+          </md-button>
+          <textarea 
+          class='nice-textarea' 
+          type='text-area'
+          :value='buildRawTxMessage'
+          readonly />  
+      </div>
     </div>
   </div>
 </template>
@@ -164,35 +125,33 @@ import { createTxn, signTxn } from "../../lib/wallet.js";
 import { walletService, socketService } from "../services";
 
 const { txnTypeEnum } = walletService
+
 export default {
   name: "Wallet",
   data: () => ({
     showDialog: true,
     txnTypeEnum,
-    txMessage: '',
+    useWalletAddress: false,
+    useCustomTXO: false,
     toAddress: '',
     fromAddress: '',
+    customTxInput: '',
+    vOut: null,
+    payload: '',
     propertyId: null,
     quantity: null,
-    valideTx: '',
-    payload: '',
   }),
   computed: {
     ...mapState("wallet", [
       "walletDec",
       "currentAddressIndex",
-      "sats",
-      "utxoArray",
       "currentTxnType",
-      "name",
-      "price",
-      "contract",
-      "channelPrice",
-      "channelBalance",
       "buildRawTxMessage",
+      "unSignedRawTx",
+      "signedRawTx",
     ]),
     ...mapGetters("wallet", ["addressGetter", "currentAddressLTCBalance"]),
-    ...mapState('contracts', ['selectedContract']),
+    ...mapState("contracts", ["selectedContract"]),
 
     txnType: {
       get(){
@@ -204,127 +163,161 @@ export default {
     }
   },
   methods: {
-    ...mapActions("contracts", ["sendtrade"]),
-    ...mapMutations("wallet", ["setTxnState", 'setCurrentTxnType']),
-    ...mapActions("wallet", ["setCurrentAddress", "updateCurrentUTXOs", "buildRawTx", "signRawTx"]),
-    async buildRaw(txType) {
-      if (txType === txnTypeEnum.SIMPLE_SEND) {
-      const opt = {
-        txType: txnTypeEnum.SIMPLE_SEND,
-        fromAddress: this.fromAddress,
-        toAddress: this.toAddress,
-        quantity: this.quantity,
-        propertyId: this.propertyId,
+    ...mapMutations("wallet", ["setCurrentTxnType"]),
+    ...mapActions("wallet", [
+      "setCurrentAddress", 
+      "updateCurrentUTXOs", 
+      "createCustomRawTx", 
+      "createSimpleSendRawTx",
+      "signRawTx",
+      "sendRawTx",
+      ]),
+
+    copyWalletAddress() {
+        this.fromAddress = this.walletDec[this.currentAddressIndex].publicAddress;
+    },
+    isDisabled() {
+      switch (this.currentTxnType) {
+        case txnTypeEnum.CUSTOM_PAYLOAD:
+          return !this.customTxInput || !this.vOut || !this.toAddress || !this.payload
+        default:
+        case txnTypeEnum.SIMPLE_SEND:
+          return (
+          (this.useCustomTXO ? (!this.vOut || !this.customTxInput) : !this.fromAddress) 
+          || !this.toAddress 
+          || !this.propertyId 
+          || !this.quantity);
       }
-      const message = await this.buildRawTx(opt)
-      this.valideTx = message
-    }
-
-    if (txType === txnTypeEnum.CUSTOM_PAYLOAD) {
-      const opt = {
-        txType: txnTypeEnum.CUSTOM_PAYLOAD,
-        fromAddress: this.fromAddress,
-        toAddress: this.toAddress,
-        payload: this.payload,
-      }
-     const message = await this.buildRawTx(opt);
-    this.valideTx = message
-    }
+      return true;
     },
-    handleLTCSubmit() {
-      if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
-      if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
-      let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
 
-      let { publicAddress, wifKey } = walletDec[currentAddressIndex];
-
-      const txn = createTxn(utxoArray, toAddress, +sats, publicAddress);
-      const signedTxn = signTxn(txn, wifKey).serialize()
+    async handleBuildRawTx() {
+      const { 
+        useWalletAddress, 
+        useCustomTXO,
+        toAddress,
+        fromAddress,
+        customTxInput,
+        vOut,
+        payload,
+        propertyId,
+        quantity,
+        currentTxnType,
+        } = this;
       
-      walletService.sendRawTxn(signedTxn).then((data)=>{
-        console.log(data);
-      })
-    },
-    handleBuySellSubmit(){
-    const address = this.walletDec[this.currentAddressIndex].publicAddress;
-    const {BUY_CONTRACT, SELL_CONTRACT} = txnTypeEnum
-    const { propsIdForSale, propsIdDesired } = this.selectedContract
-    const data = {};
-    if (this.currentTxnType === SELL_CONTRACT) {
-      data.address = address
-      data.propsIdForSale = propsIdForSale;
-      data.amountforsale = parseFloat(this.quantity);
-      data.propsIdDesired = propsIdDesired;
-      data.amountdesired = parseFloat(this.quantity) * parseFloat(this.price);
-    }
-    if (this.currentTxnType === BUY_CONTRACT) {
-      data.address = address
-      data.propsIdForSale = propsIdDesired;
-      data.amountforsale = parseFloat(this.quantity);
-      data.propsIdDesired = propsIdForSale;
-      data.amountdesired = parseFloat(this.quantity) * parseFloat(this.price);
-    }
-      this.sendtrade(data);
-      window.toggleWallet();
-    return
-    },
-    handleIssueRedeemSubmit(){
-      // placeholder
-      return
-    },
-    handleProposeChannel(){
-      
-      const {   quantity, channelPrice, channelBalance, currentAddressIndex, walletDec} = this
-       let { publicAddress } = walletDec[currentAddressIndex];
-       
-       socketService.proposeChannel({
-         marginBalance: channelBalance,
-          quotePrice: channelPrice,
-          unpublishedTradeSize: quantity,
-          address: publicAddress
-       })
-       
-    },
-    handleSubmit(e) {
-      if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
-
-      const {currentTxnType, handleLTCSubmit, handleIssueRedeemSubmit, handleBuySellSubmit,handleProposeChannel} = this
-      const {LTC_SEND,  BUY_CONTRACT, SELL_CONTRACT, ISSUE_CURRENCY, REDEEM_CURRENCY, PROPOSE_CHANNEL} = txnTypeEnum
-
       switch (currentTxnType) {
-        case  LTC_SEND:
-          return handleLTCSubmit();
-        case BUY_CONTRACT:
-        case SELL_CONTRACT:
-          return handleBuySellSubmit()
-        case ISSUE_CURRENCY:
-          return getSendIssuancePeggedPayload(/*datahere*/).then(this.handleOpReturnPayload)
-        case REDEEM_CURRENCY:
-          return handleIssueRedeemSubmit()
-        case PROPOSE_CHANNEL:
-          return handleProposeChannel()
+        case txnTypeEnum.CUSTOM_PAYLOAD:
+          const rawTxResult = await this.createCustomRawTx({
+            customTxInput,
+            vOut,
+            toAddress,
+            payload,
+          });
+          break;
+        case txnTypeEnum.SIMPLE_SEND:
+          this.createSimpleSendRawTx();
+          break;
         default:
           break;
       }
-     
     },
-    handleOpReturnPayload(txn){
-       const signedTxn = signTxn(txn, wifKey).serialize()
+    async handleSignRawTx(rawTx) {
+      this.signRawTx(rawTx)
+    },
+    async handleSendRawTx(rawTx) {
+      this.sendRawTx(rawTx)
+    },
+  //   handleLTCSubmit() {
+  //     if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
+  //     if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
+  //     let { utxoArray, toAddress, sats, walletDec, currentAddressIndex } = this;
+
+  //     let { publicAddress, wifKey } = walletDec[currentAddressIndex];
+
+  //     const txn = createTxn(utxoArray, toAddress, +sats, publicAddress);
+  //     const signedTxn = signTxn(txn, wifKey).serialize()
       
-      walletService.sendRawTxn(signedTxn).then((data)=>{
-        console.log(data);
-      })
-    },
-    txnFormUpdate(e) {
-      const { name, value } = e.target;
-      this.setTxnState({
-        key: name,
-        value
-      });
-    },
-    handleSignRawTx() {
-      this.signRawTx(this.valideTx)
-    }
+  //     walletService.sendRawTxn(signedTxn).then((data)=>{
+  //       console.log(data);
+  //     })
+  //   },
+  //   handleBuySellSubmit(){
+  //   const address = this.walletDec[this.currentAddressIndex].publicAddress;
+  //   const {BUY_CONTRACT, SELL_CONTRACT} = txnTypeEnum
+  //   const { propsIdForSale, propsIdDesired } = this.selectedContract
+  //   const data = {};
+  //   if (this.currentTxnType === SELL_CONTRACT) {
+  //     data.address = address
+  //     data.propsIdForSale = propsIdForSale;
+  //     data.amountforsale = parseFloat(this.quantity);
+  //     data.propsIdDesired = propsIdDesired;
+  //     data.amountdesired = parseFloat(this.quantity) * parseFloat(this.price);
+  //   }
+  //   if (this.currentTxnType === BUY_CONTRACT) {
+  //     data.address = address
+  //     data.propsIdForSale = propsIdDesired;
+  //     data.amountforsale = parseFloat(this.quantity);
+  //     data.propsIdDesired = propsIdForSale;
+  //     data.amountdesired = parseFloat(this.quantity) * parseFloat(this.price);
+  //   }
+  //     this.sendtrade(data);
+  //     window.toggleWallet();
+  //   return
+  //   },
+  //   handleIssueRedeemSubmit(){
+  //     // placeholder
+  //     return
+  //   },
+  //   handleProposeChannel(){
+      
+  //     const {   quantity, channelPrice, channelBalance, currentAddressIndex, walletDec} = this
+  //      let { publicAddress } = walletDec[currentAddressIndex];
+       
+  //      socketService.proposeChannel({
+  //        marginBalance: channelBalance,
+  //         quotePrice: channelPrice,
+  //         unpublishedTradeSize: quantity,
+  //         address: publicAddress
+  //      })
+       
+  //   },
+  //   handleSubmit(e) {
+  //     if(!confirm('Are you sure you want to sign and broadcast this transaction')) return
+
+  //     const {currentTxnType, handleLTCSubmit, handleIssueRedeemSubmit, handleBuySellSubmit,handleProposeChannel} = this
+  //     const {LTC_SEND,  BUY_CONTRACT, SELL_CONTRACT, ISSUE_CURRENCY, REDEEM_CURRENCY, PROPOSE_CHANNEL} = txnTypeEnum
+
+  //     switch (currentTxnType) {
+  //       case  LTC_SEND:
+  //         return handleLTCSubmit();
+  //       case BUY_CONTRACT:
+  //       case SELL_CONTRACT:
+  //         return handleBuySellSubmit()
+  //       case ISSUE_CURRENCY:
+  //         return getSendIssuancePeggedPayload(/*datahere*/).then(this.handleOpReturnPayload)
+  //       case REDEEM_CURRENCY:
+  //         return handleIssueRedeemSubmit()
+  //       case PROPOSE_CHANNEL:
+  //         return handleProposeChannel()
+  //       default:
+  //         break;
+  //     }
+     
+  //   },
+  //   handleOpReturnPayload(txn){
+  //      const signedTxn = signTxn(txn, wifKey).serialize()
+      
+  //     walletService.sendRawTxn(signedTxn).then((data)=>{
+  //       console.log(data);
+  //     })
+  //   },
+  //   txnFormUpdate(e) {
+  //     const { name, value } = e.target;
+  //     this.setTxnState({
+  //       key: name,
+  //       value
+  //     });
+  //   },
   }
 };
 </script>
@@ -396,5 +389,11 @@ export default {
 }
 .active-address{ 
   color: skyblue
+}
+.check-boxes {
+  text-align: start;
+}
+.pointer {
+  cursor: pointer;
 }
 </style>

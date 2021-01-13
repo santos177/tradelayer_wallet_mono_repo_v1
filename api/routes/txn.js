@@ -67,49 +67,49 @@ txnRouter.get('/gettx/:txid', (req,res)=>{
 })
 
 txnRouter.get('/buildRawTx', async (req,res) => {
-    // const { fromAddress, toAddress, payload} = req.query
-    // const { omniClient, tlClient } = req;
-    // const validateAddress = await new Promise ((res,rej) => {
-    //     omniClient.cmd("validateaddress", toAddress, (err, result) => {
-    //         if (err) {
-    //             rej(err)
-    //             return;
-    //         }
-    //         res(result)
-    //     });
-    // });
-    // if(!validateAddress.isvalid) {
-    //     res.send({message: 'Invalid "Send to" Address'})
-    //     return;
-    // }
-    // omniClient.cmd("listunspent", 1, 9999999, [fromAddress], false, {minimumAmount:0.0002}, async (err, result) => {
-    //     if (err) {
-    //         console.log(err)
-    //         return;
-    //     }
-    //     if (result.length < 1) {
-    //         res.send({message:'Not Enaught Litecoins For this transaction or you dont have access to this address'})
-    //         return
-    //     }
-    //     const buildRawOptions = {
-    //         unspent: result[0],
-    //         payload: payload,
-    //         refAddress: toAddress,
-    //     }
-    //     const finalTX = await tlClient.tl.buildRawFromUnspent(buildRawOptions)
-    //     res.send({message: finalTX})
-    // })
+    const { customTxInput, vOut, toAddress, payload } = req.query;
+    const { omniClient, tlClient } = req;
+
+    const buildRawTxOptions = {
+        txid: customTxInput,
+        vout: parseInt(vOut),
+        refAddress: toAddress,
+        payload,
+    };
+
+    tlClient.tl.buildRawAsync(buildRawTxOptions, (result) => {
+        if(result.error) console.log(`ERROR: ${result.error}`)
+        res.send(result);
+    });
+});
+
+txnRouter.get('/decodeRawTx', async (req,res) => {
+    const { rawTx } = req.query;
+    const { omniClient, tlClient } = req;
+    console.log(rawTx);
+    tlClient.tl.decodeRawTransaction(rawTx, (result) => {
+        res.send(result)
+    })
 })
 
 txnRouter.get('/signRawTx', async (req,res) => {
-    const { tx } = req.query;
+    const { rawTx } = req.query;
     const { omniClient, tlClient } = req;
 
-    tlClient.tl.simpleSign(tx, (data) => {
-        const message = data.complete ? data.hex : "Error With Signing";
-        res.send({message})
+    tlClient.tl.simpleSign(rawTx, (result) => {
+        res.send(result)
     })
 })
+
+txnRouter.get('/sendRawTx', async (req,res) => {
+    const { rawTx } = req.query;
+    const { omniClient, tlClient } = req;
+
+    tlClient.tl.sendRawTransaction(rawTx, (result) => {
+        res.send(result)
+    })
+})
+
 txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
     const { fromAddress, toAddress, quantity, propertyId} = request.query
     const { omniClient, tlClient } = request;
