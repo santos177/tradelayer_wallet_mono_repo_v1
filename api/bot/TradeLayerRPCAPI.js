@@ -185,11 +185,10 @@ tl.sendRawTransaction = (tx, cb) => {
   });
 }
 
-tl.validateAddress = function(addr, cb){
-     client.cmd("validateaddress", addr,function(err, data, resHeaders){
-  if (err) return console.log(err);
- 
-  return cb(data)
+tl.validateAddress = (address, cb) => {
+  client.cmd("validateaddress", address, (error, data, resHeaders) => {
+  if (error) return cb({error: error.message});
+  cb({data})
   })
 }
 
@@ -566,10 +565,7 @@ tl.buildRawAsync = async (buildTxOptions, cb) => {
       })
   }));
   const payloadInfo = await asyncClient('decodescript', payload)
-  if (payloadInfo.asm.includes('error')) {
-    cb({error: 'Not Valid Payload'})
-    return;
-  }
+  if (!payloadInfo) return cb({error: 'Not Valid Payload'});
 
   const txOutInfo = await asyncClient('gettxout', txid, vout);
   if (!txOutInfo) return cb({error: 'Error with tx id or vout'});
@@ -923,10 +919,10 @@ tl.createpayload_sendVesting = function(propertyid, amount,cb){
 	})
 }
 
-tl.createpayload_simpleSend = function(propertyid, amount,cb){
-    client.cmd('tl_createpayload_simplesend', propertyid, amount, function(err, data, resHeaders){
-    if (err) return console.error(err);
-    cb(data);
+tl.createpayload_simpleSend = (propertyid, amount, cb) => {
+    client.cmd('tl_createpayload_simplesend', propertyid, amount, (error, data, resHeaders) => {
+    if (error) return cb({error: error.message})
+    cb({data});
   })
 }
 

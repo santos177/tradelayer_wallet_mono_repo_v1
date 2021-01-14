@@ -27,7 +27,7 @@
       
         <div class='form-group'>
           <md-field>
-            <md-select v-model='txnType'>
+            <md-select v-model="txnType" >
               <md-option :value="this.txnTypeEnum.SIMPLE_SEND">Simple Send</md-option>
               <md-option :value="this.txnTypeEnum.CUSTOM_PAYLOAD">Custom Payload</md-option>
             </md-select>
@@ -39,7 +39,7 @@
       <div v-if="txnType === txnTypeEnum.SIMPLE_SEND">
         <div class='form-group'>
           <div class='check-boxes'>
-              <md-checkbox v-model='useCustomTXO'>Use Custom Transaction Input</md-checkbox>
+              <md-checkbox v-on:change="clearInputs()" v-model='useCustomTXO'>Use Custom Transaction Input</md-checkbox>
           </div>
           <md-field v-if='!useCustomTXO'>
             <label>Sender Address:</label>
@@ -131,7 +131,6 @@ export default {
   data: () => ({
     showDialog: true,
     txnTypeEnum,
-    useWalletAddress: false,
     useCustomTXO: false,
     toAddress: '',
     fromAddress: '',
@@ -158,7 +157,8 @@ export default {
         return this.currentTxnType
       }, 
       set(value){
-        this.setCurrentTxnType(value)
+        this.setCurrentTxnType(value);
+        this.clearInputs();
       }
     }
   },
@@ -197,7 +197,6 @@ export default {
 
     async handleBuildRawTx() {
       const { 
-        useWalletAddress, 
         useCustomTXO,
         toAddress,
         fromAddress,
@@ -219,7 +218,14 @@ export default {
           });
           break;
         case txnTypeEnum.SIMPLE_SEND:
-          this.createSimpleSendRawTx();
+          this.createSimpleSendRawTx({
+            fromAddress,
+            propertyId,
+            quantity,
+            customTxInput, 
+            vOut,
+            toAddress,
+          });
           break;
         default:
           break;
@@ -232,6 +238,15 @@ export default {
     async handleSendRawTx(rawTx) {
       this.sendRawTx(rawTx);
       this.setSignedRawTx('');
+    },
+    clearInputs() {
+      this.toAddress ='';
+      this.fromAddress = '';
+      this.customTxInput = '';
+      this.vOut = null;
+      this.payload = '';
+      this.propertyId = null;
+      this.quantity = null;
     },
   //   handleLTCSubmit() {
   //     if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return
@@ -339,6 +354,8 @@ export default {
     max-width: 90%;
     min-width:40%;
     margin: 1rem 0;
+    height: 100%;
+    min-height: 15rem;
 }
 .update-button, .submit-button{
   border: 1px solid grey;

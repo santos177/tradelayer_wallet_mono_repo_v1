@@ -142,7 +142,6 @@ txnRouter.get('/buildRawSimpleSendTx', async (request, response) => {
 
 
 txnRouter.get('/buildRawCustomPayloadTx', async (request, response) => {
-    console.log('work')
     const { fromAddress, toAddress, payload} = request.query
     const { omniClient, tlClient } = request;
     const validateAddress = await new Promise ((res,rej) => {
@@ -168,6 +167,15 @@ txnRouter.get('/buildRawCustomPayloadTx', async (request, response) => {
         })
     })
 })
+
+txnRouter.get('/getSimpleSendPayload', async (req, res) => {
+    const {  propertyId, quantity } = req.query
+    const { omniClient, tlClient } = req;
+    tlClient.tl.createpayload_simpleSend(parseInt(propertyId), quantity, (result) => {
+        res.send(result)
+    })
+});
+
 // --> commented out models
 // const getUTXOsForManyTxns = async (txnDataArray, omniClient, next)=>{
 //     let allUTXOs = []
@@ -253,6 +261,5 @@ const getUTXO = (txid, vOutN, omniClient, next)=>{
         next( data ? Object.assign(data, {txid, outputIndex:vOutN}): data )
     })
 }
-
 
 module.exports =  txnRouter 

@@ -86,4 +86,12 @@ console.log('addressData: ', addressData);
     })
 })
 
+addressRouter.get('/validateAddress', (req, res) => {
+    const { address } = req.query;
+    const { omniClient, tlClient } = req;
+    tlClient.tl.validateAddress(address, (result) => {
+        res.send(result);
+    });
+});
+
 module.exports = addressRouter;

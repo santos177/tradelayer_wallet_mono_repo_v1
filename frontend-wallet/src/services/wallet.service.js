@@ -1,20 +1,14 @@
 import axios from "axios";
-import {axiosInstance} from '../api/api'
-const network = process.env.NODE_ENV === "development" ? "ltctest" : "ltc";
+import { axiosInstance } from '../api/api'
+const network = process.env.NETWORK || 'ltctest'
 const {Unit} = require('litecore-lib')
 
 // unused, leaving in case it's useful for dev
-const getUTXOs2 = (address, next) => {
-  axios
-    .get(`https://chain.so/api/v2/get_tx_unspent/${network}/${address}`)
-    .then( ({data}) => {
-      if (data.status === "success") {
-        const dataToSend = data.data.txs.map( (txn)=> mapToTxnFormat(txn))
-        console.warn('UTXOs',dataToSend);
-        
-        next(dataToSend) ;
-      }
-    });
+const getUTXOs2 = async (address) => {
+  const apiURL = 'https://sochain.com/api/v2/get_tx_unspent';
+  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+  const result = await axios.get(`${apiURL}/${network}/${address}`, { headers });
+  return result.data.data;
 };
 
 
@@ -125,8 +119,19 @@ const decodeRawTx = async (rawTx) => {
   const decodedRawTxJson = await axiosInstance.get('/txn/decodeRawTx', { params: { rawTx } });
   return decodedRawTxJson.data
 }
+const createSimpleSendPayload = async (payloadParams) => {
+  const payloadResult = await axiosInstance.get('/txn/getSimpleSendPayload', { params: payloadParams });
+  return payloadResult.data;
+}
+
+const validateAddress = async (address) => {
+  const validateAddressResult = await axiosInstance.get('/address/validateAddress', { params: { address } });
+  return validateAddressResult.data
+}
+
 export const walletService = {
-  getUTXOs, 
+  getUTXOs,
+  getUTXOs2,
   sendRawTxn, 
   txnTypeEnum, 
   getSendIssuancePeggedPayload,
@@ -136,4 +141,6 @@ export const walletService = {
   signRawTx,
   decodeRawTx,
   sendRawTx,
+  createSimpleSendPayload,
+  validateAddress,
 };

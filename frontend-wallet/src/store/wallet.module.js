@@ -96,14 +96,43 @@ const actions = {
   async sendRawTx({commit, state }, signedRawTx) {
     const sendRawTxResult = await walletService.sendRawTx(signedRawTx);
     const { data, error } = sendRawTxResult;
-    console.log({sendRawTxResult})
     if (error) commit('setRawTxMessage', `Error: ${JSON.stringify(error)}`);
     if (data) commit('setRawTxMessage', data);
     return sendRawTxResult;
   },
 
-  createSimpleSendRawTx(){
-    console.log('createSimpleSendRawTx')
+  async createSimpleSendRawTx({commit, dispatch, state }, txBuildOptions) {
+    const { customTxInput, vOut, toAddress, fromAddress, propertyId, quantity, } = txBuildOptions;
+    const payload = await walletService.createSimpleSendPayload({propertyId, quantity});
+    const payLoadData = payload.data;
+    const payloadError = payload.error;
+    if (payloadError) return commit('setRawTxMessage', `Error: ${JSON.stringify(payloadError)}`);
+
+    if (fromAddress) {
+      const validateAddress = await walletService.validateAddress(fromAddress);
+      if (validateAddress.error) return commit('setRawTxMessage', `Error: ${JSON.stringify(validateAddress.error)}`);
+      if (!validateAddress.data.isvalid) return commit('setRawTxMessage', `Error: Address is not valid`);
+      if (validateAddress.data.isvalid) {
+        const result = await walletService.getUTXOs2(fromAddress)
+        const bestUnspent = result.txs.find(tx => parseFloat(tx.value) > 0.0004);
+        if (!bestUnspent) return commit('setRawTxMessage', `Error: Not enaugh balance in this address`);
+        const txBuildOptions = {
+          customTxInput: bestUnspent.txid,
+          vOut: bestUnspent.output_no,
+          toAddress: toAddress,
+          payload: payLoadData,
+        }
+        dispatch('createCustomRawTx', txBuildOptions)
+      }
+    } else if (customTxInput && vOut) {
+      const txBuildOptions = {
+        customTxInput: customTxInput,
+        vOut: vOut,
+        toAddress: toAddress,
+        payload: payLoadData,
+      }
+      dispatch('createCustomRawTx', txBuildOptions)
+    }
   },
   
   // todo: call after new address is added
