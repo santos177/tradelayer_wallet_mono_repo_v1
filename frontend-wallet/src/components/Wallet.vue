@@ -163,7 +163,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("wallet", ["setCurrentTxnType"]),
+    ...mapMutations("wallet", [
+      "setCurrentTxnType", 
+      "setSignedRawTx", 
+      "setUnsignedRawTx",
+      ]),
     ...mapActions("wallet", [
       "setCurrentAddress", 
       "updateCurrentUTXOs", 
@@ -222,10 +226,12 @@ export default {
       }
     },
     async handleSignRawTx(rawTx) {
-      this.signRawTx(rawTx)
+      this.signRawTx(rawTx);
+      this.setUnsignedRawTx('');
     },
     async handleSendRawTx(rawTx) {
-      this.sendRawTx(rawTx)
+      this.sendRawTx(rawTx);
+      this.setSignedRawTx('');
     },
   //   handleLTCSubmit() {
   //     if (this.currentTxnType !== txnTypeEnum.LTC_SEND)return

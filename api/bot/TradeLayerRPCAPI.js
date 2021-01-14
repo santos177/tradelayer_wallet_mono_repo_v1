@@ -553,7 +553,7 @@ var rawPubScripts = []
 tl.buildRawAsync = async (buildTxOptions, cb) => {
   const { txid, vout, refAddress, payload, changeAddress } = buildTxOptions;
 
-  if (!txid || !vout || !payload ) {
+  if (!txid || vout === undefined || !payload ) {
     cb({error: "BuildRawAsync RPC API function arguments error"})
     return
   }

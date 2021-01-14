@@ -86,7 +86,6 @@ txnRouter.get('/buildRawTx', async (req,res) => {
 txnRouter.get('/decodeRawTx', async (req,res) => {
     const { rawTx } = req.query;
     const { omniClient, tlClient } = req;
-    console.log(rawTx);
     tlClient.tl.decodeRawTransaction(rawTx, (result) => {
         res.send(result)
     })

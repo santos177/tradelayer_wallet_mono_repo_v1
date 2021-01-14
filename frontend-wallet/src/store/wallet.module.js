@@ -96,7 +96,8 @@ const actions = {
   async sendRawTx({commit, state }, signedRawTx) {
     const sendRawTxResult = await walletService.sendRawTx(signedRawTx);
     const { data, error } = sendRawTxResult;
-    if (error) commit('setRawTxMessage', `Error: ${error}`);
+    console.log({sendRawTxResult})
+    if (error) commit('setRawTxMessage', `Error: ${JSON.stringify(error)}`);
     if (data) commit('setRawTxMessage', data);
     return sendRawTxResult;
   },
